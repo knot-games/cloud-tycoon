@@ -1,8 +1,8 @@
 import * as Phaser from 'phaser';
 
-const padding = 10;
+const padding = 8;
 const minimumWidth = 200;
-const minimumHeight = 50;
+const minimumHeight = 32;
 
 export class MenuButton extends Phaser.GameObjects.Rectangle {
   private label: Phaser.GameObjects.Text;

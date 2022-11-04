@@ -3,7 +3,7 @@ import { getGameWidth, getGameHeight } from '../helpers';
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
-  key: 'Boot',
+  key: 'Boot'
 };
 
 /**
@@ -72,7 +72,7 @@ export class BootScene extends Phaser.Scene {
   private loadAssets() {
     // Load sample assets
 
-    // Source: Open Game Art
-    this.load.image('man', 'assets/sprites/character.png');
+    this.load.image('mainMenuBackground', 'assets/backgrounds/mainMenu.png');
+    this.load.image('logo', 'assets/logo.png');
   }
 }
