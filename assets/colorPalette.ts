@@ -1,0 +1,27 @@
+export const colorPalette = {
+    // Colors from https://lospec.com/palette-list/univ1
+    yellow: "#f0d26c",
+    burntOrange: "#bb8548",
+    lightBrown: "#843d29",
+    brown: "#541613",
+    teal: "#8adeca",
+    darkTeal: "#519aa7",
+    blue: "#305a79",
+    darkBlue: "#15204c",
+    periwinkle: "#7898f0",
+    darkPeriwinkle: "#474db5",
+    purpleish: "#3f2984",
+    darkPurpleish: "#291048",
+    salmon: "#e8908a",
+    darkSalmon: "#a04c66",
+    darkerSalmon: "#69264e",
+    darkestPurpleish: "#380d32",
+    lightPink: "#d76eef",
+    purple: "#793ca7",
+    darkerPurple: "#402071",
+    darkestPurple: "#201044",
+    lightGreen: "#8fc2a3",
+    green: "#598a7f",
+    darkerGreen: "#355b5d",
+    darkestGreen: "#1a2d35"
+}
