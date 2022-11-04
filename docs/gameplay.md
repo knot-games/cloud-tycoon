@@ -4,7 +4,7 @@ This document is a basic overview of the different elements of gameplay. The goa
 
 ## MVP
 
-The MVP of this game is to get a level one built, which takes place in a garage. At level one, we are only offering one facility (your garage), one product (app hosting), one customer level (small businesses), and a limited shop. Additional gameplay elements can be added if time still remains after level one is completed.
+The MVP of this game is to get a level one built, which takes place in a garage. At level one, we are only offering one facility (your garage), one product (app hosting), one customer level (small businesses), a few limited events and a limited shop. Additional gameplay elements can be added if time still remains after level one is completed.
 
 ## GamePlay Elements
 
