@@ -1,8 +1,7 @@
 import { newGameState } from '../config/newGame';
 import { MenuButton } from '../ui/menuButton';
-import { getGameState, getSettings, saveGameState, saveSettings } from '../utilities/localStorage';
+import { getGameState, isMusicOn, saveGameState } from '../utilities/localStorage';
 import { getGameWidth, getGameHeight } from '../helpers';
-import { baseSettings } from '../config/baseSettings';
 import { levels } from '../config/levels';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -30,12 +29,8 @@ export class MainMenuScene extends Phaser.Scene {
     background.setScale(backgroundScaleX, backgroundScaleY).setScrollFactor(0);
 
     // Set music
-    const settings = getSettings();
-    if (!settings) {
-      const newSettings = baseSettings();
-      saveSettings(newSettings);
-      this.sound.play('mainMenuMusic', { loop: true });
-    } else if (settings.music) {
+    const musicEnabled = isMusicOn();
+    if (musicEnabled) {
       this.sound.play('mainMenuMusic', { loop: true });
     }
 

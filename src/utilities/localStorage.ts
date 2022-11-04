@@ -1,3 +1,5 @@
+import { baseSettings } from "../config/baseSettings";
+
 const GAME_STATE_TOKEN = "ct_game_state";
 const SETTINGS_TOKEN = "ct_settings";
 
@@ -27,4 +29,13 @@ export const getSettings = (): GameSettings | null => {
         return JSON.parse(settings);
     }
     return null;
+}
+
+export const isMusicOn = (): boolean => {
+    let settings = getSettings();
+    if (!settings) {
+      settings = baseSettings();
+      saveSettings(settings);
+    }
+    return settings.music;
 }
