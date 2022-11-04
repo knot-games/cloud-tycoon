@@ -1,7 +1,8 @@
 import { newGameState } from '../config/newGame';
 import { MenuButton } from '../ui/menuButton';
-import { getGameState, saveGameState } from '../utilities/localStorage';
+import { getGameState, getSettings, saveGameState, saveSettings } from '../utilities/localStorage';
 import { getGameWidth, getGameHeight } from '../helpers';
+import { baseSettings } from '../config/baseSettings';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -26,6 +27,16 @@ export class MainMenuScene extends Phaser.Scene {
     const backgroundScaleX = gameWidth / background.width;
     const backgroundScaleY = gameHeight / background.height;
     background.setScale(backgroundScaleX, backgroundScaleY).setScrollFactor(0);
+
+    // Set music
+    const settings = getSettings();
+    if (!settings) {
+      const newSettings = baseSettings();
+      saveSettings(newSettings);
+      this.sound.play('mainMenuMusic', { loop: true });
+    } else if (settings.music) {
+      this.sound.play('mainMenuMusic', { loop: true });
+    }
 
     // Set logo
     this.add.image(gameWidth / 2, 165, 'logo')
