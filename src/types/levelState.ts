@@ -6,6 +6,7 @@ interface Levels {
 // The configuration for default state for each level
 interface Level {
     title: string; // Title of the level, use something from the cliche list: https://github.com/leereilly/list-of-english-cliches/blob/da24758a32b0c7fd5a08f15136cbf5db6f3b6e14/cliches.txt#L1190
+    levelScene: string; // The name of the scene for this level, ex. "LevelOne"
     goal: number; // Monthly profit goal to progress to the next level
     servers: {
         [id: number]: Server

@@ -3,7 +3,7 @@ import { getGameWidth, getGameHeight } from '../helpers';
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
-  key: 'Boot',
+  key: 'Boot'
 };
 
 /**
@@ -70,9 +70,11 @@ export class BootScene extends Phaser.Scene {
    * is currently active, so they can be accessed anywhere.
    */
   private loadAssets() {
-    // Load sample assets
+    // Images
+    this.load.image('mainMenuBackground', 'assets/backgrounds/mainMenu.png');
+    this.load.image('logo', 'assets/logo.png');
 
-    // Source: Open Game Art
-    this.load.image('man', 'assets/sprites/character.png');
+    // Sounds
+    this.load.audio('mainMenuMusic', 'assets/sounds/mainMenuMusic.mp3');
   }
 }

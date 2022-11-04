@@ -1,5 +1,6 @@
 export const LevelOne: Level = {
     title: "Just Getting Started",
+    levelScene: "LevelOne",
     goal: 5000,
     servers: {
         1: {
