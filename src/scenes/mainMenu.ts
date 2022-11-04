@@ -3,6 +3,7 @@ import { MenuButton } from '../ui/menuButton';
 import { getGameState, getSettings, saveGameState, saveSettings } from '../utilities/localStorage';
 import { getGameWidth, getGameHeight } from '../helpers';
 import { baseSettings } from '../config/baseSettings';
+import { levels } from '../config/levels';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -43,8 +44,9 @@ export class MainMenuScene extends Phaser.Scene {
     
     const existingGameState = getGameState();
     if (existingGameState) {
+      const currentLevel = existingGameState.currentLevel;
       new MenuButton(this, gameWidth / 2 - 100, 330, 'Continue', () => {
-        this.scene.start('LevelOne', existingGameState);
+        this.scene.start(levels[currentLevel].levelScene, existingGameState);
       });
     }
 
