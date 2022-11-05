@@ -74,6 +74,10 @@ export class BootScene extends Phaser.Scene {
     this.load.image('mainMenuBackground', 'assets/backgrounds/mainMenu.png');
     this.load.image('logo', 'assets/logo.png');
 
+    // Icons
+    // this.load.svg('close', 'assets/icons/close.svg', { width: 16, height: 16 });
+    // this.load.image('closeButton', 'assets/icons/close.png');
+
     // Sounds
     this.load.audio('mainMenuMusic', 'assets/sounds/mainMenuMusic.mp3');
   }
