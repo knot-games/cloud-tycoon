@@ -1,3 +1,9 @@
+import { Business } from "../objects/business";
+import { saveGameState } from "../utilities/localStorage";
+import { MenuButton } from "../ui/menuButton";
+import { getGameHeight, getGameWidth } from "../helpers";
+
+import eventsCenter, { GameplayBusinessEvents, UIEvents } from "../events/eventCenter";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -7,41 +13,33 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class GameScene extends Phaser.Scene {
 
-  private dateText: Phaser.GameObjects.Text;
-  private moneyText: Phaser.GameObjects.Text;
-  private gameState: GameState;
-
   constructor() {
     super(sceneConfig);
   }
 
   public init(gameState: GameState): void {
-    this.gameState = gameState;
+
+    // Launch HUD Scene and pass the gameState
+    this.scene.launch('HUDScene', gameState);
   }
 
   public create(): void {
-    this.dateText = this.add.text(100, 200, 'Month ' + this.gameState.currentMonth);
-    this.moneyText = this.add.text(100, 250, 'Money ' + this.gameState.money);
 
-    // Evey 5 seconds update the time
-    this.time.addEvent({
-      delay: 5000,
-      callback: this.updateState,
-      callbackScope: this,
-      loop: true
-    });
+    const gameWidth = getGameWidth(this);
 
-  }
+    // Create a text object to display the day
+    this.add.text(gameWidth / 2 - 100, 310, 'Game Scene');
 
-  public update(): void { }
+    // Create menu to buy server 
 
-  private updateState(): void {
+    new MenuButton(this, gameWidth / 2 - 100, 370, 'Buy Server', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_SERVER }));
 
-    this.gameState.currentMonth++;
-    this.gameState.money += 1000;
+    new MenuButton(this, gameWidth / 2 - 100, 410, 'Sell Server', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_SERVER }));
 
-    this.dateText.setText('Month ' + this.gameState.currentMonth);
-    this.moneyText.setText('Money ' + this.gameState.money);
+    new MenuButton(this, gameWidth / 2 - 100, 450, 'Add Customer', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER }));
+
+    new MenuButton(this, gameWidth / 2 - 100, 490, 'Remove Customer', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_CUSTOMER }));
+
 
   }
 
