@@ -19,4 +19,5 @@ Some things we will need to attribute (if we keep the assets):
 ## Resources
 
 * [Setting up a TypeScript Phaser project](https://spin.atomicobject.com/2019/07/13/phaser-3-typescript-tutorial/)
-* [Icons](https://www.figma.com/file/xzrMV3hZJ5adqYluoywmPt/Pixel-Icon-Pack-(Community)?node-id=248%3A2996)
+* [Some potential icons](https://www.figma.com/file/xzrMV3hZJ5adqYluoywmPt/Pixel-Icon-Pack-(Community)?node-id=248%3A2996)
+* [Creating plugins resource](https://gamedevacademy.org/create-a-dialog-modal-plugin-in-phaser-3-part-1/)
