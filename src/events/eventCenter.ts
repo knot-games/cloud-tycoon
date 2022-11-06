@@ -3,6 +3,7 @@
 export enum UIEvents {
     UI_UPDATE_CASH = 'ui.update.cash',
     UI_UPDATE_COSTS = 'ui.update.costs',
+    UI_UPDATE_SOUND = 'ui.update.sound',
 }
 
 export enum GameplayBusinessEvents {
@@ -16,6 +17,11 @@ export enum GameplayBusinessEvents {
 
 export enum GamplayRandomEvents {
     RANDOM_EVENT = 'gameplay.random.event',
+}
+
+export enum SettingsEvents {
+    TOGGLE_MUSIC = 'settings.toggle.music',
+    TOGGLE_SOUND_EFFECTS = 'settings.toggle.sound.effects',
 }
 
 const eventCenter = new Phaser.Events.EventEmitter();

@@ -2,7 +2,7 @@ export const newGameState = () => {
     const gameState: GameState = {
         currentLevel: 1,
         playerBusiness: {
-            name: "Cloud Company",
+            name: null,
             money: 2000,
             revenue: 50,
             costs: 30,
@@ -29,6 +29,10 @@ export const newGameState = () => {
             1: {
                 purchased: false
             }
+        },
+        settings: {
+            music: true,
+            soundEffects: true
         }
     }
     return gameState;

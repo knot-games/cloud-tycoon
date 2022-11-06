@@ -4,10 +4,11 @@ interface GameState {
     playerLevelState: PlayerLevelState; // Record of the player's progress on each level
     playerBusiness: BusinessState;
     store: StoreState;
+    settings: PlayerSettingsState;
 }
 
 interface BusinessState {
-    name: string; // The name of the business, ex. "John's Apps"
+    name: string | null; // The name of the business, ex. "John's Apps", null if new game
     money: number; // The current money a user has in the game, ex. 2000
     costs: number; // The current costs a user has, ex. 50
     revenue: number; // The current revenue a user is gaining, ex. 4500
@@ -26,6 +27,11 @@ interface PlayerLevelState {
         hasCompletedLevel: boolean; // Whether a user has completed this level, ex. false
         monthsToCompleteLevel: number | null; // The number of months it took for a user to complete this level, null if the level has not been completed, ex. 12
     }
+}
+
+interface PlayerSettingsState {
+    music: boolean; // True meaning music is on, false meaning music is off, true by default
+    soundEffects: boolean; // True meaning sound effects are on, false meaning sound effects are off, true by default
 }
 
 interface ServerState {

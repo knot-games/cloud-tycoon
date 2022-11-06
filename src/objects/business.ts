@@ -7,6 +7,10 @@ export class Business implements IBusiness {
     private facility: number;
     private servers: ServerState;
     private customers: number;
+    private developers: number;
+    private sysadmins: number;
+    private products: ProductState;
+    private research: ResearchState;
 
     constructor(businessState: BusinessState) {
         this.name = businessState.name;
@@ -16,6 +20,10 @@ export class Business implements IBusiness {
         this.facility = businessState.facility;
         this.servers = businessState.servers;
         this.customers = businessState.customers;
+        this.developers = businessState.developers;
+        this.sysadmins = businessState.sysadmins;
+        this.products = businessState.products;
+        this.research = businessState.research;
     }
 
     public getName(): string {
@@ -68,6 +76,23 @@ export class Business implements IBusiness {
 
     public getCustomers(): number {
         return this.customers;
+    }
+
+    public getPlayerBusiness(): BusinessState {
+        const businessState: BusinessState = {
+            name: this.name,
+            money: this.cash,
+            revenue: this.revenue,
+            costs: this.costs,
+            facility: this.facility,
+            servers: this.servers,
+            customers: this.customers,
+            developers: this.developers,
+            sysadmins: this.sysadmins,
+            products: this.products,
+            research: this.research,
+        };
+        return businessState;
     }
 
     public setCustomers(amount: number): void {

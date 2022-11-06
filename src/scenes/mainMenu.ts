@@ -1,9 +1,12 @@
-import { newGameState } from '../config/newGame';
+
 import { MenuButton } from '../ui/menuButton';
-import { getGameState, isMusicOn, saveGameState } from '../utilities/localStorage';
 import { getGameWidth, getGameHeight } from '../helpers';
 import { levels } from '../config/levels';
 import { SettingsModalPlugin } from '../plugins/settingsModal';
+import eventCenter, { SettingsEvents, UIEvents } from '../events/eventCenter';
+import { Settings } from '../objects/settings';
+import { Business } from '../objects/business';
+import { Game } from '../objects/game';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -19,6 +22,18 @@ export class MainMenuScene extends Phaser.Scene {
     super(sceneConfig);
   }
 
+  private gameState: Game;
+  private settings: Settings;
+  private playerBusiness: Business;
+
+  public init (gameState: GameState): void {
+    this.gameState = new Game(gameState);
+    console.log({gameState})
+
+    this.settings = new Settings(gameState.settings)
+    this.playerBusiness = new Business(gameState.playerBusiness)
+  }
+
   public create(): void {
     const gameWidth = getGameWidth(this);
     const gameHeight = getGameHeight(this);
@@ -29,9 +44,14 @@ export class MainMenuScene extends Phaser.Scene {
     const backgroundScaleY = gameHeight / background.height;
     background.setScale(backgroundScaleX, backgroundScaleY).setScrollFactor(0);
 
+    eventCenter.on(UIEvents.UI_UPDATE_SOUND, (data) => {
+      console.log('UI_UPDATE_SOUND', data)
+      this.toggleSetting(data.event)
+    }, this);
+
+
     // Set music
-    const musicEnabled = isMusicOn();
-    if (musicEnabled) {
+    if (this.settings.getMusicEnabled()) {
       this.sound.play('mainMenuMusic', { loop: true });
     }
 
@@ -39,24 +59,48 @@ export class MainMenuScene extends Phaser.Scene {
     this.add.image(gameWidth / 2, 165, 'logo')
     
     // Continue game
-    const existingGameState = getGameState();
-    if (existingGameState) {
-      const currentLevel = existingGameState.currentLevel;
+    if (this.gameState.getPlayerBusiness().name !== null) {
+      const currentLevel = this.gameState.getCurrentLevel();
       new MenuButton(this, gameWidth / 2 - 100, 330, 200, 32, 'Continue', () => {
-        this.scene.start(levels[currentLevel].levelScene, existingGameState);
+        this.scene.start(levels[currentLevel].levelScene, this.gameState);
       });
     }
 
     // Start game
     new MenuButton(this, gameWidth / 2 - 100, 370, 200, 32, 'Start New Game', () => {
-      const gameState = newGameState();
-      saveGameState(gameState);
-      this.scene.start('LevelOne', gameState);
+      // TODO: Make a way to set this from an intro level so users can set their own name
+      this.playerBusiness.setName("Cloud Co")
+      this.gameState = new Game(this.gameState.savePlayerBusiness(this.playerBusiness));
+      console.log({gameState: this.gameState})
+      this.scene.start('LevelOne', this.gameState);
     });
 
     // Settings
     this.sys.plugins.installScenePlugin('SettingsModalPlugin', SettingsModalPlugin, 'SettingsModalPlugin', this);
-    new MenuButton(this, gameWidth / 2 - 100, 410, 200, 32, 'Settings', () => this.sys['SettingsModalPlugin'].init());
+    new MenuButton(this, gameWidth / 2 - 100, 410, 200, 32, 'Settings', () => this.sys['SettingsModalPlugin'].init(this.settings));
   }
+
+  private toggleSetting(event: SettingsEvents): void {
+
+        console.log('toggleSetting', event);
+
+        switch (event) {
+            case SettingsEvents.TOGGLE_MUSIC:
+              this.settings.toggleMusic();
+              const isMusicPlaying = this.settings.getMusicEnabled();
+              if (!isMusicPlaying) {
+                this.sound.get('mainMenuMusic').stop();
+              } else {
+                this.sound.play('mainMenuMusic', { loop: true });
+              }
+              console.log({isMusicPlaying});
+              break;
+              case SettingsEvents.TOGGLE_SOUND_EFFECTS:
+                this.settings.toggleSoundEffects();
+                const areSoundEffectsEnabled = this.settings.getSoundEffectsEnabled();
+                console.log({areSoundEffectsEnabled});
+                break;
+        }
+    }
 }
 

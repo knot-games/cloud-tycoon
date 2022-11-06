@@ -1,20 +1,19 @@
 import { colorPalette } from "../../assets/colorPalette";
+import { Settings } from "../objects/settings";
 import { getColorInt } from "../utilities/colors";
-import { getSettings, saveSettings } from "../utilities/localStorage";
+import { getGameState, saveGameState } from "../utilities/localStorage";
+import eventsCenter, { SettingsEvents, UIEvents } from "../events/eventCenter";
 
 const backgroundColor = getColorInt(colorPalette.darkPurpleish);
 const accentColor = getColorInt(colorPalette.periwinkle);
 const closeButtonColor = 'white';
-const availableSettings = {
-    music: "Play music",
-    soundEffects: "Play sound effects"
-}
 const checkedUnicode = '\uf14a ';
 const uncheckedUnicode = '\uf0c8 ';
 
 export const SettingsModalPlugin = function (scene: Phaser.Scene) {
     this.scene = scene;
     this.systems = scene.sys;
+    this.playerSettings;
     if (!scene.sys.settings.isBooted) {
       scene.sys.events.once('boot', this.boot, this);
     }
@@ -32,6 +31,8 @@ SettingsModalPlugin.prototype = {
     },
 
     shutdown: function () {
+        if (this.title) this.title.destroy();
+        if (this.settings) this._removeSettings();
     },
 
     destroy: function () {
@@ -39,7 +40,7 @@ SettingsModalPlugin.prototype = {
         this.scene = undefined;
     },
 
-    init: function (options) {
+    init: function (settings, options) {
         if (!options) {
             options = {};
         }
@@ -57,8 +58,14 @@ SettingsModalPlugin.prototype = {
         this.graphics;
         this.closeBtn;
 
-        // Get settings
-        this.currentSettings = getSettings();
+        // the current title in the window
+        this.title;
+
+        // the settings that will be displayed in the window
+        this.settings = [];
+
+        // Get current state
+        this.playerSettings = new Settings(settings);
         
         // Create the settings window
         this._createWindow();
@@ -122,6 +129,8 @@ SettingsModalPlugin.prototype = {
         });
         this.closeBtn.on('pointerdown', function () {
             self.toggleWindow();
+            if (self.title) self.title.destroy();
+            if (self.settings) self._removeSettings();
         });
     },
 
@@ -135,15 +144,19 @@ SettingsModalPlugin.prototype = {
     // Hide/Show the settings window
     toggleWindow: function () {
         this.visible = !this.visible;
-        if (this.text) this.text.visible = this.visible;
+        if (this.title) this.title.visible = this.visible;
+        if (this.settings) this.settings.visible = this.visible;
         if (this.graphics) this.graphics.visible = this.visible;
         if (this.closeBtn) this.closeBtn.visible = this.visible;
     },
 
     _addTitle: function () {
+        // Reset the title
+        if (this.title) this.title.destroy();
+
         const x = this._getGameWidth() / 2;
         const y = this.padding + 50;
-        this.scene.make.text({
+        this.title = this.scene.make.text({
             x,
             y,
             text: 'Settings',
@@ -155,21 +168,38 @@ SettingsModalPlugin.prototype = {
         }).setOrigin(0.5, 0.5);
     },
 
-    _setSettings: function () {
-        const x = (this._getGameWidth() - (this.padding * 2)) / 2;
-        let y = this.padding + 120;
+    _toggleSetting: function (setting: string) {
+        console.log('toggleSetting', setting);
 
-        const saveSetting = (key, newValue) => {
-            this.currentSettings[key] = newValue;
-            saveSettings(this.currentSettings);
+        switch (setting) {
+            case 'music':
+                eventsCenter.emit(UIEvents.UI_UPDATE_SOUND, { event: SettingsEvents.TOGGLE_MUSIC});
+                break;
+            case 'soundEffects':
+                eventsCenter.emit(UIEvents.UI_UPDATE_SOUND, { event: SettingsEvents.TOGGLE_SOUND_EFFECTS});
+                break;
         }
 
-        for (const [key, value] of Object.entries(availableSettings)) {
-            let currentSetting = this.currentSettings[key];
+    },
+
+    _setSettings: function () {
+        // Reset the modal
+        if (this.settings.length > 0) this._removeSettings();
+
+        this.settings = [];
+        const x = (this._getGameWidth() - (this.padding * 2)) / 2;
+        let y = this.padding + 120;
+        console.log({settings: this.playerSettings})
+
+        const toggleSetting = (setting: string) => {
+            this._toggleSetting(setting);
+        }
+
+        for (const [key, value] of Object.entries(this.playerSettings)) {
             const checkbox = this.scene.make.text({
                 x: x - 32,
                 y,
-                text: currentSetting ? checkedUnicode : uncheckedUnicode,
+                text: value ? checkedUnicode : uncheckedUnicode,
                 style: {
                     font: 'bold 16px FontAwesome',
                     fill: this.closeBtnColor,
@@ -183,20 +213,28 @@ SettingsModalPlugin.prototype = {
                 this.clearTint();
             });
             checkbox.on('pointerdown', function () {
-                saveSetting(key, !currentSetting);
-                currentSetting = !currentSetting;
+                toggleSetting(key);
             });
-            this.scene.make.text({
+            const label = this.scene.make.text({
                 x,
                 y,
-                text: value,
+                text: this.playerSettings.getSettingText(key),
                 style: {
                     font: 'bold 16px Arial',
                     fill: this.closeBtnColor,
                 }
             });
+            this.settings.push(checkbox);
+            this.settings.push(label);
             y += 30;
         }
+    },
+
+    _removeSettings: function () {
+        if (this.settings.length > 0) 
+        this.settings.forEach(setting => {
+            setting.destroy();
+        })
     },
 
     // Creates the settings window

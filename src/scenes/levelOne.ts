@@ -23,6 +23,8 @@ export class GameScene extends Phaser.Scene {
     // Launch HUD Scene and pass the gameState
     this.scene.launch('HUDScene', gameState);
 
+  };
+
   public create(): void {
 
     this.sys.plugins.installScenePlugin('DialogModalPlugin', DialogModalPlugin, 'DialogModalPlugin', this);
@@ -36,13 +38,13 @@ export class GameScene extends Phaser.Scene {
 
     // Create menu to buy server 
 
-    new MenuButton(this, gameWidth / 2 - 100, 370, 'Buy Server', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_SERVER }));
+    new MenuButton(this, gameWidth / 2 - 100, 370, 200, 32, 'Buy Server', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_SERVER }));
 
-    new MenuButton(this, gameWidth / 2 - 100, 410, 'Sell Server', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_SERVER }));
+    new MenuButton(this, gameWidth / 2 - 100, 410, 200, 32, 'Sell Server', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_SERVER }));
 
-    new MenuButton(this, gameWidth / 2 - 100, 450, 'Add Customer', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER }));
+    new MenuButton(this, gameWidth / 2 - 100, 450, 200, 32, 'Add Customer', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER }));
 
-    new MenuButton(this, gameWidth / 2 - 100, 490, 'Remove Customer', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_CUSTOMER }));
+    new MenuButton(this, gameWidth / 2 - 100, 490, 200, 32, 'Remove Customer', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_CUSTOMER }));
 
 
   }
