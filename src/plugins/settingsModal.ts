@@ -1,5 +1,10 @@
 import { colorPalette } from "../../assets/colorPalette";
 import { getColorInt } from "../utilities/colors";
+import { getSettings } from "../utilities/localStorage";
+
+const backgroundColor = getColorInt(colorPalette.darkPurpleish);
+const accentColor = getColorInt(colorPalette.periwinkle);
+const closeButtonColor = 'white';
 
 export const SettingsModalPlugin = function (scene: Phaser.Scene) {
     this.scene = scene;
@@ -7,7 +12,7 @@ export const SettingsModalPlugin = function (scene: Phaser.Scene) {
     if (!scene.sys.settings.isBooted) {
       scene.sys.events.once('boot', this.boot, this);
     }
-  };
+};
 
 // Register this plugin with the PluginManager
 SettingsModalPlugin.register = function (PluginManager) {
@@ -33,18 +38,22 @@ SettingsModalPlugin.prototype = {
             options = {};
         }
         this.borderThickness = options.borderThickness || 3;
-        this.borderColor = options.borderColor || getColorInt(colorPalette.periwinkle);
+        this.borderColor = options.borderColor || accentColor;
         this.borderAlpha = options.borderAlpha || 1;
         this.windowAlpha = options.windowAlpha || 0.9;
-        this.windowColor = options.windowColor || getColorInt(colorPalette.darkPurpleish);
+        this.windowColor = options.windowColor || backgroundColor;
         this.windowHeight = options.windowHeight || 600;
         this.padding = options.padding || 32;
-        this.closeBtnColor = options.closeBtnColor || 'white';
+        this.closeBtnColor = options.closeBtnColor || closeButtonColor;
 
         // if the settings window is shown
         this.visible = true;
         this.graphics;
         this.closeBtn;
+
+        // Get settings
+        this.currentSettings = getSettings();
+        
         // Create the settings window
         this._createWindow();
     },
@@ -87,7 +96,6 @@ SettingsModalPlugin.prototype = {
 
      // Creates the close settings window button
      _createCloseModalButton: function () {
-        console.log("Creating close button")
         var self = this;
         this.closeBtn = this.scene.make.text({
         x: this._getGameWidth() - this.padding - 14,
@@ -101,7 +109,7 @@ SettingsModalPlugin.prototype = {
         });
         this.closeBtn.setInteractive({ useHandCursor: true });
         this.closeBtn.on('pointerover', function () {
-            this.setTint(getColorInt(colorPalette.periwinkle));
+            this.setTint(accentColor);
         });
         this.closeBtn.on('pointerout', function () {
             this.clearTint();
@@ -109,12 +117,10 @@ SettingsModalPlugin.prototype = {
         this.closeBtn.on('pointerdown', function () {
             self.toggleWindow();
         });
-        console.log(this.closeBtn);
     },
 
     // Creates the close settings button border
     _createCloseModalButtonBorder: function () {
-        console.log("Creating close button border")
         var x = this._getGameWidth() - this.padding - 20;
         var y = this.padding;
         this.graphics.strokeRect(x, y, 20, 20);
