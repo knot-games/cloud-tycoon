@@ -1,6 +1,7 @@
 // The current or default state of the game
 interface GameState {
     currentLevel: number; // The current level a user is on, ex. 1
+    playerLevelState: PlayerLevelState; // Record of the player's progress on each level
     playerBusiness: BusinessState;
     store: StoreState;
 }
@@ -17,6 +18,14 @@ interface BusinessState {
     servers: ServerState;
     products: ProductState;
     research: ResearchState;
+}
+
+interface PlayerLevelState {
+    [id: number]: {
+        hasWatchedIntro: boolean; // Whether a user has watched the intro for this level, ex. true
+        hasCompletedLevel: boolean; // Whether a user has completed this level, ex. false
+        monthsToCompleteLevel: number | null; // The number of months it took for a user to complete this level, null if the level has not been completed, ex. 12
+    }
 }
 
 interface ServerState {

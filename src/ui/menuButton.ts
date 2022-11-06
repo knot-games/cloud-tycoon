@@ -5,7 +5,7 @@ const padding = 8;
 export class MenuButton extends Phaser.GameObjects.Rectangle {
   private label: Phaser.GameObjects.Text;
 
-  constructor(scene: Phaser.Scene, x: number, y: number, xSize: number, ySize: number, text: string, onClick?: () => void, setVisible?: boolean) {
+  constructor(scene: Phaser.Scene, x: number, y: number, xSize: number, ySize: number, text: string, onClick?: () => void) {
     super(scene, x, y);
     scene.add.existing(this);
     this.setOrigin(0, 0);
@@ -29,11 +29,6 @@ export class MenuButton extends Phaser.GameObjects.Rectangle {
 
     if (onClick) {
       this.on('pointerup', onClick);
-    }
-
-    if (setVisible) {
-      this.setVisible(setVisible);
-      this.label.setVisible(setVisible);
     }
 
     this.enterMenuButtonRestState();

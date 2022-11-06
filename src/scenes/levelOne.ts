@@ -4,6 +4,7 @@ import { MenuButton } from "../ui/menuButton";
 import { getGameHeight, getGameWidth } from "../helpers";
 
 import eventsCenter, { GameplayBusinessEvents, UIEvents } from "../events/eventCenter";
+import { DialogModalPlugin } from "../plugins/dialogModal";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -21,9 +22,12 @@ export class GameScene extends Phaser.Scene {
 
     // Launch HUD Scene and pass the gameState
     this.scene.launch('HUDScene', gameState);
-  }
 
   public create(): void {
+
+    this.sys.plugins.installScenePlugin('DialogModalPlugin', DialogModalPlugin, 'DialogModalPlugin', this);
+    this.sys['DialogModalPlugin'].init()
+    this.sys['DialogModalPlugin'].setText('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', true);
 
     const gameWidth = getGameWidth(this);
 

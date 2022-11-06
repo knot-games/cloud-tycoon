@@ -3,8 +3,7 @@ import { MenuButton } from '../ui/menuButton';
 import { getGameState, isMusicOn, saveGameState } from '../utilities/localStorage';
 import { getGameWidth, getGameHeight } from '../helpers';
 import { levels } from '../config/levels';
-import { Modal } from '../ui/modal';
-import { colorPalette } from '../../assets/colorPalette';
+import { SettingsModalPlugin } from '../plugins/settingsModal';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -56,15 +55,8 @@ export class MainMenuScene extends Phaser.Scene {
     });
 
     // Settings
-    const { modal, toggleVisible } = Modal(this, { isOpen: false, color: colorPalette.darkPeriwinkle });
-    
-    
-    new MenuButton(this, gameWidth / 2 - 100, 410, 200, 32, 'Settings', () => toggleVisible());
-
-    // Help button if we decide to use it
-    // new MenuButton(this, gameWidth / 2 - 100, 450, 'Help', () => console.log('help button clicked'));
-    
-    this.add.existing(modal);
+    this.sys.plugins.installScenePlugin('SettingsModalPlugin', SettingsModalPlugin, 'SettingsModalPlugin', this);
+    new MenuButton(this, gameWidth / 2 - 100, 410, 200, 32, 'Settings', () => this.sys['SettingsModalPlugin'].init());
   }
 }
 

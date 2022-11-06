@@ -18,7 +18,13 @@ export const newGameState = () => {
             },
             research: {},
         },
-
+        playerLevelState: {
+            1: {
+                hasWatchedIntro: false,
+                hasCompletedLevel: false,
+                monthsToCompleteLevel: null,
+            }
+        },
         store: {
             1: {
                 purchased: false
