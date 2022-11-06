@@ -1,10 +1,16 @@
 import { colorPalette } from "../../assets/colorPalette";
 import { getColorInt } from "../utilities/colors";
-import { getSettings } from "../utilities/localStorage";
+import { getSettings, saveSettings } from "../utilities/localStorage";
 
 const backgroundColor = getColorInt(colorPalette.darkPurpleish);
 const accentColor = getColorInt(colorPalette.periwinkle);
 const closeButtonColor = 'white';
+const availableSettings = {
+    music: "Play music",
+    soundEffects: "Play sound effects"
+}
+const checkedUnicode = '\uf14a ';
+const uncheckedUnicode = '\uf0c8 ';
 
 export const SettingsModalPlugin = function (scene: Phaser.Scene) {
     this.scene = scene;
@@ -40,7 +46,7 @@ SettingsModalPlugin.prototype = {
         this.borderThickness = options.borderThickness || 3;
         this.borderColor = options.borderColor || accentColor;
         this.borderAlpha = options.borderAlpha || 1;
-        this.windowAlpha = options.windowAlpha || 0.9;
+        this.windowAlpha = options.windowAlpha || 0.98;
         this.windowColor = options.windowColor || backgroundColor;
         this.windowHeight = options.windowHeight || 600;
         this.padding = options.padding || 32;
@@ -134,6 +140,65 @@ SettingsModalPlugin.prototype = {
         if (this.closeBtn) this.closeBtn.visible = this.visible;
     },
 
+    _addTitle: function () {
+        const x = this._getGameWidth() / 2;
+        const y = this.padding + 50;
+        this.scene.make.text({
+            x,
+            y,
+            text: 'Settings',
+            style: {
+                font: 'bold 36px Arial',
+                fill: this.closeBtnColor,
+                align: 'center',
+            }
+        }).setOrigin(0.5, 0.5);
+    },
+
+    _setSettings: function () {
+        const x = (this._getGameWidth() - (this.padding * 2)) / 2;
+        let y = this.padding + 120;
+
+        const saveSetting = (key, newValue) => {
+            this.currentSettings[key] = newValue;
+            saveSettings(this.currentSettings);
+        }
+
+        for (const [key, value] of Object.entries(availableSettings)) {
+            let currentSetting = this.currentSettings[key];
+            const checkbox = this.scene.make.text({
+                x: x - 32,
+                y,
+                text: currentSetting ? checkedUnicode : uncheckedUnicode,
+                style: {
+                    font: 'bold 16px FontAwesome',
+                    fill: this.closeBtnColor,
+                    align: 'center',
+                }
+            }).setInteractive({ useHandCursor: true });
+            checkbox.on('pointerover', function () {
+                this.setTint(accentColor);
+            });
+            checkbox.on('pointerout', function () {
+                this.clearTint();
+            });
+            checkbox.on('pointerdown', function () {
+                saveSetting(key, !currentSetting);
+                currentSetting = !currentSetting;
+            });
+            this.scene.make.text({
+                x,
+                y,
+                text: value,
+                style: {
+                    font: 'bold 16px Arial',
+                    fill: this.closeBtnColor,
+                }
+            });
+            y += 30;
+        }
+    },
+
     // Creates the settings window
     _createWindow: function () {
         var gameHeight = this._getGameHeight();
@@ -144,5 +209,7 @@ SettingsModalPlugin.prototype = {
         this._createInnerWindow(dimensions.x, dimensions.y, dimensions.rectWidth, dimensions.rectHeight);
         this._createCloseModalButton();
         this._createCloseModalButtonBorder();
+        this._addTitle();
+        this._setSettings();
     },
 };
