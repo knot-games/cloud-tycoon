@@ -1,26 +1,24 @@
 export const newGameState = () => {
-    const gameState = {
-        money: 2000,
-        monthlyRevenue: 50,
-        monthlyCost: 30,
+    const gameState: GameState = {
         currentLevel: 1,
-        currentMonth: 0,
-        facility: 1,
-        developers: 0,
-        sysadmins: 0,
-        servers: {
-            1: 1
+        playerBusiness: {
+            name: "Cloud Company",
+            money: 2000,
+            revenue: 50,
+            costs: 30,
+            facility: 1,
+            developers: 0,
+            sysadmins: 0,
+            servers: {
+                1: 1
+            },
+            customers: 10,
+            products: {
+                1: 50
+            },
+            research: {},
         },
-        customers: {
-            1: {
-                number: 1,
-                apps: 1
-            }
-        },
-        products: {
-            1: 50
-        },
-        research: {},
+
         store: {
             1: {
                 purchased: false
