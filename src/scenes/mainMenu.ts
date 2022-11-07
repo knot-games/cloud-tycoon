@@ -3,6 +3,9 @@ import { MenuButton } from '../ui/menuButton';
 import { getGameState, isMusicOn, saveGameState } from '../utilities/localStorage';
 import { getGameWidth, getGameHeight } from '../helpers';
 import { levels } from '../config/levels';
+import { BaseScene } from './baseScene';
+import { Business } from '../objects/business';
+import { Clock } from '../objects/clock';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -13,7 +16,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 /**
  * The initial scene that starts, shows the splash screens, and loads the necessary assets.
  */
-export class MainMenuScene extends Phaser.Scene {
+export class MainMenuScene extends BaseScene {
   constructor() {
     super(sceneConfig);
   }
@@ -23,7 +26,7 @@ export class MainMenuScene extends Phaser.Scene {
     const gameHeight = getGameHeight(this);
 
     // Set background
-    const background = this.add.image(gameWidth / 2, gameHeight / 2, 'mainMenuBackground')
+    const background = this.add.image(gameWidth / 2, gameHeight / 2, 'mainMenuBackground');
     const backgroundScaleX = gameWidth / background.width;
     const backgroundScaleY = gameHeight / background.height;
     background.setScale(backgroundScaleX, backgroundScaleY).setScrollFactor(0);
@@ -35,8 +38,8 @@ export class MainMenuScene extends Phaser.Scene {
     }
 
     // Set logo
-    this.add.image(gameWidth / 2, 165, 'logo')
-    
+    this.add.image(gameWidth / 2, 165, 'logo');
+
     const existingGameState = getGameState();
     if (existingGameState) {
       const currentLevel = existingGameState.currentLevel;
@@ -46,9 +49,7 @@ export class MainMenuScene extends Phaser.Scene {
     }
 
     new MenuButton(this, gameWidth / 2 - 100, 370, 'Start New Game', () => {
-      const gameState = newGameState();
-      saveGameState(gameState);
-      this.scene.start('LevelOne', gameState);
+      this.scene.start('LevelOne');
     });
 
     new MenuButton(this, gameWidth / 2 - 100, 410, 'Settings', () => console.log('settings button clicked'));
@@ -56,4 +57,3 @@ export class MainMenuScene extends Phaser.Scene {
     new MenuButton(this, gameWidth / 2 - 100, 450, 'Help', () => console.log('help button clicked'));
   }
 }
-

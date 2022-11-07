@@ -1,109 +1,104 @@
-import { Business } from "../objects/business";
-import { Clock } from "../objects/clock";
-import eventCenter, { GameplayBusinessEvents, UIEvents } from "../events/eventCenter";
+import { Business } from '../objects/business';
+import { Clock } from '../objects/clock';
+import eventCenter, { ClockEvents, GameplayBusinessEvents, UIEvents } from '../events/eventCenter';
+import { BaseScene } from './baseScene';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
-    active: false,
-    key: 'HUDScene',
+  active: false,
+  key: 'HUDScene',
 };
 
-export class HUDScene extends Phaser.Scene {
+export class HUDScene extends BaseScene {
+  constructor() {
+    super(sceneConfig);
+  }
 
-    constructor() {
-        super(sceneConfig);
+  private dateText: Phaser.GameObjects.Text;
+  private cashText: Phaser.GameObjects.Text;
+  private costText: Phaser.GameObjects.Text;
+
+  private customerText: Phaser.GameObjects.Text;
+
+  public init(): void {
+    console.log('HUDScene init');
+  }
+
+  public create(): void {
+    this.add.text(50, 100, 'HUD Scene');
+
+    console.log(this.GameState);
+
+    // Create a text object to display the day
+    this.dateText = this.add.text(50, 120, this.GameState.Clock.getDateString());
+
+    // Create a text object to display the money
+    this.cashText = this.add.text(50, 140, 'Cash ' + this.GameState.PlayerBusiness.getCash());
+    this.costText = this.add.text(50, 160, 'Cost ' + this.GameState.PlayerBusiness.getCosts());
+
+    // Create a text object to display the customer count
+    this.customerText = this.add.text(50, 180, 'Customers ' + this.GameState.PlayerBusiness.getCustomers());
+
+    // Evey 5 seconds update the time
+    this.time.addEvent({
+      delay: 5000,
+      callback: this.updateDate,
+      callbackScope: this,
+      loop: true,
+    });
+
+    eventCenter.on(GameplayBusinessEvents.BUSINESS_UPDATE_CASH, this.updateCash, this);
+    eventCenter.on(GameplayBusinessEvents.BUSINESS_UPDATE_COSTS, this.updateCosts, this);
+
+    eventCenter.on(ClockEvents.CLOCK_MONTH_END, this.updateCash, this);
+
+    eventCenter.on(
+      UIEvents.UI_UPDATE_COSTS,
+      (data) => {
+        console.log('UI_UPDATE_COSTS', data);
+        this.updateCosts(data.event);
+      },
+      this,
+    );
+  }
+
+  // Update the cash on the end of the month
+  private updateCash(): void {
+    console.log('updateCash');
+
+    this.GameState.PlayerBusiness.updateCash();
+
+    this.cashText.setText('Cash ' + this.GameState.PlayerBusiness.getCash);
+  }
+
+  // Update the cost of the business on customer or server change
+  private updateCosts(event: GameplayBusinessEvents): void {
+    console.log('updateCosts', event);
+
+    console.log(this.GameState.PlayerBusiness.getCosts());
+
+    switch (event) {
+      case GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER:
+        this.GameState.PlayerBusiness.setCustomers(1);
+        this.customerText.setText('Customers ' + this.GameState.PlayerBusiness.getCustomers());
+        break;
+      case GameplayBusinessEvents.BUSINESS_REMOVE_CUSTOMER:
+        this.GameState.PlayerBusiness.deleteCustomers(1);
+        this.customerText.setText('Customers ' + this.GameState.PlayerBusiness.getCustomers());
+        break;
     }
 
-    private gameState: GameState;
-    private playerBusiness: Business;
-    private clock: Clock
+    this.GameState.PlayerBusiness.updateCosts();
 
-    private dateText: Phaser.GameObjects.Text;
-    private cashText: Phaser.GameObjects.Text;
-    private costText: Phaser.GameObjects.Text;
-    private customerText: Phaser.GameObjects.Text;
+    this.costText.setText('Cost ' + this.GameState.PlayerBusiness.getCosts());
+  }
 
-    public init(gameState: GameState): void {
-        this.gameState = gameState;
+  private updateDate(): void {
+    console.log('updateDate');
 
-        this.playerBusiness = new Business(gameState.playerBusiness);
-        this.clock = new Clock();
-    }
+    this.GameState.Clock.updateDate();
 
-    public create(): void {
-        this.add.text(50, 100, 'HUD Scene');
+    this.dateText.setText(this.GameState.Clock.getDateString());
 
-        // Create a text object to display the day
-        this.dateText = this.add.text(50, 120, this.clock.getDateString());
-
-        // Create a text object to display the money
-        this.cashText = this.add.text(50, 140, "Cash " + this.playerBusiness.getCash());
-        this.costText = this.add.text(50, 160, "Cost " + this.playerBusiness.getCosts());
-
-        // Create a text object to display the customer count
-        this.customerText = this.add.text(50, 180, "Customers " + this.playerBusiness.getCustomers());
-
-        // Evey 5 seconds update the time
-        this.time.addEvent({
-            delay: 5000,
-            callback: this.updateDate,
-            callbackScope: this,
-            loop: true
-        });
-
-
-        eventCenter.on(GameplayBusinessEvents.BUSINESS_UPDATE_CASH, this.updateCash, this);
-        eventCenter.on(GameplayBusinessEvents.BUSINESS_UPDATE_COSTS, this.updateCosts, this);
-
-        eventCenter.on(UIEvents.UI_UPDATE_COSTS, (data) => {
-            console.log('UI_UPDATE_COSTS', data)
-            this.updateCosts(data.event)
-        }, this);
-
-    }
-
-    // Update the cash on the end of the month
-    private updateCash(): void {
-        console.log('updateCash');
-
-        this.playerBusiness.updateCash();
-
-        this.cashText.setText("Cash " + this.playerBusiness.getCash);
-    }
-
-    // Update the cost of the business on customer or server change
-    private updateCosts(event: GameplayBusinessEvents): void {
-
-        console.log('updateCosts', event);
-
-        switch (event) {
-            case GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER:
-                this.playerBusiness.setCustomers(1);
-                this.customerText.setText("Customers " + this.playerBusiness.getCustomers());
-                break;
-            case GameplayBusinessEvents.BUSINESS_REMOVE_CUSTOMER:
-                this.playerBusiness.deleteCustomers(1);
-                this.customerText.setText("Customers " + this.playerBusiness.getCustomers());
-                break;
-            case GameplayBusinessEvents.BUSINESS_ADD_SERVER:
-                // TODO add server
-                break;
-            case GameplayBusinessEvents.BUSINESS_REMOVE_SERVER:
-                // TODO remove server
-                break;
-        }
-
-        this.playerBusiness.updateCosts();
-
-        this.costText.setText("Cost " + this.playerBusiness.getCosts());
-    }
-
-    private updateDate(): void {
-        console.log('updateDate')
-
-        this.clock.updateDate();
-
-        this.dateText.setText(this.clock.getDateString());
-    }
-
-
+    console.log(this.GameState.Clock);
+  }
 }

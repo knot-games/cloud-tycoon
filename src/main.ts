@@ -1,10 +1,28 @@
 import * as Phaser from 'phaser';
+import { GameStatePlugin } from './plugin/GameStatePlugin';
 import Scenes from './scenes';
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
   title: 'Cloud Tycoon',
 
   type: Phaser.AUTO,
+
+  plugins: {
+    global: [
+      {
+        key: 'GameState',
+        plugin: GameStatePlugin,
+        start: true,
+      },
+    ],
+    scene: [
+      {
+        key: 'GameState',
+        plugin: GameStatePlugin,
+        mapping: 'GameState',
+      },
+    ],
+  },
 
   scale: {
     width: 800,

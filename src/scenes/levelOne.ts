@@ -1,9 +1,10 @@
-import { Business } from "../objects/business";
-import { saveGameState } from "../utilities/localStorage";
-import { MenuButton } from "../ui/menuButton";
-import { getGameHeight, getGameWidth } from "../helpers";
+import { Business } from '../objects/business';
+import { saveGameState } from '../utilities/localStorage';
+import { MenuButton } from '../ui/menuButton';
+import { getGameHeight, getGameWidth } from '../helpers';
 
-import eventsCenter, { GameplayBusinessEvents, UIEvents } from "../events/eventCenter";
+import eventsCenter, { GameplayBusinessEvents, UIEvents } from '../events/eventCenter';
+import { BaseScene } from './baseScene';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -11,36 +12,38 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   key: 'LevelOne',
 };
 
-export class GameScene extends Phaser.Scene {
-
+export class GameScene extends BaseScene {
   constructor() {
     super(sceneConfig);
   }
 
   public init(gameState: GameState): void {
-
     // Launch HUD Scene and pass the gameState
     this.scene.launch('HUDScene', gameState);
   }
 
   public create(): void {
-
     const gameWidth = getGameWidth(this);
 
     // Create a text object to display the day
     this.add.text(gameWidth / 2 - 100, 310, 'Game Scene');
 
-    // Create menu to buy server 
+    // Create menu to buy server
 
-    new MenuButton(this, gameWidth / 2 - 100, 370, 'Buy Server', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_SERVER }));
+    new MenuButton(this, gameWidth / 2 - 100, 370, 'Buy Server', () =>
+      eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_SERVER }),
+    );
 
-    new MenuButton(this, gameWidth / 2 - 100, 410, 'Sell Server', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_SERVER }));
+    new MenuButton(this, gameWidth / 2 - 100, 410, 'Sell Server', () =>
+      eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_SERVER }),
+    );
 
-    new MenuButton(this, gameWidth / 2 - 100, 450, 'Add Customer', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER }));
+    new MenuButton(this, gameWidth / 2 - 100, 450, 'Add Customer', () =>
+      eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER }),
+    );
 
-    new MenuButton(this, gameWidth / 2 - 100, 490, 'Remove Customer', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_CUSTOMER }));
-
-
+    new MenuButton(this, gameWidth / 2 - 100, 490, 'Remove Customer', () =>
+      eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_CUSTOMER }),
+    );
   }
-
 }
