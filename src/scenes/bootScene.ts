@@ -1,4 +1,5 @@
 import { getGameWidth, getGameHeight } from '../helpers';
+import { getGameState } from '../utilities/localStorage';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -58,7 +59,10 @@ export class BootScene extends Phaser.Scene {
       progressBar.destroy();
       progressBarContainer.destroy();
 
-      this.scene.start('MainMenu');
+      const gameState = getGameState();
+      console.log({gameState})
+
+      this.scene.start('MainMenu', gameState);
     });
 
     this.loadAssets();
@@ -76,5 +80,6 @@ export class BootScene extends Phaser.Scene {
 
     // Sounds
     this.load.audio('mainMenuMusic', 'assets/sounds/mainMenuMusic.mp3');
+    this.load.audio('click', 'assets/sounds/click.mp3');
   }
 }

@@ -1,6 +1,6 @@
 import { Business } from "../objects/business";
 import { saveGameState } from "../utilities/localStorage";
-import { MenuButton } from "../ui/menuButton";
+import { Button } from "../ui/button";
 import { getGameHeight, getGameWidth } from "../helpers";
 
 import eventsCenter, { GameplayBusinessEvents, UIEvents } from "../events/eventCenter";
@@ -32,14 +32,13 @@ export class GameScene extends Phaser.Scene {
 
     // Create menu to buy server 
 
-    new MenuButton(this, gameWidth / 2 - 100, 370, 'Buy Server', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_SERVER }));
+    Button(this, gameWidth / 2, 270, 'Buy Server', 200, () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_SERVER }));
 
-    new MenuButton(this, gameWidth / 2 - 100, 410, 'Sell Server', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_SERVER }));
+    Button(this, gameWidth / 2, 310, 'Sell Server', 200, () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_SERVER }));
 
-    new MenuButton(this, gameWidth / 2 - 100, 450, 'Add Customer', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER }));
+    Button(this, gameWidth / 2, 350, 'Add Customer', 200, () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER }));
 
-    new MenuButton(this, gameWidth / 2 - 100, 490, 'Remove Customer', () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_CUSTOMER }));
-
+    Button(this, gameWidth / 2, 390, 'Remove Customer', 200, () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_CUSTOMER }));
 
   }
 
