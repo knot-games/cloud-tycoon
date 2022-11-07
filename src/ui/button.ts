@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 import { colorPalette } from '../../assets/colorPalette';
 
-export const Button = function (scene: Phaser.Scene, x: number, y: number, text: string, maxWidth: number, onClick?: () => void) {
+export const button = function (scene: Phaser.Scene, x: number, y: number, text: string, maxWidth: number, onClick?: () => void) {
   let playSoundEffects = true;
 
   const clickEvent = () => {

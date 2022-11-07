@@ -1,6 +1,6 @@
 import { newGameState } from '../config/newGame';
-import { Button } from '../ui/button';
-import { getGameState, isMusicOn, saveGameState } from '../utilities/localStorage';
+import { button } from '../ui/button';
+import { isMusicOn } from '../utilities/localStorage';
 import { getGameWidth, getGameHeight } from '../helpers';
 import { levels } from '../config/levels';
 import { Business } from '../objects/business';
@@ -56,13 +56,13 @@ export class MainMenuScene extends Phaser.Scene {
      // Continue game
     if (this.playerBusiness.getName() !== null) {
       const currentLevel = this.gameState.getCurrentLevel();
-      Button(this, gameWidth / 2, 330, 'Continue', 200, () => {
+      button(this, gameWidth / 2, 330, 'Continue', 200, () => {
         this.scene.start(levels[currentLevel].levelScene, this.gameState);
       });
     }
 
     // Start game
-    Button(this, gameWidth / 2, 380, 'Start Game', 200, () => {
+    button(this, gameWidth / 2, 380, 'Start Game', 200, () => {
       // TODO: Make a way to set this from an intro level so users can set their own name
       this.playerBusiness.setName("Cloud Co")
       this.gameState = new Game(this.gameState.savePlayerBusiness(this.playerBusiness));
@@ -70,7 +70,7 @@ export class MainMenuScene extends Phaser.Scene {
     });
 
     // Settings
-    Button(this, gameWidth / 2, 430, 'Settings', 200, () => console.log("Settings clicked"));
+    button(this, gameWidth / 2, 430, 'Settings', 200, () => console.log("Settings clicked"));
   }
 }
 
