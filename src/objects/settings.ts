@@ -45,4 +45,12 @@ export class Settings implements ISettings {
     public toggleSoundEffects(): void {
         this.soundEffects = !this.soundEffects;
     }
+
+    public getSettingsState(): PlayerSettingsState {
+        const settingsState: PlayerSettingsState = {
+            music: this.music,
+            soundEffects: this.soundEffects,
+        };
+        return settingsState;
+    }
 }

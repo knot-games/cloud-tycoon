@@ -1,3 +1,6 @@
+import { colorPalette } from "../../assets/colorPalette";
+import { getColorInt } from "../utilities/colors";
+
 export const DialogModalPlugin = function (scene: Phaser.Scene) {
     this.scene = scene;
     this.systems = scene.sys;
@@ -32,14 +35,14 @@ DialogModalPlugin.prototype = {
             options = {};
         }
         this.borderThickness = options.borderThickness || 3;
-        this.borderColor = options.borderColor || 0x907748;
+        this.borderColor = options.borderColor || getColorInt(colorPalette.lightGreen);
         this.borderAlpha = options.borderAlpha || 1;
         this.windowAlpha = options.windowAlpha || 0.8;
-        this.windowColor = options.windowColor || 0x303030;
+        this.windowColor = options.windowColor || getColorInt(colorPalette.darkestGreen);
         this.windowHeight = options.windowHeight || 150;
         this.padding = options.padding || 32;
-        this.closeBtnColor = options.closeBtnColor || 'darkgoldenrod';
-        this.dialogSpeed = options.dialogSpeed || 3;
+        this.closeBtnColor = options.closeBtnColor || 'white';
+        this.dialogSpeed = options.dialogSpeed || 4;
 
          // used for animating the text
         this.eventCounter = 0;
@@ -105,7 +108,7 @@ DialogModalPlugin.prototype = {
         });
         this.closeBtn.setInteractive({ useHandCursor: true });
         this.closeBtn.on('pointerover', function () {
-            this.setTint(0xff0000);
+            this.setTint(getColorInt(colorPalette.lightGreen));
         });
         this.closeBtn.on('pointerout', function () {
             this.clearTint();
@@ -168,7 +171,7 @@ DialogModalPlugin.prototype = {
         this.text = this.scene.make.text({
         x,
         y,
-        text,
+        text: '>' + text,
         style: {
             wordWrap: { width: this._getGameWidth() - (this.padding * 2) - 25 }
         }

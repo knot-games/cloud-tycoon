@@ -1,5 +1,4 @@
 
-import { MenuButton } from '../ui/menuButton';
 import { getGameWidth, getGameHeight } from '../helpers';
 import { levels } from '../config/levels';
 import { SettingsModalPlugin } from '../plugins/settingsModal';
@@ -7,6 +6,7 @@ import eventCenter, { SettingsEvents, UIEvents } from '../events/eventCenter';
 import { Settings } from '../objects/settings';
 import { Business } from '../objects/business';
 import { Game } from '../objects/game';
+import { Button } from '../ui/button';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -61,13 +61,13 @@ export class MainMenuScene extends Phaser.Scene {
     // Continue game
     if (this.gameState.getPlayerBusiness().name !== null) {
       const currentLevel = this.gameState.getCurrentLevel();
-      new MenuButton(this, gameWidth / 2 - 100, 330, 200, 32, 'Continue', () => {
+      Button(this, gameWidth / 2, 330, 'Continue', this.settings, () => {
         this.scene.start(levels[currentLevel].levelScene, this.gameState);
       });
     }
 
     // Start game
-    new MenuButton(this, gameWidth / 2 - 100, 370, 200, 32, 'Start New Game', () => {
+    Button(this, gameWidth / 2, 380, 'Start Game', this.settings, () => {
       // TODO: Make a way to set this from an intro level so users can set their own name
       this.playerBusiness.setName("Cloud Co")
       this.gameState = new Game(this.gameState.savePlayerBusiness(this.playerBusiness));
@@ -77,7 +77,7 @@ export class MainMenuScene extends Phaser.Scene {
 
     // Settings
     this.sys.plugins.installScenePlugin('SettingsModalPlugin', SettingsModalPlugin, 'SettingsModalPlugin', this);
-    new MenuButton(this, gameWidth / 2 - 100, 410, 200, 32, 'Settings', () => this.sys['SettingsModalPlugin'].init(this.settings));
+    Button(this, gameWidth / 2, 430, 'Settings', this.settings, () => this.sys['SettingsModalPlugin'].init(this.settings));
   }
 
   private toggleSetting(event: SettingsEvents): void {
@@ -94,12 +94,14 @@ export class MainMenuScene extends Phaser.Scene {
                 this.sound.play('mainMenuMusic', { loop: true });
               }
               console.log({isMusicPlaying});
+              this.gameState = new Game(this.gameState.saveSettings(this.settings));
               break;
-              case SettingsEvents.TOGGLE_SOUND_EFFECTS:
-                this.settings.toggleSoundEffects();
-                const areSoundEffectsEnabled = this.settings.getSoundEffectsEnabled();
-                console.log({areSoundEffectsEnabled});
-                break;
+            case SettingsEvents.TOGGLE_SOUND_EFFECTS:
+              this.settings.toggleSoundEffects();
+              const areSoundEffectsEnabled = this.settings.getSoundEffectsEnabled();
+              console.log({areSoundEffectsEnabled});
+              this.gameState = new Game(this.gameState.saveSettings(this.settings));
+              break;
         }
     }
 }

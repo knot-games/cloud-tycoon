@@ -1,6 +1,7 @@
 import { IGame } from "../types/game";
 import { saveGameState } from "../utilities/localStorage";
 import { Business } from "./business";
+import { Settings } from "./settings";
 
 export class Game implements IGame {
 
@@ -49,8 +50,8 @@ export class Game implements IGame {
         return this.updateGameState();
     }
 
-    public saveSettings(settings: PlayerSettingsState): GameState {
-        this.settings = settings;
+    public saveSettings(settings: Settings): GameState {
+        this.settings = settings.getSettingsState();
         return this.updateGameState();
     }
 

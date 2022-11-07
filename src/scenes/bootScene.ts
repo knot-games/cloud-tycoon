@@ -83,5 +83,6 @@ export class BootScene extends Phaser.Scene {
 
     // Sounds
     this.load.audio('mainMenuMusic', 'assets/sounds/mainMenuMusic.mp3');
+    this.load.audio('click', 'assets/sounds/click.mp3');
   }
 }
