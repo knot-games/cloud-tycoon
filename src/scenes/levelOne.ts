@@ -1,7 +1,5 @@
-import { Business } from '../objects/business';
-import { saveGameState } from '../utilities/localStorage';
 import { MenuButton } from '../ui/menuButton';
-import { getGameHeight, getGameWidth } from '../helpers';
+import { getGameWidth } from '../helpers';
 
 import eventsCenter, { GameplayBusinessEvents, UIEvents } from '../events/eventCenter';
 import { BaseScene } from './baseScene';

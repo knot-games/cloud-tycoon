@@ -1,11 +1,8 @@
-import { newGameState } from '../config/newGame';
 import { MenuButton } from '../ui/menuButton';
 import { getGameState, isMusicOn, saveGameState } from '../utilities/localStorage';
 import { getGameWidth, getGameHeight } from '../helpers';
 import { levels } from '../config/levels';
 import { BaseScene } from './baseScene';
-import { Business } from '../objects/business';
-import { Clock } from '../objects/clock';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,

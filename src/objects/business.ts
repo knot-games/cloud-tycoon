@@ -81,11 +81,19 @@ export class Business {
   }
 
   public updateCash(): void {
-    this.cash = this.cash - this.costs;
+
+    this.revenue = this.calcutateRevenue();
+
+    this.cash = (this.cash + this.revenue) - this.costs;
+  }
+
+  private calcutateRevenue(): number {
+    const customerRevenue = this.customers * 2;
+
+    return customerRevenue;
   }
 
   private calculateCost(): number {
-    // Don't recalculate every time, just when a customer is added or removed
     const customerCosts = this.customers * 10;
 
     return customerCosts;

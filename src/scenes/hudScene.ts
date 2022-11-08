@@ -1,5 +1,3 @@
-import { Business } from '../objects/business';
-import { Clock } from '../objects/clock';
 import eventCenter, { ClockEvents, GameplayBusinessEvents, UIEvents } from '../events/eventCenter';
 import { BaseScene } from './baseScene';
 
@@ -46,7 +44,7 @@ export class HUDScene extends BaseScene {
       loop: true,
     });
 
-    eventCenter.on(ClockEvents.CLOCK_MONTH_END, this.updateCash, this);
+    eventCenter.on(ClockEvents.CLOCK_WEEK_END, this.updateCash, this);
 
     eventCenter.on(UIEvents.UI_UPDATE_COSTS,
       (data) => {

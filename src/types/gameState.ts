@@ -2,7 +2,6 @@
 interface GameState {
     currentLevel: number; // The current level a user is on, ex. 1
     playerBusiness: BusinessState;
-    clock: ClockState;
     store: StoreState;
 }
 

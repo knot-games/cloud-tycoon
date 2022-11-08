@@ -51,9 +51,9 @@ export class Clock {
     if (this.day > 5) {
       this.day = 1;
       this.week++;
+      // Jank but honestly good enough for now
+      eventCenter.emit(ClockEvents.CLOCK_WEEK_END);
       if (this.week > 4) {
-        // Jank but honestly good enough for now
-        eventCenter.emit(ClockEvents.CLOCK_MONTH_END);
         this.week = 1;
         this.month++;
         if (this.month > 12) {
