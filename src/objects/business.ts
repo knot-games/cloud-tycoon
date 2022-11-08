@@ -1,5 +1,5 @@
 export class Business {
-  private name: string;
+  private name: string | null;
   private cash: number;
   private costs: number;
   private revenue: number;
@@ -20,7 +20,7 @@ export class Business {
     this.customers = customers;
   }
 
-  public getName(): string {
+  public getName(): string | null {
     return this.name;
   }
 
@@ -86,12 +86,12 @@ export class Business {
 
   public updateCash(): void {
 
-    this.revenue = this.calcutateRevenue();
+    this.revenue = this.calculateRevenue();
 
     this.cash = (this.cash + this.revenue) - this.costs;
   }
 
-  private calcutateRevenue(): number {
+  private calculateRevenue(): number {
     const customerRevenue = this.customers * 2;
 
     return customerRevenue;

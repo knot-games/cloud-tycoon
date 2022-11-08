@@ -1,11 +1,9 @@
-import { newGameState } from '../config/newGame';
 import { button } from '../ui/button';
-import { isMusicOn } from '../utilities/localStorage';
+import { settingsModal } from '../ui/settingsModal';
 import { getGameWidth, getGameHeight } from '../helpers';
 import { levels } from '../config/levels';
-import { Business } from '../objects/business';
-import { Game } from '../objects/game';
 import { BaseScene } from './baseScene';
+import eventCenter, { SettingsEvents, UIEvents } from '../events/eventCenter';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -31,32 +29,52 @@ export class MainMenuScene extends BaseScene {
     const backgroundScaleY = gameHeight / background.height;
     background.setScale(backgroundScaleX, backgroundScaleY).setScrollFactor(0);
 
+    eventCenter.on(UIEvents.UI_UPDATE_SOUND, (data) => {
+      this.toggleSetting(data.event)
+    }, this);
+
     // Set music
-    const musicEnabled = isMusicOn();
-    if (musicEnabled) {
-      this.sound.play('mainMenuMusic', { loop: true });
+    if (this.GameState.getMusicEnabled()) {
+      this.sound.play('mainMenuMusic', { loop: true, volume: 0.2 });
     }
 
     // Set logo
     this.add.image(gameWidth / 2, 165, 'logo');
 
-
     // Continue game
-    if (this.GameState.hasSaveGame()) {
-      const currentLevel = this.GameState.currentLevel;
-      button(this, gameWidth / 2, 330, 'Continue', 200, () => {
+    if (this.GameState.GameState.getIsNewGame()) {
+      const currentLevel = this.GameState.getCurrentLevel();
+      button(this, gameWidth / 2, 330, 'Continue', 200, this.GameState.getSoundEffectsEnabled(), () => {
         this.scene.start(levels[currentLevel].levelScene);
       });
     }
 
     // Start game
-    button(this, gameWidth / 2, 380, 'Start Game', 200, () => {
+    button(this, gameWidth / 2, 380, 'Start Game', 200, this.GameState.getSoundEffectsEnabled(), () => {
       // TODO: Make a way to set this from an intro level so users can set their own name
       this.GameState.PlayerBusiness.setName("Cloud Co")
       this.scene.start('LevelOne');
     });
 
     // Settings
-    button(this, gameWidth / 2, 430, 'Settings', 200, () => console.log("Settings clicked"));
+    button(this, gameWidth / 2, 430, 'Settings', 200, this.GameState.getSoundEffectsEnabled(), () => settingsModal(this, this.GameState.getSettings(), () => {}));
   }
+
+  private toggleSetting(event: SettingsEvents): void {
+
+    switch (event) {
+        case SettingsEvents.TOGGLE_MUSIC:
+          this.GameState.toggleMusic();
+          const isMusicPlaying = this.GameState.getMusicEnabled();
+          if (!isMusicPlaying) {
+            this.sound.get('mainMenuMusic').stop();
+          } else {
+            this.sound.play('mainMenuMusic', { loop: true, volume: 0.2 });
+          }
+          break;
+        case SettingsEvents.TOGGLE_SOUND_EFFECTS:
+          this.GameState.toggleSoundEffects();
+          break;
+    }
+}
 }

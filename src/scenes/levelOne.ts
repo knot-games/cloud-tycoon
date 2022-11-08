@@ -27,12 +27,12 @@ export class GameScene extends BaseScene {
     this.add.text(gameWidth / 2 - 100, 310, 'Game Scene');
 
     // Create menu to buy server 
-    button(this, gameWidth / 2, 270, 'Buy Server', 200, () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_SERVER }));
+    button(this, gameWidth / 2, 270, 'Buy Server', 200, this.GameState.getSoundEffectsEnabled(), () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_SERVER }));
 
-    button(this, gameWidth / 2, 310, 'Sell Server', 200, () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_SERVER }));
+    button(this, gameWidth / 2, 310, 'Sell Server', 200, this.GameState.getSoundEffectsEnabled(), () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_SERVER }));
 
-    button(this, gameWidth / 2, 350, 'Add Customer', 200, () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER }));
+    button(this, gameWidth / 2, 350, 'Add Customer', 200, this.GameState.getSoundEffectsEnabled(), () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER }));
 
-    button(this, gameWidth / 2, 390, 'Remove Customer', 200, () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_CUSTOMER }));
+    button(this, gameWidth / 2, 390, 'Remove Customer', 200, this.GameState.getSoundEffectsEnabled(), () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_CUSTOMER }));
   }
 }

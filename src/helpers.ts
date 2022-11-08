@@ -8,3 +8,6 @@ export const getGameHeight = (scene: Phaser.Scene): number => {
   return scene.game.scale.height;
 };
 
+export const getColorInt = (color: string) => {
+  return parseInt(color.replace('#', ''), 16);
+}
