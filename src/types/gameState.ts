@@ -1,12 +1,21 @@
 // The current or default state of the game
 interface GameState {
     currentLevel: number; // The current level a user is on, ex. 1
+    playerLevelState: PlayerLevelState; // Record of the player's progress on each level
     playerBusiness: BusinessState;
     store: StoreState;
 }
 
+interface PlayerLevelState {
+    [id: number]: {
+        hasWatchedIntro: boolean; // Whether a user has watched the intro for this level, ex. true
+        hasCompletedLevel: boolean; // Whether a user has completed this level, ex. false
+        monthsToCompleteLevel: number | null; // The number of months it took for a user to complete this level, null if the level has not been completed, ex. 12
+    }
+}
+
 interface BusinessState {
-    name: string; // The name of the business, ex. "John's Apps"
+    name: string | null; // The name of the business, ex. "John's Apps", null if new game
     money: number; // The current money a user has in the game, ex. 2000
     costs: number; // The current costs a user has, ex. 50
     revenue: number; // The current revenue a user is gaining, ex. 4500
