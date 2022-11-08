@@ -5,6 +5,7 @@ import { getGameWidth, getGameHeight } from '../helpers';
 import { levels } from '../config/levels';
 import { Business } from '../objects/business';
 import { Game } from '../objects/game';
+import { BaseScene } from './baseScene';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -15,23 +16,9 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 /**
  * The initial scene that starts, shows the splash screens, and loads the necessary assets.
  */
-export class MainMenuScene extends Phaser.Scene {
+export class MainMenuScene extends BaseScene {
   constructor() {
     super(sceneConfig);
-  }
-
-  private gameState: Game;
-  private playerBusiness: Business;
-
-  public init (gameState: GameState | null): void {
-    if (!gameState || Object.keys(gameState).length === 0) {
-      // No game state, start a new game
-      this.gameState = new Game(newGameState());
-      this.playerBusiness = new Business(this.gameState.getPlayerBusiness())
-    } else {
-      this.gameState = new Game(gameState);
-      this.playerBusiness = new Business(gameState.playerBusiness)
-    }
   }
 
   public create(): void {
@@ -39,7 +26,7 @@ export class MainMenuScene extends Phaser.Scene {
     const gameHeight = getGameHeight(this);
 
     // Set background
-    const background = this.add.image(gameWidth / 2, gameHeight / 2, 'mainMenuBackground')
+    const background = this.add.image(gameWidth / 2, gameHeight / 2, 'mainMenuBackground');
     const backgroundScaleX = gameWidth / background.width;
     const backgroundScaleY = gameHeight / background.height;
     background.setScale(backgroundScaleX, backgroundScaleY).setScrollFactor(0);
@@ -51,27 +38,25 @@ export class MainMenuScene extends Phaser.Scene {
     }
 
     // Set logo
-    this.add.image(gameWidth / 2, 165, 'logo')
-    
-     // Continue game
-    if (this.playerBusiness.getName() !== null) {
-      const currentLevel = this.gameState.getCurrentLevel();
+    this.add.image(gameWidth / 2, 165, 'logo');
+
+
+    // Continue game
+    if (this.GameState.hasSaveGame()) {
+      const currentLevel = this.GameState.currentLevel;
       button(this, gameWidth / 2, 330, 'Continue', 200, () => {
-        this.scene.start(levels[currentLevel].levelScene, this.gameState);
+        this.scene.start(levels[currentLevel].levelScene);
       });
     }
 
     // Start game
     button(this, gameWidth / 2, 380, 'Start Game', 200, () => {
       // TODO: Make a way to set this from an intro level so users can set their own name
-      this.playerBusiness.setName("Cloud Co")
-      this.gameState = new Game(this.gameState.savePlayerBusiness(this.playerBusiness));
-      this.scene.start('LevelOne', this.gameState);
+      this.GameState.PlayerBusiness.setName("Cloud Co")
+      this.scene.start('LevelOne');
     });
 
     // Settings
     button(this, gameWidth / 2, 430, 'Settings', 200, () => console.log("Settings clicked"));
   }
 }
-
-

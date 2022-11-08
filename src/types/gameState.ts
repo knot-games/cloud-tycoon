@@ -28,6 +28,13 @@ interface BusinessState {
     research: ResearchState;
 }
 
+interface ClockState {
+    year: number; // The current year a user is in, ex. 2019
+    month: number; // The current month a user is in, ex. 1
+    week: number; // The current week a user is in, ex. 1
+    day: number; // The current day a user is in, ex. 1
+}
+
 interface ServerState {
     [id: number]: number; // A mapping of the current number of this id of server that a user owns, ex. 1: 4
 }

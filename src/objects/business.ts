@@ -1,124 +1,123 @@
-export class Business implements IBusiness {
+export class Business {
+  private name: string;
+  private cash: number;
+  private costs: number;
+  private revenue: number;
+  private facility: number;
+  private servers: ServerState;
+  private customers: number;
+  private developers: number;
+  private sysadmins: number;
+  private products: ProductState;
+  private research: ResearchState;
 
-    private name: string | null;
-    private cash: number;
-    private costs: number;
-    private revenue: number;
-    private facility: number;
-    private servers: ServerState;
-    private customers: number;
-    private developers: number;
-    private sysadmins: number;
-    private products: ProductState;
-    private research: ResearchState;
+  constructor(name = '', cash = 2000, revenue = 0, costs = 0, facility = 1, customers = 0) {
+    this.name = name;
+    this.cash = cash;
+    this.costs = costs;
+    this.revenue = revenue;
+    this.facility = facility;
+    this.customers = customers;
+  }
 
-    constructor(businessState: BusinessState) {
-        this.name = businessState.name;
-        this.cash = businessState.money;
-        this.costs = businessState.costs;
-        this.revenue = businessState.revenue;
-        this.facility = businessState.facility;
-        this.servers = businessState.servers;
-        this.customers = businessState.customers;
-        this.developers = businessState.developers;
-        this.sysadmins = businessState.sysadmins;
-        this.products = businessState.products;
-        this.research = businessState.research;
-    }
+  public getName(): string {
+    return this.name;
+  }
 
-    public getName(): string | null {
-        return this.name;
-    }
+  public setName(name: string): void {
+    this.name = name;
+  }
 
-    public setName(name: string): void {
-        this.name = name;
-    }
+  public getCash(): number {
+    return this.cash;
+  }
 
-    public getCash(): number {
-        return this.cash;
-    }
+  public setCash(money: number): void {
+    this.cash = money;
+  }
 
-    public setCash(money: number): void {
-        this.cash = money;
-    }
+  public getRevenue(): number {
+    return this.revenue;
+  }
 
-    public getRevenue(): number {
-        return this.revenue;
-    }
+  public setRevenue(): void {
+    this.revenue = 0;
+  }
 
-    public setRevenue(): void {
-        this.revenue = 0;
-    }
+  public getCosts(): number {
+    return this.costs;
+  }
 
-    public getCosts(): number {
-        return this.costs;
-    }
+  public setCost(cost: number): void {
+    this.costs = cost;
+  }
 
-    public setCost(cost: number): void {
-        this.costs = cost;
-    }
+  public getFacility(): number {
+    return this.facility;
+  }
 
-    public getFacility(): number {
-        return this.facility;
-    }
+  public setFacility(facility: number): void {
+    this.facility = facility;
+  }
 
-    public setFacility(facility: number): void {
-        this.facility = facility;
-    }
+  public getServers(): ServerState {
+    return this.servers;
+  }
 
-    public getServers(): ServerState {
-        return this.servers;
-    }
+  public setServers(servers: ServerState): void {
+    this.servers = servers;
+  }
 
-    public setServers(servers: ServerState): void {
-        this.servers = servers;
-    }
+  public getCustomers(): number {
+    return this.customers;
+  }
 
-    public getCustomers(): number {
-        return this.customers;
-    }
+  public setCustomers(amount: number): void {
+    this.customers += amount;
+  }
 
-    public getPlayerBusinessState(): BusinessState {
-        const businessState: BusinessState = {
-            name: this.name,
-            money: this.cash,
-            revenue: this.revenue,
-            costs: this.costs,
-            facility: this.facility,
-            servers: this.servers,
-            customers: this.customers,
-            developers: this.developers,
-            sysadmins: this.sysadmins,
-            products: this.products,
-            research: this.research,
-        };
-        return businessState;
-    }
+  public deleteCustomers(amount: number): void {
+    this.customers -= amount;
+  }
 
-    public setCustomers(amount: number): void {
-        this.customers += amount;
-    }
+  public updateCosts(): void {
+    this.costs = this.calculateCost();
+  }
 
-    public deleteCustomers(amount: number): void {
-        this.customers -= amount;
-    }
+  public updateCash(): void {
 
-    public updateCosts(): void {
-        this.costs = this.calculateCost();
-    }
+    this.revenue = this.calcutateRevenue();
 
-    public updateCash(): void {
-        // we should take the current cash and subtract the cost of business
-        this.cash = this.cash - this.costs;
-    }
+    this.cash = (this.cash + this.revenue) - this.costs;
+  }
 
-    private calculateCost(): number {
-        // Don't recalculate every time, just when a customer is added or removed
-        var customerCosts = this.customers * 10;
+  private calcutateRevenue(): number {
+    const customerRevenue = this.customers * 2;
 
-        var serverCosts = this.servers[1];
+    return customerRevenue;
+  }
 
-        return customerCosts;
-    }
+  private calculateCost(): number {
+    const customerCosts = this.customers * 10;
+
+    return customerCosts;
+  }
+
+  public getPlayerBusinessState(): BusinessState {
+    const businessState: BusinessState = {
+      name: this.name,
+      money: this.cash,
+      revenue: this.revenue,
+      costs: this.costs,
+      facility: this.facility,
+      servers: this.servers,
+      customers: this.customers,
+      developers: this.developers,
+      sysadmins: this.sysadmins,
+      products: this.products,
+      research: this.research,
+    };
+    return businessState;
+  }
 
 }

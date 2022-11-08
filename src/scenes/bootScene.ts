@@ -4,7 +4,7 @@ import { getGameState } from '../utilities/localStorage';
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
-  key: 'Boot'
+  key: 'Boot',
 };
 
 /**
@@ -59,10 +59,12 @@ export class BootScene extends Phaser.Scene {
       progressBar.destroy();
       progressBarContainer.destroy();
 
+      // load game state from localstorage (or start new one)
+      // start base scene, pass game state
       const gameState = getGameState();
-      console.log({gameState})
 
-      this.scene.start('MainMenu', gameState);
+      this.scene.start('Base', gameState);
+      this.scene.start('MainMenu');
     });
 
     this.loadAssets();
