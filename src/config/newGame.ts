@@ -29,6 +29,16 @@ export const newGameState = () => {
       1: {
         purchased: false
       }
+    },
+    clock: {
+      year: 0,
+      month: 0,
+      week: 0,
+      day: 0,
+    },
+    settings: {
+      music: true,
+      soundEffects: true,
     }
   }
   return gameState;

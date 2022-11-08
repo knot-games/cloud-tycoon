@@ -4,6 +4,8 @@ interface GameState {
     playerLevelState: PlayerLevelState; // Record of the player's progress on each level
     playerBusiness: BusinessState;
     store: StoreState;
+    clock: ClockState;
+    settings: GameSettings;
 }
 
 interface PlayerLevelState {
@@ -63,4 +65,10 @@ interface StoreState {
     [id: number]: {
         purchased: boolean; // Whether this item has been purchased or not, ex. true
     }
+}
+
+// The settings options that a user has chosen
+interface GameSettings {
+    music: boolean; // True meaning music is on, off meaning music is off, true by default
+    soundEffects: boolean; // True meaning sound effects are on, off meaning sound effects are off, true by default
 }

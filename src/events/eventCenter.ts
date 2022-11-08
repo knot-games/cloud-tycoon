@@ -3,6 +3,7 @@
 export enum UIEvents {
   UI_UPDATE_CASH = 'ui.update.cash',
   UI_UPDATE_COSTS = 'ui.update.costs',
+  UI_UPDATE_SOUND = 'ui.update.sound',
 }
 
 export enum GameplayBusinessEvents {
@@ -20,6 +21,11 @@ export enum ClockEvents {
   CLOCK_YEAR_END = 'clock.year.end',
   CLOCK_WEEK_END = 'clock.week.end',
   CLOCK_DAY_END = 'clock.day.end',
+}
+
+export enum SettingsEvents {
+  TOGGLE_MUSIC = 'settings.toggle.music',
+  TOGGLE_SOUND_EFFECTS = 'settings.toggle.sound.effects',
 }
 
 export enum GamplayRandomEvents {

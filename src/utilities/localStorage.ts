@@ -19,26 +19,3 @@ export const getGameState = (): GameState => {
   saveGameState(startGameState);
   return startGameState;
 };
-
-export const saveSettings = (settings: GameSettings) => {
-  const localStorage = window.localStorage;
-  localStorage.setItem(SETTINGS_TOKEN, JSON.stringify(settings));
-};
-
-export const getSettings = (): GameSettings | null => {
-  const localStorage = window.localStorage;
-  const settings = localStorage.getItem(SETTINGS_TOKEN);
-  if (settings) {
-    return JSON.parse(settings);
-  }
-  return null;
-};
-
-export const isMusicOn = (): boolean => {
-  let settings = getSettings();
-  if (!settings) {
-    settings = baseSettings();
-    saveSettings(settings);
-  }
-  return settings.music;
-};
