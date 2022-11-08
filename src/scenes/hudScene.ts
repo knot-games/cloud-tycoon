@@ -46,13 +46,9 @@ export class HUDScene extends BaseScene {
       loop: true,
     });
 
-    eventCenter.on(GameplayBusinessEvents.BUSINESS_UPDATE_CASH, this.updateCash, this);
-    eventCenter.on(GameplayBusinessEvents.BUSINESS_UPDATE_COSTS, this.updateCosts, this);
-
     eventCenter.on(ClockEvents.CLOCK_MONTH_END, this.updateCash, this);
 
-    eventCenter.on(
-      UIEvents.UI_UPDATE_COSTS,
+    eventCenter.on(UIEvents.UI_UPDATE_COSTS,
       (data) => {
         console.log('UI_UPDATE_COSTS', data);
         this.updateCosts(data.event);
@@ -67,15 +63,12 @@ export class HUDScene extends BaseScene {
 
     this.GameState.PlayerBusiness.updateCash();
 
-    this.cashText.setText('Cash ' + this.GameState.PlayerBusiness.getCash);
+    this.cashText.setText('Cash ' + this.GameState.PlayerBusiness.getCash());
   }
 
   // Update the cost of the business on customer or server change
   private updateCosts(event: GameplayBusinessEvents): void {
     console.log('updateCosts', event);
-
-    console.log(this.GameState.PlayerBusiness.getCosts());
-
     switch (event) {
       case GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER:
         this.GameState.PlayerBusiness.setCustomers(1);
@@ -88,7 +81,6 @@ export class HUDScene extends BaseScene {
     }
 
     this.GameState.PlayerBusiness.updateCosts();
-
     this.costText.setText('Cost ' + this.GameState.PlayerBusiness.getCosts());
   }
 

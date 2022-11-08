@@ -1,6 +1,6 @@
 import eventCenter, { ClockEvents } from '../events/eventCenter';
 
-export class Clock implements IClock {
+export class Clock {
   private year: number;
   private month: number;
   private week: number;
@@ -52,6 +52,7 @@ export class Clock implements IClock {
       this.day = 1;
       this.week++;
       if (this.week > 4) {
+        // Jank but honestly good enough for now
         eventCenter.emit(ClockEvents.CLOCK_MONTH_END);
         this.week = 1;
         this.month++;

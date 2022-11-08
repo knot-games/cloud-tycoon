@@ -1,4 +1,4 @@
-export class Business implements IBusiness {
+export class Business {
   private name: string;
   private cash: number;
   private costs: number;
@@ -81,15 +81,12 @@ export class Business implements IBusiness {
   }
 
   public updateCash(): void {
-    // we should take the current cash and subtract the cost of business
     this.cash = this.cash - this.costs;
   }
 
   private calculateCost(): number {
     // Don't recalculate every time, just when a customer is added or removed
     const customerCosts = this.customers * 10;
-
-    const serverCosts = this.servers[1];
 
     return customerCosts;
   }

@@ -2,6 +2,7 @@
 interface GameState {
     currentLevel: number; // The current level a user is on, ex. 1
     playerBusiness: BusinessState;
+    clock: ClockState;
     store: StoreState;
 }
 
@@ -17,6 +18,13 @@ interface BusinessState {
     servers: ServerState;
     products: ProductState;
     research: ResearchState;
+}
+
+interface ClockState {
+    year: number; // The current year a user is in, ex. 2019
+    month: number; // The current month a user is in, ex. 1
+    week: number; // The current week a user is in, ex. 1
+    day: number; // The current day a user is in, ex. 1
 }
 
 interface ServerState {

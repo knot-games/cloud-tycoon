@@ -28,16 +28,6 @@ export class GameScene extends BaseScene {
     // Create a text object to display the day
     this.add.text(gameWidth / 2 - 100, 310, 'Game Scene');
 
-    // Create menu to buy server
-
-    new MenuButton(this, gameWidth / 2 - 100, 370, 'Buy Server', () =>
-      eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_SERVER }),
-    );
-
-    new MenuButton(this, gameWidth / 2 - 100, 410, 'Sell Server', () =>
-      eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_SERVER }),
-    );
-
     new MenuButton(this, gameWidth / 2 - 100, 450, 'Add Customer', () =>
       eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER }),
     );
