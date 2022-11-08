@@ -1,7 +1,10 @@
-import { MenuButton } from '../ui/menuButton';
-import { getGameState, isMusicOn, saveGameState } from '../utilities/localStorage';
+import { newGameState } from '../config/newGame';
+import { button } from '../ui/button';
+import { isMusicOn } from '../utilities/localStorage';
 import { getGameWidth, getGameHeight } from '../helpers';
 import { levels } from '../config/levels';
+import { Business } from '../objects/business';
+import { Game } from '../objects/game';
 import { BaseScene } from './baseScene';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -37,20 +40,23 @@ export class MainMenuScene extends BaseScene {
     // Set logo
     this.add.image(gameWidth / 2, 165, 'logo');
 
-    const existingGameState = getGameState();
-    if (existingGameState) {
-      const currentLevel = existingGameState.currentLevel;
-      new MenuButton(this, gameWidth / 2 - 100, 330, 'Continue', () => {
-        this.scene.start(levels[currentLevel].levelScene, existingGameState);
+
+    // Continue game
+    if (this.GameState.hasSaveGame()) {
+      const currentLevel = this.GameState.currentLevel;
+      button(this, gameWidth / 2, 330, 'Continue', 200, () => {
+        this.scene.start(levels[currentLevel].levelScene);
       });
     }
 
-    new MenuButton(this, gameWidth / 2 - 100, 370, 'Start New Game', () => {
+    // Start game
+    button(this, gameWidth / 2, 380, 'Start Game', 200, () => {
+      // TODO: Make a way to set this from an intro level so users can set their own name
+      this.GameState.PlayerBusiness.setName("Cloud Co")
       this.scene.start('LevelOne');
     });
 
-    new MenuButton(this, gameWidth / 2 - 100, 410, 'Settings', () => console.log('settings button clicked'));
-
-    new MenuButton(this, gameWidth / 2 - 100, 450, 'Help', () => console.log('help button clicked'));
+    // Settings
+    button(this, gameWidth / 2, 430, 'Settings', 200, () => console.log("Settings clicked"));
   }
 }

@@ -1,5 +1,5 @@
-import { MenuButton } from '../ui/menuButton';
 import { getGameWidth } from '../helpers';
+import { button } from "../ui/button";
 
 import eventsCenter, { GameplayBusinessEvents, UIEvents } from '../events/eventCenter';
 import { BaseScene } from './baseScene';
@@ -26,12 +26,13 @@ export class GameScene extends BaseScene {
     // Create a text object to display the day
     this.add.text(gameWidth / 2 - 100, 310, 'Game Scene');
 
-    new MenuButton(this, gameWidth / 2 - 100, 450, 'Add Customer', () =>
-      eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER }),
-    );
+    // Create menu to buy server 
+    button(this, gameWidth / 2, 270, 'Buy Server', 200, () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_SERVER }));
 
-    new MenuButton(this, gameWidth / 2 - 100, 490, 'Remove Customer', () =>
-      eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_CUSTOMER }),
-    );
+    button(this, gameWidth / 2, 310, 'Sell Server', 200, () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_SERVER }));
+
+    button(this, gameWidth / 2, 350, 'Add Customer', 200, () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER }));
+
+    button(this, gameWidth / 2, 390, 'Remove Customer', 200, () => eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_CUSTOMER }));
   }
 }

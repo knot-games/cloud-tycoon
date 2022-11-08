@@ -6,6 +6,10 @@ export class Business {
   private facility: number;
   private servers: ServerState;
   private customers: number;
+  private developers: number;
+  private sysadmins: number;
+  private products: ProductState;
+  private research: ResearchState;
 
   constructor(name = '', cash = 2000, revenue = 0, costs = 0, facility = 1, customers = 0) {
     this.name = name;
@@ -98,4 +102,22 @@ export class Business {
 
     return customerCosts;
   }
+
+  public getPlayerBusinessState(): BusinessState {
+    const businessState: BusinessState = {
+      name: this.name,
+      money: this.cash,
+      revenue: this.revenue,
+      costs: this.costs,
+      facility: this.facility,
+      servers: this.servers,
+      customers: this.customers,
+      developers: this.developers,
+      sysadmins: this.sysadmins,
+      products: this.products,
+      research: this.research,
+    };
+    return businessState;
+  }
+
 }
