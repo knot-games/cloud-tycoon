@@ -1,4 +1,4 @@
-import eventCenter, { ClockEvents, GameplayBusinessEvents, UIEvents } from '../events/eventCenter';
+import eventCenter, { ClockEvents, GameplayBusinessEvents, GameplayEvents, UIEvents } from '../events/eventCenter';
 import { BaseScene } from './baseScene';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -45,6 +45,11 @@ export class HUDScene extends BaseScene {
     });
 
     eventCenter.on(ClockEvents.CLOCK_WEEK_END, this.updateCash, this);
+
+    eventCenter.on(ClockEvents.CLOCK_PAUSE, () => this.GameState.Clock.pauseClock(), this);
+    eventCenter.on(ClockEvents.CLOCK_RESUME, () => this.GameState.Clock.unPauseClock(), this);
+    
+    eventCenter.on(GameplayEvents.GAMEPLAY_COMPLETE_LEVEL_INTRO, ({ levelNumber }) => { this.GameState.GameState.completeLevelIntro(levelNumber); }, this);
 
     eventCenter.on(UIEvents.UI_UPDATE_COSTS,
       (data) => {

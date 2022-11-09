@@ -3,6 +3,8 @@ import { button } from '../ui/button';
 
 import eventsCenter, { GameplayBusinessEvents, UIEvents } from '../events/eventCenter';
 import { BaseScene } from './baseScene';
+import { LevelOne } from '../config/levelOne';
+import { levelIntro } from '../logic/levelIntro';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	active: false,
@@ -12,15 +14,18 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class GameScene extends BaseScene {
 	controls?: Phaser.Cameras.Controls.FixedKeyControl;
+	levelState?: Level;
 
 	constructor() {
 		super(sceneConfig);
 		this.controls = null;
+		this.levelState = null;
 	}
 
 	public init(gameState: GameState): void {
 		// Launch HUD Scene and pass the gameState
 		this.scene.launch('HUDScene', gameState);
+		this.levelState = LevelOne;
 	}
 
 	public create(): void {
@@ -29,6 +34,7 @@ export class GameScene extends BaseScene {
 		this.initControls();
 		this.initFloor();
 		// this.initButtons();
+		levelIntro(this, this.levelState.story, this.levelState.number, this.GameState.GameState);
 	}
 
 	public update(time: number, delta: number): void {

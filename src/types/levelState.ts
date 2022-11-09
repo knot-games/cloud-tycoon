@@ -8,10 +8,14 @@ interface Level {
     title: string; // Title of the level, use something from the cliche list: https://github.com/leereilly/list-of-english-cliches/blob/da24758a32b0c7fd5a08f15136cbf5db6f3b6e14/cliches.txt#L1190
     levelScene: string; // The name of the scene for this level, ex. "LevelOne"
     goal: number; // Monthly profit goal to progress to the next level
+    number: number;
+    story: string[];
     servers: {
         [id: number]: Server
     }
-    customers: Customer[]
+    customers: {
+        [id: number]: Customer
+    }
     events: {
         [id: number]: EventItem
     }
@@ -44,7 +48,7 @@ interface Server {
 // Customers available at this level
 interface Customer {
     name: string; // Name of the customer type, ex. "Small Business"
-    maximumApps: number; // Each customer will add a random number of apps between 1 and this maximum number, ex. 5
+    maximum: number; // Maximum number of this customer type, ex. 5
     loyalty: number; // A decimal multipler to determine churn of this customer type, ex. 0.99
     joinRate: number; // Maximum number of customers of this type that will join each month, ex. 15
 }
@@ -57,15 +61,16 @@ interface EventItem {
 }
 
 // Which game item is targeted for an event
-enum EventConsqeunceTarget {
+enum EventConsequenceTarget {
     customer = 1,
-    server = 2
+    server = 2,
+    cash = 3
 }
 
 // The consequence result of the event
 interface EventConsequence {
     amount: number; // The multiplier of impact on the event target, ex. 0.05 (customers that left)
-    target: EventConsqeunceTarget
+    target: EventConsequenceTarget
 }
 
 // The facilities available at this level

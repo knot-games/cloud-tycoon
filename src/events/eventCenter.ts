@@ -6,6 +6,10 @@ export enum UIEvents {
   UI_UPDATE_SOUND = 'ui.update.sound',
 }
 
+export enum GameplayEvents {
+  GAMEPLAY_COMPLETE_LEVEL_INTRO = 'gameplay.complete.level.intro',
+}
+
 export enum GameplayBusinessEvents {
   BUSINESS_UPDATE_CASH = 'gameplay.business.update.cash',
   BUSINESS_UPDATE_COSTS = 'gameplay.business.update.costs',
@@ -21,6 +25,8 @@ export enum ClockEvents {
   CLOCK_YEAR_END = 'clock.year.end',
   CLOCK_WEEK_END = 'clock.week.end',
   CLOCK_DAY_END = 'clock.day.end',
+  CLOCK_PAUSE = 'clock.pause',
+  CLOCK_RESUME = 'clock.resume',
 }
 
 export enum SettingsEvents {

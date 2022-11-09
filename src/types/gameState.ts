@@ -23,7 +23,6 @@ interface BusinessState {
     revenue: number; // The current revenue a user is gaining, ex. 4500
     facility: number; // The id of  current facility a user is in, ex. 1, this may need to change to an array if we expand to multiple facilities in the future
     developers: number; // The current number of developers a user has hired, ex. 10
-    sysadmins: number; // The current number of sysadmins a user has hired, ex. 2
     customers: number; // The current number of customers a user has, ex. 100
     servers: ServerState;
     products: ProductState;

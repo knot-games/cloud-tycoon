@@ -2,6 +2,7 @@ import { Business } from '../objects/business';
 import { Clock } from '../objects/clock';
 import { Game } from '../objects/game';
 import { getGameState } from '../utilities/localStorage';
+import eventsCenter, { GameplayEvents } from '../events/eventCenter';
 
 export class GameStatePlugin extends Phaser.Plugins.BasePlugin {
 

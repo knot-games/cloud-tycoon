@@ -72,6 +72,15 @@ export class Game  {
         return this.updateGameState();
     }
 
+    public completeLevelIntro(levelNumber: number): void {
+        this.playerLevelState[levelNumber].hasWatchedIntro = true;
+        this.updateGameState();
+    }
+
+    public hasPlayerViewedLevelIntro(levelNumber: number): boolean {
+        return this.playerLevelState[levelNumber].hasWatchedIntro;
+    }
+
     private updateGameState(): GameState {
         this.gameState.currentLevel = this.currentLevel;
         this.gameState.playerLevelState = this.playerLevelState;

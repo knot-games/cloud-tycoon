@@ -7,7 +7,6 @@ export class Business {
   private servers: ServerState;
   private customers: number;
   private developers: number;
-  private sysadmins: number;
   private products: ProductState;
   private research: ResearchState;
 
@@ -113,7 +112,6 @@ export class Business {
       servers: this.servers,
       customers: this.customers,
       developers: this.developers,
-      sysadmins: this.sysadmins,
       products: this.products,
       research: this.research,
     };

@@ -8,11 +8,10 @@ export const newGameState = () => {
       costs: 30,
       facility: 1,
       developers: 0,
-      sysadmins: 0,
       servers: {
         1: 1
       },
-      customers: 10,
+      customers: 1,
       products: {
         1: 50
       },
