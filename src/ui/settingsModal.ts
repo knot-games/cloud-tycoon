@@ -39,7 +39,7 @@ export const settingsModal = function (scene: Phaser.Scene, settings: GameSettin
   }
 
   // Add modal background
-  modal(scene, backgroundColor, accentColor, closeEvent);
+  modal(scene, backgroundColor, accentColor, closeEvent, true);
 
   // Title
   const settingsTitle = title(scene, 'Settings');
