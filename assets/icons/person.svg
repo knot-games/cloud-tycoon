@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>person</title>
+    <g id="person" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M10,3 L10,4 L11,4 L11,5 L12,5 L12,9 L11,9 L11,10 L10,10 L10,11 L12,11 L12,12 L13,12 L13,14 L3,14 L3,12 L4,12 L4,11 L6,11 L6,10 L5,10 L5,9 L4,9 L4,5 L5,5 L5,4 L6,4 L6,3 L10,3 Z M9,8 L7,8 L7,9 L9,9 L9,8 Z M7,6 L6,6 L6,7 L7,7 L7,6 Z M10,6 L9,6 L9,7 L10,7 L10,6 Z" fill="#000000"></path>
+    </g>
+</svg>

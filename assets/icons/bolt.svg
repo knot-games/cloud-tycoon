@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>bolt</title>
+    <g id="bolt" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon fill="#000000" points="2 9 2 8 3 8 3 7 4 7 4 6 5 6 5 5 6 5 6 4 7 4 7 3 8 3 8 2 9 2 9 7 14 7 14 8 13 8 13 9 12 9 12 10 11 10 11 11 10 11 10 12 9 12 9 13 8 13 8 14 7 14 7 9"></polygon>
+    </g>
+</svg>

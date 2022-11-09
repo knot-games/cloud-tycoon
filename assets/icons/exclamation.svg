@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>exclamation</title>
+    <g id="exclamation" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M11,2 L11,3 L12,3 L12,4 L13,4 L13,5 L14,5 L14,11 L13,11 L13,12 L12,12 L12,13 L11,13 L11,14 L5,14 L5,13 L4,13 L4,12 L3,12 L3,11 L2,11 L2,5 L3,5 L3,4 L4,4 L4,3 L5,3 L5,2 L11,2 Z M9,10 L7,10 L7,12 L9,12 L9,10 Z M9,4 L7,4 L7,9 L9,9 L9,4 Z" fill="#000000"></path>
+    </g>
+</svg>
