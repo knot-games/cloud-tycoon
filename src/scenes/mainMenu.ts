@@ -34,7 +34,7 @@ export class MainMenuScene extends BaseScene {
     }, this);
 
     // Set music
-    if (this.GameState.getMusicEnabled()) {
+    if (this.GameState.Game.getMusicEnabled()) {
       this.sound.play('mainMenuMusic', { loop: true, volume: 0.2 });
     }
 
@@ -42,30 +42,30 @@ export class MainMenuScene extends BaseScene {
     this.add.image(gameWidth / 2, 165, 'logo');
 
     // Continue game
-    if (this.GameState.GameState.getIsNewGame()) {
-      const currentLevel = this.GameState.getCurrentLevel();
-      button(this, gameWidth / 2, 330, 'Continue', 200, this.GameState.getSoundEffectsEnabled(), () => {
+    if (!this.GameState.Game.getIsNewGame()) {
+      const currentLevel = this.GameState.Game.getCurrentLevel();
+      button(this, gameWidth / 2, 330, 'Continue', 200, this.GameState.Game.getSoundEffectsEnabled(), () => {
         this.scene.start(levels[currentLevel].levelScene);
       });
     }
 
     // Start game
-    button(this, gameWidth / 2, 380, 'Start Game', 200, this.GameState.getSoundEffectsEnabled(), () => {
+    button(this, gameWidth / 2, 380, 'Start Game', 200, this.GameState.Game.getSoundEffectsEnabled(), () => {
       // TODO: Make a way to set this from an intro level so users can set their own name
-      this.GameState.PlayerBusiness.setName("Cloud Co")
+      this.GameState.Game.setBusinessName("Cloud Co")
       this.scene.start('LevelOne');
     });
 
     // Settings
-    button(this, gameWidth / 2, 430, 'Settings', 200, this.GameState.getSoundEffectsEnabled(), () => settingsModal(this, this.GameState.getSettings(), () => {}));
+    button(this, gameWidth / 2, 430, 'Settings', 200, this.GameState.Game.getSoundEffectsEnabled(), () => settingsModal(this, this.GameState.Game.getSettings(), () => {}));
   }
 
   private toggleSetting(event: SettingsEvents): void {
 
     switch (event) {
         case SettingsEvents.TOGGLE_MUSIC:
-          this.GameState.toggleMusic();
-          const isMusicPlaying = this.GameState.getMusicEnabled();
+          this.GameState.Game.toggleMusic();
+          const isMusicPlaying = this.GameState.Game.getMusicEnabled();
           if (!isMusicPlaying) {
             this.sound.get('mainMenuMusic').stop();
           } else {
@@ -73,7 +73,7 @@ export class MainMenuScene extends BaseScene {
           }
           break;
         case SettingsEvents.TOGGLE_SOUND_EFFECTS:
-          this.GameState.toggleSoundEffects();
+          this.GameState.Game.toggleSoundEffects();
           break;
     }
 }

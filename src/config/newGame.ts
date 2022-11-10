@@ -3,7 +3,7 @@ export const newGameState = () => {
     currentLevel: 1,
     playerBusiness: {
       name: null,
-      money: 2000,
+      cash: 2000,
       revenue: 50,
       costs: 30,
       facility: 1,
@@ -34,6 +34,7 @@ export const newGameState = () => {
       month: 0,
       week: 0,
       day: 0,
+      isPaused: false,
     },
     settings: {
       music: true,

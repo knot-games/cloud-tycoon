@@ -22,10 +22,11 @@ export class GameScene extends BaseScene {
 		this.levelState = null;
 	}
 
-	public init(gameState: GameState): void {
+	public init(): void {
 		// Launch HUD Scene and pass the gameState
-		this.scene.launch('HUDScene', gameState);
+		this.scene.launch('HUDScene');
 		this.levelState = LevelOne;
+		console.log("Level One Init")
 	}
 
 	public create(): void {
@@ -34,7 +35,11 @@ export class GameScene extends BaseScene {
 		this.initControls();
 		this.initFloor();
 		// this.initButtons();
-		levelIntro(this, this.levelState.story, this.levelState.number, this.GameState.GameState);
+		if (!this.GameState.Game.hasPlayerViewedLevelIntro(this.levelState.number)) {
+			this.GameState.Game.pauseClock();
+			console.log({clock: this.GameState.Game.getClock()})
+			levelIntro(this, this.levelState.story, this.levelState.number);
+		}
 	}
 
 	public update(time: number, delta: number): void {
@@ -66,19 +71,19 @@ export class GameScene extends BaseScene {
 		const gameWidth = getGameWidth(this);
 
 		// Create menu to buy server
-		button(this, gameWidth / 2, 270, 'Buy Server', 200, this.GameState.getSoundEffectsEnabled(), () =>
+		button(this, gameWidth / 2, 270, 'Buy Server', 200, this.GameState.Game.getSoundEffectsEnabled(), () =>
 			eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_SERVER }),
 		);
 
-		button(this, gameWidth / 2, 310, 'Sell Server', 200, this.GameState.getSoundEffectsEnabled(), () =>
+		button(this, gameWidth / 2, 310, 'Sell Server', 200, this.GameState.Game.getSoundEffectsEnabled(), () =>
 			eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_SERVER }),
 		);
 
-		button(this, gameWidth / 2, 350, 'Add Customer', 200, this.GameState.getSoundEffectsEnabled(), () =>
+		button(this, gameWidth / 2, 350, 'Add Customer', 200, this.GameState.Game.getSoundEffectsEnabled(), () =>
 			eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER }),
 		);
 
-		button(this, gameWidth / 2, 390, 'Remove Customer', 200, this.GameState.getSoundEffectsEnabled(), () =>
+		button(this, gameWidth / 2, 390, 'Remove Customer', 200, this.GameState.Game.getSoundEffectsEnabled(), () =>
 			eventsCenter.emit(UIEvents.UI_UPDATE_COSTS, { event: GameplayBusinessEvents.BUSINESS_REMOVE_CUSTOMER }),
 		);
 	}

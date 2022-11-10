@@ -29,7 +29,8 @@ export const LevelOne: Level = {
             consequence: {
                 amount: 0.05,
                 target: 1
-            }
+            },
+            likelihood: 0.05
         },
         2: {
             name: "Playing with fire",
@@ -37,11 +38,11 @@ export const LevelOne: Level = {
             consequence: {
                 amount: 0.30,
                 target: 3
-            }
+            },
+            likelihood: 0.05
         }
     },
     developers: 0,
-    sysadmins: 0,
     facilities: {
         1: {
             name: "Your Parents' Garage",

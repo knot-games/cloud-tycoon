@@ -20,7 +20,6 @@ interface Level {
         [id: number]: EventItem
     }
     developers: number; // The maximum number of developers available at this level
-    sysadmins: number; // The maximum number of sysadmins available at this level
     facilities: {
         [id: number]: Facility
     }
@@ -57,7 +56,8 @@ interface Customer {
 interface EventItem {
     name: string; // The title of the event that will show in the UI, ex. "Power Outage!"
     description: string; // Description text that will describe the event, ex. "Oh no! A power outage occurred causing and outage for your customers. Some of your customers left to competitors after the loss of confidence in your service."
-    consequence: EventConsequence
+    consequence: EventConsequence;
+    likelihood: number; // The likelihood of this event occurring, ex. 0.05
 }
 
 // Which game item is targeted for an event

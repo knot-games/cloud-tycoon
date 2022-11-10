@@ -8,6 +8,7 @@ export enum UIEvents {
 
 export enum GameplayEvents {
   GAMEPLAY_COMPLETE_LEVEL_INTRO = 'gameplay.complete.level.intro',
+  GAMEPLAY_GAME_UPDATED = 'gameplay.game.updated',
 }
 
 export enum GameplayBusinessEvents {

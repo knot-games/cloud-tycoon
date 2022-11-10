@@ -1,8 +1,11 @@
-import { baseSettings } from '../config/baseSettings';
 import { newGameState } from '../config/newGame';
 
 const GAME_STATE_TOKEN = 'ct_game_state';
-const SETTINGS_TOKEN = 'ct_settings';
+
+export const hasSaveGame = () => {
+  const localStorage = window.localStorage;
+  return localStorage.getItem(GAME_STATE_TOKEN) !== null;
+}
 
 export const saveGameState = (gameState: GameState) => {
   const localStorage = window.localStorage;
