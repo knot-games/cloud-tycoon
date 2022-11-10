@@ -37,7 +37,6 @@ export class GameScene extends BaseScene {
 		// this.initButtons();
 		if (!this.GameState.Game.hasPlayerViewedLevelIntro(this.levelState.number)) {
 			this.GameState.Game.pauseClock();
-			console.log({clock: this.GameState.Game.getClock()})
 			levelIntro(this, this.levelState.story, this.levelState.number);
 		}
 	}

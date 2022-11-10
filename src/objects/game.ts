@@ -283,7 +283,6 @@ export class Game  {
         this.gameState.settings = this.settings;
         this.gameState.clock = this.clock;
         saveGameState(this.gameState);
-        eventCenter.emit(GameplayEvents.GAMEPLAY_GAME_UPDATED, this.gameState);
         return this.gameState;
     }
 

@@ -48,6 +48,10 @@ export class HUDScene extends BaseScene {
     
     eventCenter.on(GameplayEvents.GAMEPLAY_COMPLETE_LEVEL_INTRO, ({ levelNumber }) => { this.GameState.Game.completeLevelIntro(levelNumber); }, this);
 
+    eventCenter.on(GameplayEvents.GAMEPLAY_GAME_UPDATED, () => {
+      this.GameState.updateGameState();
+    })
+
     eventCenter.on(UIEvents.UI_UPDATE_COSTS,
       (data) => {
         console.log('UI_UPDATE_COSTS', data);
