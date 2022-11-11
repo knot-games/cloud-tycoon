@@ -6,6 +6,7 @@ export const newGameState = () => {
       cash: 2000,
       revenue: 50,
       costs: 30,
+      profit: 20,
       facility: 1,
       developers: 0,
       servers: {

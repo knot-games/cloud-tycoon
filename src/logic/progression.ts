@@ -23,7 +23,18 @@ export const progressMonth = (game: Game, levelState: Level): Game => {
 
     // Gain money and save game
     game.updateCash(levelState);
+
+    // Check level progression
+    const profit = game.getProfit();
+    if (profit >= levelState.goal) {
+        progressLevel();
+    }
     return game;
+}
+
+const progressLevel = () => {
+    // Do something here to progress to the next level
+    console.log("Next Level!!!")
 }
 
 const getRandomCustomerNumber = (customerJoinRate: number): number => {

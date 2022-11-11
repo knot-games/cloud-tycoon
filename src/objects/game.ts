@@ -77,6 +77,10 @@ export class Game  {
     public setCost(cost: number): void {
         this.playerBusiness.costs = cost;
     }
+
+    public getProfit(): number {
+        return this.playerBusiness.profit;
+    }
     
     public getFacility(): number {
         return this.playerBusiness.facility;
@@ -126,8 +130,14 @@ export class Game  {
     public updateCash(currentLevel: Level): void {
         this.calculateRevenue();
         this.calculateCost(currentLevel);
-        this.playerBusiness.cash = (this.playerBusiness.cash + this.playerBusiness.revenue) - this.playerBusiness.costs;
+        const profit = this.calculateProfit();
+        this.playerBusiness.cash = this.playerBusiness.cash + profit;
         this.updateGameState();
+    }
+
+    private calculateProfit(): number {
+        this.playerBusiness.profit = this.playerBusiness.revenue - this.playerBusiness.costs;
+        return this.playerBusiness.profit;
     }
     
     private calculateRevenue(): number {

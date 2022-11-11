@@ -21,6 +21,7 @@ interface BusinessState {
     cash: number; // The current money a user has in the game, ex. 2000
     costs: number; // The current costs a user has, ex. 50
     revenue: number; // The current revenue a user is gaining, ex. 4500
+    profit: number; // The monthly profit a user is gaining, ex. 4450
     facility: number; // The id of  current facility a user is in, ex. 1, this may need to change to an array if we expand to multiple facilities in the future
     developers: number; // The current number of developers a user has hired, ex. 10
     customers: {
