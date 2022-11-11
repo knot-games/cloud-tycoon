@@ -1,4 +1,6 @@
+import { levels } from '../config/levels';
 import eventCenter, { ClockEvents, GameplayBusinessEvents, GameplayEvents, UIEvents } from '../events/eventCenter';
+import { progressMonth } from '../logic/progression';
 import { BaseScene } from './baseScene';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -42,8 +44,10 @@ export class HUDScene extends BaseScene {
       loop: true,
     });
 
-    eventCenter.on(ClockEvents.CLOCK_WEEK_END, this.updateCash, this);
+    // eventCenter.on(ClockEvents.CLOCK_WEEK_END, this.updateCash, this);
   
+    eventCenter.on(ClockEvents.CLOCK_PAUSE, () => this.GameState.Game.pauseClock(), this);
+    
     eventCenter.on(ClockEvents.CLOCK_RESUME, () => this.GameState.Game.unPauseClock(), this);
     
     eventCenter.on(GameplayEvents.GAMEPLAY_COMPLETE_LEVEL_INTRO, ({ levelNumber }) => { this.GameState.Game.completeLevelIntro(levelNumber); }, this);
@@ -52,40 +56,13 @@ export class HUDScene extends BaseScene {
       this.GameState.updateGameState();
     })
 
-    eventCenter.on(UIEvents.UI_UPDATE_COSTS,
-      (data) => {
-        console.log('UI_UPDATE_COSTS', data);
-        this.updateCosts(data.event);
-      },
-      this,
-    );
-  }
+    eventCenter.on(ClockEvents.CLOCK_MONTH_END, () => {
+      progressMonth(this.GameState.Game, levels[this.GameState.Game.getCurrentLevel()]);
 
-  // Update the cash on the end of the month
-  private updateCash(): void {
-    console.log('updateCash');
-
-    this.GameState.Game.updateCash();
-
-    this.cashText.setText('Cash ' + this.GameState.Game.getCash());
-  }
-
-  // Update the cost of the business on customer or server change
-  private updateCosts(event: GameplayBusinessEvents): void {
-    console.log('updateCosts', event);
-    switch (event) {
-      case GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER:
-        this.GameState.Game.setCustomers(1);
-        this.customerText.setText('Customers ' + this.GameState.Game.getCustomers());
-        break;
-      case GameplayBusinessEvents.BUSINESS_REMOVE_CUSTOMER:
-        this.GameState.Game.deleteCustomers(1);
-        this.customerText.setText('Customers ' + this.GameState.Game.getCustomers());
-        break;
-    }
-
-    this.GameState.Game.updateCosts();
-    this.costText.setText('Cost ' + this.GameState.Game.getCosts());
+      this.cashText.setText('Cash ' + this.GameState.Game.getCash());
+      this.customerText.setText('Customers ' + this.GameState.Game.getCustomers());
+      this.costText.setText('Cost ' + this.GameState.Game.getCosts());
+    })
   }
 
   private updateDate(): void {

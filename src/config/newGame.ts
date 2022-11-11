@@ -11,7 +11,9 @@ export const newGameState = () => {
       servers: {
         1: 1
       },
-      customers: 1,
+      customers: {
+        1: 1
+      },
       products: {
         1: 50
       },

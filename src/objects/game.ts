@@ -95,36 +95,65 @@ export class Game  {
     }
     
     public getCustomers(): number {
-        return this.playerBusiness.customers;
+        let customers = 0;
+        for (const [key, value] of Object.entries(this.playerBusiness.customers)) {
+            customers += value
+        }
+        return customers;
     }
     
-    public setCustomers(amount: number): void {
-        this.playerBusiness.customers += amount;
+    public addCustomers(amount: number, id: number): void {
+        // Handle case where this customer type isn't added to the state yet
+        if (this.playerBusiness.customers[id]) {
+            this.playerBusiness.customers[id] += amount;
+        } else {
+            this.playerBusiness.customers[id] = amount;
+        }
     }
     
-    public deleteCustomers(amount: number): void {
-        this.playerBusiness.customers -= amount;
+    public deleteCustomers(amount: number, id: number): void {
+        const customers = this.playerBusiness.customers[id];
+        console.log(customers);
+        console.log(this.playerBusiness.customers)
+        // No negative customer amounts
+        if (this.playerBusiness.customers[id] && customers - amount > 0) {
+            this.playerBusiness.customers[id] -= amount;
+        } else {
+            this.playerBusiness.customers[id] = 0;
+        }
     }
-    
-    public updateCosts(): void {
-        this.playerBusiness.costs = this.calculateCost();
-    }
-    
-    public updateCash(): void {
-        this.playerBusiness.revenue = this.calculateRevenue();
+
+    public updateCash(currentLevel: Level): void {
+        this.calculateRevenue();
+        this.calculateCost(currentLevel);
         this.playerBusiness.cash = (this.playerBusiness.cash + this.playerBusiness.revenue) - this.playerBusiness.costs;
+        this.updateGameState();
     }
     
     private calculateRevenue(): number {
-        const customerRevenue = this.playerBusiness.customers * 2;
+        let productCost = 0;
+        for (const [key, value] of Object.entries(this.playerBusiness.products)) { 
+            productCost += value;
+        }
+
+        const customerRevenue = this.getCustomers() * productCost;
+        this.playerBusiness.revenue = customerRevenue;
     
         return customerRevenue;
     }
     
-    private calculateCost(): number {
-        const customerCosts = this.playerBusiness.customers * 10;
+    private calculateCost(currentLevel: Level): number {
+        let totalMonthlyCost = 0;
+        // Facility costs
+        totalMonthlyCost += currentLevel.facilities[this.playerBusiness.facility].cost;
+
+        // Server costs
+        for (const [id, numberOfServers] of Object.entries(this.playerBusiness.servers)) {
+            totalMonthlyCost += currentLevel.servers[id].monthlyCost * numberOfServers;
+        }
+        this.playerBusiness.costs = totalMonthlyCost;
     
-        return customerCosts;
+        return totalMonthlyCost;
     }
     
     public savePlayerBusiness(playerBusiness: BusinessState): GameState {
@@ -242,8 +271,7 @@ export class Game  {
       public updateDate(): void {
         if (!this.getIsPaused()) {
           this.clock.day++;
-          // 5 Business Days in a week
-          if (this.clock.day > 5) {
+          if (this.clock.day > 7) {
             this.clock.day = 1;
             this.clock.week++;
             // Jank but honestly good enough for now
