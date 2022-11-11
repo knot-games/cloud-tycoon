@@ -53,7 +53,7 @@ const addText = (scene: Phaser.Scene, text: string, animate: boolean) => {
 
         screenText = scene.make.text({
             x: padding + 10,
-            y: getGameHeight(scene) - windowHeight - padding + 10,
+            y: getGameHeight(scene) - windowHeight - padding + 10 - 36,
             text: currentText,
             style: {
                 font: 'bold 16px Arial',

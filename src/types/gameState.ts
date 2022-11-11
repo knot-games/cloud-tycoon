@@ -35,7 +35,6 @@ interface BusinessState {
 interface ClockState {
     year: number; // The current year a user is in, ex. 2019
     month: number; // The current month a user is in, ex. 1
-    week: number; // The current week a user is in, ex. 1
     day: number; // The current day a user is in, ex. 1
     isPaused: boolean; // Whether the game is paused, ex. false
 }

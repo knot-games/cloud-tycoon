@@ -248,10 +248,6 @@ export class Game  {
         return this.clock.month;
       }
     
-      public getWeek(): number {
-        return this.clock.week;
-      }
-    
       public getDay(): number {
         return this.clock.day;
       }
@@ -262,10 +258,6 @@ export class Game  {
     
       public setMonth(month: number, date?: number): void {
         this.clock.month = month;
-      }
-    
-      public setWeek(week: number): void {
-        this.clock.week = week;
       }
     
       public setDay(day: number): void {
@@ -289,27 +281,21 @@ export class Game  {
       public updateDate(): void {
         if (!this.getIsPaused()) {
           this.clock.day++;
-          if (this.clock.day > 7) {
+          if (this.clock.day > 28) {
             this.clock.day = 1;
-            this.clock.week++;
-            // Jank but honestly good enough for now
-            eventCenter.emit(ClockEvents.CLOCK_WEEK_END);
-            if (this.clock.week > 4) {
-              this.clock.week = 1;
-              this.clock.month++;
-              eventCenter.emit(ClockEvents.CLOCK_MONTH_END);
-              if (this.clock.month > 12) {
+            this.clock.month++;
+            eventCenter.emit(ClockEvents.CLOCK_MONTH_END);
+            if (this.clock.month > 12) {
                 this.clock.month = 1;
                 this.clock.year++;
                 eventCenter.emit(ClockEvents.CLOCK_YEAR_END);
-              }
             }
           }
         }
       }
     
       public getDateString(): string {
-        return `Y${this.clock.year} M${this.clock.month} W${this.clock.week} D${this.clock.day}`;
+        return `Day ${this.clock.day} Month ${this.clock.month} Year ${this.clock.year}`;
       }
 
     public completeLevelIntro(levelNumber: number): void {

@@ -24,7 +24,6 @@ export enum ClockEvents {
   CLOCK_UPDATE_DATE = 'clock.update.date',
   CLOCK_MONTH_END = 'clock.month.end',
   CLOCK_YEAR_END = 'clock.year.end',
-  CLOCK_WEEK_END = 'clock.week.end',
   CLOCK_DAY_END = 'clock.day.end',
   CLOCK_PAUSE = 'clock.pause',
   CLOCK_RESUME = 'clock.resume',

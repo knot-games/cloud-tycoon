@@ -2,13 +2,14 @@ import { getColorInt, getGameHeight, getGameWidth } from "../helpers";
 
 const modalPadding = 32;
 const windowHeight = 150;
+const bottomBar = 40;
 
 export const modal = (scene: Phaser.Scene, backgroundColor: string, accentColor: string, onClose: () => void, fullScreen: boolean, onClick?: () => void) => {
     const width = getGameWidth(scene) - (modalPadding * 2);
     const height = fullScreen ? getGameHeight(scene) - (modalPadding * 2) : windowHeight;
     const modalButtonBorderX = getGameWidth(scene) - modalPadding - 20;
-    const modalButtonBorderY = fullScreen ? modalPadding : getGameHeight(scene) - windowHeight - modalPadding;
-    const modalY = fullScreen ? modalPadding : getGameHeight(scene) - windowHeight - modalPadding;
+    const modalButtonBorderY = fullScreen ? modalPadding : getGameHeight(scene) - windowHeight - modalPadding - bottomBar;
+    const modalY = fullScreen ? modalPadding : getGameHeight(scene) - windowHeight - modalPadding - bottomBar;
 
     const close = () => {
         onClose();

@@ -35,7 +35,6 @@ export const newGameState = () => {
     clock: {
       year: 0,
       month: 0,
-      week: 0,
       day: 0,
       isPaused: false,
     },
