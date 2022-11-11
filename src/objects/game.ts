@@ -77,6 +77,10 @@ export class Game  {
     public setCost(cost: number): void {
         this.playerBusiness.costs = cost;
     }
+
+    public getProfit(): number {
+        return this.playerBusiness.profit;
+    }
     
     public getFacility(): number {
         return this.playerBusiness.facility;
@@ -95,36 +99,79 @@ export class Game  {
     }
     
     public getCustomers(): number {
-        return this.playerBusiness.customers;
+        let customers = 0;
+        for (const [key, value] of Object.entries(this.playerBusiness.customers)) {
+            customers += value
+        }
+        return customers;
     }
     
-    public setCustomers(amount: number): void {
-        this.playerBusiness.customers += amount;
+    public addCustomers(amount: number, id: number, levelState: Level): void {
+        // Handle case where this customer type isn't added to the state yet
+        if (this.playerBusiness.customers[id]) {
+            if (this.playerBusiness.customers[id] + amount > levelState.customers[id].maximum) {
+                this.playerBusiness.customers[id] = levelState.customers[id].maximum
+            } else {
+                this.playerBusiness.customers[id] += amount;
+            }
+        } else {
+            if (amount > levelState.customers[id].maximum) {
+                this.playerBusiness.customers[id] = levelState.customers[id].maximum;
+            } else {
+                this.playerBusiness.customers[id] = amount;
+            }
+        }
     }
     
-    public deleteCustomers(amount: number): void {
-        this.playerBusiness.customers -= amount;
+    public deleteCustomers(amount: number, id: number): void {
+        const customers = this.playerBusiness.customers[id];
+        console.log(customers);
+        console.log(this.playerBusiness.customers)
+        // No negative customer amounts
+        if (this.playerBusiness.customers[id] && customers - amount > 0) {
+            this.playerBusiness.customers[id] -= amount;
+        } else {
+            this.playerBusiness.customers[id] = 0;
+        }
     }
-    
-    public updateCosts(): void {
-        this.playerBusiness.costs = this.calculateCost();
+
+    public updateCash(currentLevel: Level): void {
+        this.calculateRevenue();
+        this.calculateCost(currentLevel);
+        const profit = this.calculateProfit();
+        this.playerBusiness.cash = this.playerBusiness.cash + profit;
+        this.updateGameState();
     }
-    
-    public updateCash(): void {
-        this.playerBusiness.revenue = this.calculateRevenue();
-        this.playerBusiness.cash = (this.playerBusiness.cash + this.playerBusiness.revenue) - this.playerBusiness.costs;
+
+    private calculateProfit(): number {
+        this.playerBusiness.profit = this.playerBusiness.revenue - this.playerBusiness.costs;
+        return this.playerBusiness.profit;
     }
     
     private calculateRevenue(): number {
-        const customerRevenue = this.playerBusiness.customers * 2;
+        let productCost = 0;
+        for (const [key, value] of Object.entries(this.playerBusiness.products)) { 
+            productCost += value;
+        }
+
+        const customerRevenue = this.getCustomers() * productCost;
+        this.playerBusiness.revenue = customerRevenue;
     
         return customerRevenue;
     }
     
-    private calculateCost(): number {
-        const customerCosts = this.playerBusiness.customers * 10;
+    private calculateCost(currentLevel: Level): number {
+        let totalMonthlyCost = 0;
+        // Facility costs
+        totalMonthlyCost += currentLevel.facilities[this.playerBusiness.facility].cost;
+
+        // Server costs
+        for (const [id, numberOfServers] of Object.entries(this.playerBusiness.servers)) {
+            totalMonthlyCost += currentLevel.servers[id].monthlyCost * numberOfServers;
+        }
+        this.playerBusiness.costs = totalMonthlyCost;
     
-        return customerCosts;
+        return totalMonthlyCost;
     }
     
     public savePlayerBusiness(playerBusiness: BusinessState): GameState {
@@ -201,10 +248,6 @@ export class Game  {
         return this.clock.month;
       }
     
-      public getWeek(): number {
-        return this.clock.week;
-      }
-    
       public getDay(): number {
         return this.clock.day;
       }
@@ -215,10 +258,6 @@ export class Game  {
     
       public setMonth(month: number, date?: number): void {
         this.clock.month = month;
-      }
-    
-      public setWeek(week: number): void {
-        this.clock.week = week;
       }
     
       public setDay(day: number): void {
@@ -242,28 +281,21 @@ export class Game  {
       public updateDate(): void {
         if (!this.getIsPaused()) {
           this.clock.day++;
-          // 5 Business Days in a week
-          if (this.clock.day > 5) {
+          if (this.clock.day > 28) {
             this.clock.day = 1;
-            this.clock.week++;
-            // Jank but honestly good enough for now
-            eventCenter.emit(ClockEvents.CLOCK_WEEK_END);
-            if (this.clock.week > 4) {
-              this.clock.week = 1;
-              this.clock.month++;
-              eventCenter.emit(ClockEvents.CLOCK_MONTH_END);
-              if (this.clock.month > 12) {
+            this.clock.month++;
+            eventCenter.emit(ClockEvents.CLOCK_MONTH_END);
+            if (this.clock.month > 12) {
                 this.clock.month = 1;
                 this.clock.year++;
                 eventCenter.emit(ClockEvents.CLOCK_YEAR_END);
-              }
             }
           }
         }
       }
     
       public getDateString(): string {
-        return `Y${this.clock.year} M${this.clock.month} W${this.clock.week} D${this.clock.day}`;
+        return `Day ${this.clock.day} Month ${this.clock.month} Year ${this.clock.year}`;
       }
 
     public completeLevelIntro(levelNumber: number): void {

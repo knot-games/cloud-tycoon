@@ -21,9 +21,12 @@ interface BusinessState {
     cash: number; // The current money a user has in the game, ex. 2000
     costs: number; // The current costs a user has, ex. 50
     revenue: number; // The current revenue a user is gaining, ex. 4500
+    profit: number; // The monthly profit a user is gaining, ex. 4450
     facility: number; // The id of  current facility a user is in, ex. 1, this may need to change to an array if we expand to multiple facilities in the future
     developers: number; // The current number of developers a user has hired, ex. 10
-    customers: number; // The current number of customers a user has, ex. 100
+    customers: {
+        [id: number]: number; // The number of customers a user has of each type, ex. { 1: 5, 2: 10 }
+    } 
     servers: ServerState;
     products: ProductState;
     research: ResearchState;
@@ -32,7 +35,6 @@ interface BusinessState {
 interface ClockState {
     year: number; // The current year a user is in, ex. 2019
     month: number; // The current month a user is in, ex. 1
-    week: number; // The current week a user is in, ex. 1
     day: number; // The current day a user is in, ex. 1
     isPaused: boolean; // Whether the game is paused, ex. false
 }
@@ -44,7 +46,6 @@ interface ServerState {
 interface CustomerState {
     [id: number]: {
         count: number; // The number of this type of customer a user has, ex. 26
-        apps: number; // The total number of apps for this type of customer, ex. 75
     }
 }
 

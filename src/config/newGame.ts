@@ -6,12 +6,15 @@ export const newGameState = () => {
       cash: 2000,
       revenue: 50,
       costs: 30,
+      profit: 20,
       facility: 1,
       developers: 0,
       servers: {
         1: 1
       },
-      customers: 1,
+      customers: {
+        1: 1
+      },
       products: {
         1: 50
       },
@@ -32,7 +35,6 @@ export const newGameState = () => {
     clock: {
       year: 0,
       month: 0,
-      week: 0,
       day: 0,
       isPaused: false,
     },
