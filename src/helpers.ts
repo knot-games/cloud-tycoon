@@ -11,3 +11,9 @@ export const getGameHeight = (scene: Phaser.Scene): number => {
 export const getColorInt = (color: string) => {
   return parseInt(color.replace('#', ''), 16);
 }
+
+export const destroyAll = (scene: Phaser.Scene, objects: Phaser.GameObjects.GameObject[]) => {
+  objects.forEach(object => {
+    object.destroy();
+  });
+}

@@ -1,4 +1,4 @@
-import eventCenter, { ClockEvents, GameplayBusinessEvents, UIEvents } from '../events/eventCenter';
+import eventCenter, { ClockEvents, GameplayBusinessEvents, GameplayEvents, UIEvents } from '../events/eventCenter';
 import { BaseScene } from './baseScene';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -24,17 +24,15 @@ export class HUDScene extends BaseScene {
   public create(): void {
     this.add.text(50, 100, 'HUD Scene');
 
-    console.log(this.GameState);
-
     // Create a text object to display the day
-    this.dateText = this.add.text(50, 120, this.GameState.Clock.getDateString());
+    this.dateText = this.add.text(50, 120, this.GameState.Game.getDateString());
 
     // Create a text object to display the money
-    this.cashText = this.add.text(50, 140, 'Cash ' + this.GameState.PlayerBusiness.getCash());
-    this.costText = this.add.text(50, 160, 'Cost ' + this.GameState.PlayerBusiness.getCosts());
+    this.cashText = this.add.text(50, 140, 'Cash ' + this.GameState.Game.getCash());
+    this.costText = this.add.text(50, 160, 'Cost ' + this.GameState.Game.getCosts());
 
     // Create a text object to display the customer count
-    this.customerText = this.add.text(50, 180, 'Customers ' + this.GameState.PlayerBusiness.getCustomers());
+    this.customerText = this.add.text(50, 180, 'Customers ' + this.GameState.Game.getCustomers());
 
     // Evey 5 seconds update the time
     this.time.addEvent({
@@ -45,6 +43,14 @@ export class HUDScene extends BaseScene {
     });
 
     eventCenter.on(ClockEvents.CLOCK_WEEK_END, this.updateCash, this);
+  
+    eventCenter.on(ClockEvents.CLOCK_RESUME, () => this.GameState.Game.unPauseClock(), this);
+    
+    eventCenter.on(GameplayEvents.GAMEPLAY_COMPLETE_LEVEL_INTRO, ({ levelNumber }) => { this.GameState.Game.completeLevelIntro(levelNumber); }, this);
+
+    eventCenter.on(GameplayEvents.GAMEPLAY_GAME_UPDATED, () => {
+      this.GameState.updateGameState();
+    })
 
     eventCenter.on(UIEvents.UI_UPDATE_COSTS,
       (data) => {
@@ -59,9 +65,9 @@ export class HUDScene extends BaseScene {
   private updateCash(): void {
     console.log('updateCash');
 
-    this.GameState.PlayerBusiness.updateCash();
+    this.GameState.Game.updateCash();
 
-    this.cashText.setText('Cash ' + this.GameState.PlayerBusiness.getCash());
+    this.cashText.setText('Cash ' + this.GameState.Game.getCash());
   }
 
   // Update the cost of the business on customer or server change
@@ -69,26 +75,26 @@ export class HUDScene extends BaseScene {
     console.log('updateCosts', event);
     switch (event) {
       case GameplayBusinessEvents.BUSINESS_ADD_CUSTOMER:
-        this.GameState.PlayerBusiness.setCustomers(1);
-        this.customerText.setText('Customers ' + this.GameState.PlayerBusiness.getCustomers());
+        this.GameState.Game.setCustomers(1);
+        this.customerText.setText('Customers ' + this.GameState.Game.getCustomers());
         break;
       case GameplayBusinessEvents.BUSINESS_REMOVE_CUSTOMER:
-        this.GameState.PlayerBusiness.deleteCustomers(1);
-        this.customerText.setText('Customers ' + this.GameState.PlayerBusiness.getCustomers());
+        this.GameState.Game.deleteCustomers(1);
+        this.customerText.setText('Customers ' + this.GameState.Game.getCustomers());
         break;
     }
 
-    this.GameState.PlayerBusiness.updateCosts();
-    this.costText.setText('Cost ' + this.GameState.PlayerBusiness.getCosts());
+    this.GameState.Game.updateCosts();
+    this.costText.setText('Cost ' + this.GameState.Game.getCosts());
   }
 
   private updateDate(): void {
     console.log('updateDate');
 
-    this.GameState.Clock.updateDate();
+    this.GameState.Game.updateDate();
 
-    this.dateText.setText(this.GameState.Clock.getDateString());
+    this.dateText.setText(this.GameState.Game.getDateString());
 
-    console.log(this.GameState.Clock);
+    console.log({clock: this.GameState.Game.getClock()});
   }
 }

@@ -59,11 +59,7 @@ export class BootScene extends Phaser.Scene {
 			progressBar.destroy();
 			progressBarContainer.destroy();
 
-			// load game state from localstorage (or start new one)
-			// start base scene, pass game state
-			const gameState = getGameState();
-
-			this.scene.start('Base', gameState);
+			this.scene.start('Base');
 			this.scene.start('MainMenu');
 		});
 

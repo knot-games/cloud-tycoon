@@ -1,8 +1,9 @@
 import * as Phaser from 'phaser';
 import { colorPalette } from '../../assets/colorPalette';
 import eventCenter, { SettingsEvents, UIEvents } from '../events/eventCenter';
-import { getColorInt, getGameWidth } from '../helpers';
+import { destroyAll, getColorInt, getGameWidth } from '../helpers';
 import { modal } from './modal';
+import { title } from './title';
 
 const backgroundColor = colorPalette.darkPurpleish;
 const accentColor = colorPalette.periwinkle;
@@ -24,13 +25,13 @@ export const settingsModal = function (scene: Phaser.Scene, settings: GameSettin
         eventCenter.emit(UIEvents.UI_UPDATE_SOUND, { event: SettingsEvents.TOGGLE_SOUND_EFFECTS});
         break;
     }
-    settingsUI.forEach((ui) => ui.destroy());
+    destroyAll(scene, settingsUI)
     settingsUI = makeSettings(scene, musicEnabled, soundEffectsEnabled, toggleSetting);
   }
 
   const closeEvent = () => {
-    title.destroy();
-    settingsUI.forEach((ui) => ui.destroy());
+    settingsTitle.destroy();
+    destroyAll(scene, settingsUI)
     if (soundEffectsEnabled) {
       scene.sound.play('click');
     }
@@ -38,19 +39,10 @@ export const settingsModal = function (scene: Phaser.Scene, settings: GameSettin
   }
 
   // Add modal background
-  modal(scene, backgroundColor, accentColor, closeEvent);
+  modal(scene, backgroundColor, accentColor, closeEvent, true);
 
   // Title
-  const title = scene.make.text({
-    x: getGameWidth(scene) / 2,
-    y: 82,
-    text: 'Settings',
-    style: {
-        font: 'bold 32px Arial',
-        color: colorPalette.white,
-        align: 'center'
-    }
-  }).setOrigin(0.5, 0.5);
+  const settingsTitle = title(scene, 'Settings');
 
   let settingsUI = makeSettings(scene, musicEnabled, soundEffectsEnabled, toggleSetting);
 
