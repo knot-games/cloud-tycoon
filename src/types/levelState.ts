@@ -62,15 +62,15 @@ interface EventItem {
 
 // Which game item is targeted for an event
 enum EventConsequenceTarget {
-    customer = 1,
-    server = 2,
-    cash = 3
+    customer = "CUSTOMER",
+    server = "SERVER",
+    cash = "CASH"
 }
 
 // The consequence result of the event
 interface EventConsequence {
     amount: number; // The multiplier of impact on the event target, ex. 0.05 (customers that left)
-    target: EventConsequenceTarget
+    target: EventConsequenceTarget | string
 }
 
 // The facilities available at this level

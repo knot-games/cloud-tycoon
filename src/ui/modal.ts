@@ -15,6 +15,7 @@ export const modal = (scene: Phaser.Scene, backgroundColor: string, accentColor:
         onClose();
         modal.destroy();
         closeButton.destroy();
+        scene.input.off("pointerdown", onClick);
     }
 
     const modal = scene.add.graphics()

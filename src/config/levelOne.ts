@@ -28,18 +28,18 @@ export const LevelOne: Level = {
             description: "Oh no! A power outage occurred causing an outage for your customers. Some of your customers left to competitors after the loss of confidence in your service.",
             consequence: {
                 amount: 0.05,
-                target: 1
+                target: "CUSTOMER"
             },
-            likelihood: 0.05
+            likelihood: 0.90
         },
         2: {
             name: "Playing with fire",
             description: "Oh no! Your servers caused a small fire in the garage and your parents are pissed! You have to pay some cash for the deductible to your parents' insurance.",
             consequence: {
                 amount: 0.30,
-                target: 3
+                target: "CASH"
             },
-            likelihood: 0.05
+            likelihood: 0.90
         }
     },
     developers: 0,

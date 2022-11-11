@@ -122,11 +122,15 @@ export class Game  {
             }
         }
     }
+
+    public deleteAnyCustomers(amount: number): void {
+        for (const [key, value] of Object.entries(this.playerBusiness.customers)) {
+            this.deleteCustomers(amount, parseInt(key));
+        }
+    }
     
     public deleteCustomers(amount: number, id: number): void {
         const customers = this.playerBusiness.customers[id];
-        console.log(customers);
-        console.log(this.playerBusiness.customers)
         // No negative customer amounts
         if (this.playerBusiness.customers[id] && customers - amount > 0) {
             this.playerBusiness.customers[id] -= amount;
@@ -182,6 +186,10 @@ export class Game  {
     public savePlayerLevelState(playerLevelState: PlayerLevelState): GameState {
         this.playerLevelState = playerLevelState;
         return this.updateGameState();
+    }
+
+    public getStore(): StoreState {
+        return this.store;
     }
 
     public saveStore(store: StoreState): GameState {
@@ -305,6 +313,25 @@ export class Game  {
 
     public hasPlayerViewedLevelIntro(levelNumber: number): boolean {
         return this.playerLevelState[levelNumber].hasWatchedIntro;
+    }
+
+    public handleEventConsequence(eventConsequence: EventConsequence): void {
+        switch (eventConsequence.target) {
+            case "CUSTOMER":
+                const customerNumber = Math.floor(this.getCustomers() * eventConsequence.amount);
+                this.deleteAnyCustomers(customerNumber);
+                break;
+            case "SERVER":
+                // Handle removing servers
+                break;
+            case "CASH":
+                const cashLost = Math.floor(this.playerBusiness.cash * eventConsequence.amount);
+                this.playerBusiness.cash -= cashLost;
+                break;
+            default:
+                break;
+        }
+        this.updateGameState();
     }
 
     private updateGameState(): GameState {
