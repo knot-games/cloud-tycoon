@@ -43,8 +43,6 @@ export class HUDScene extends BaseScene {
       callbackScope: this,
       loop: true,
     });
-
-    // eventCenter.on(ClockEvents.CLOCK_WEEK_END, this.updateCash, this);
   
     eventCenter.on(ClockEvents.CLOCK_PAUSE, () => this.GameState.Game.pauseClock(), this);
     
