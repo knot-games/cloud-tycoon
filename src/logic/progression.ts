@@ -18,7 +18,7 @@ export const progressMonth = (game: Game, levelState: Level): Game => {
     for (const [id, customer] of Object.entries(levelState.customers)) {
         const customersGained = Math.floor(getRandomCustomerNumber(customer.joinRate) * customerAcquisitionMultiplier);
         console.log(customersGained);
-        game.addCustomers(customersGained, Number(id));
+        game.addCustomers(customersGained, Number(id), levelState);
     }
 
     // Gain money and save game

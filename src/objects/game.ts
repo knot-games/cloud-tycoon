@@ -106,12 +106,20 @@ export class Game  {
         return customers;
     }
     
-    public addCustomers(amount: number, id: number): void {
+    public addCustomers(amount: number, id: number, levelState: Level): void {
         // Handle case where this customer type isn't added to the state yet
         if (this.playerBusiness.customers[id]) {
-            this.playerBusiness.customers[id] += amount;
+            if (this.playerBusiness.customers[id] + amount > levelState.customers[id].maximum) {
+                this.playerBusiness.customers[id] = levelState.customers[id].maximum
+            } else {
+                this.playerBusiness.customers[id] += amount;
+            }
         } else {
-            this.playerBusiness.customers[id] = amount;
+            if (amount > levelState.customers[id].maximum) {
+                this.playerBusiness.customers[id] = levelState.customers[id].maximum;
+            } else {
+                this.playerBusiness.customers[id] = amount;
+            }
         }
     }
     
