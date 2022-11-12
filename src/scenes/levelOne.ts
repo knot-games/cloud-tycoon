@@ -26,6 +26,8 @@ export class GameScene extends BaseScene {
 		// Launch HUD Scene and pass the gameState
 		this.scene.launch('HUDScene');
 		this.levelState = LevelOne;
+		this.GameState.updateGameState();
+		console.log("Level one state: ", this.GameState.Game)
 		console.log("Level One Init")
 	}
 
@@ -37,6 +39,7 @@ export class GameScene extends BaseScene {
 		// this.initButtons();
 		if (!this.GameState.Game.hasPlayerViewedLevelIntro(this.levelState.number)) {
 			this.GameState.Game.pauseClock();
+			this.GameState.updateGameState();
 			levelIntro(this, this.levelState.story, this.levelState.number);
 		}
 	}

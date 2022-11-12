@@ -1,5 +1,6 @@
-import eventCenter, { ClockEvents, GameplayEvents } from "../events/eventCenter";
+import eventCenter, { ClockEvents } from "../events/eventCenter";
 import { saveGameState, hasSaveGame } from "../utilities/localStorage";
+import { newGameState } from "../config/newGame";
 
 export class Game  {
     private currentLevel: number;
@@ -20,6 +21,19 @@ export class Game  {
         this.clock = gameState.clock;
     }
 
+    public getNewGame(): Game {
+        const newGame = newGameState();
+        this.currentLevel = newGame.currentLevel;
+        this.playerLevelState = newGame.playerLevelState;
+        this.playerBusiness = newGame.playerBusiness;
+        this.store = newGame.store;
+        this.gameState = newGame;
+        this.settings = newGame.settings;
+        this.clock = newGame.clock;
+        this.updateGameState();
+        return this;
+    }
+
     // CURRENT LEVEL
 
     public hasSaveGame(): boolean {
@@ -36,7 +50,7 @@ export class Game  {
     }
 
     public getIsNewGame(): boolean {
-        return this.getName() === null;
+        return this.getName() === null || (this.clock.day === 0 && this.clock.month === 0 && this.clock.year === 0);
     }
 
     // PLAYER BUSINESS
@@ -46,6 +60,7 @@ export class Game  {
     }
 
     public setBusinessName(name: string): GameState {
+        console.log("Setting name!");
         this.playerBusiness.name = name;
         return this.updateGameState();
     }

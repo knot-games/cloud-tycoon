@@ -30,7 +30,7 @@ export const LevelOne: Level = {
                 amount: 0.05,
                 target: "CUSTOMER"
             },
-            likelihood: 0.90
+            likelihood: 0.05
         },
         2: {
             name: "Playing with fire",
@@ -39,7 +39,7 @@ export const LevelOne: Level = {
                 amount: 0.30,
                 target: "CASH"
             },
-            likelihood: 0.90
+            likelihood: 0.05
         }
     },
     developers: 0,
