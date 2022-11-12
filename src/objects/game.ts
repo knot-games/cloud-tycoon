@@ -108,6 +108,14 @@ export class Game  {
     public getServers(): ServerState {
         return this.playerBusiness.servers;
     }
+
+    public getServerNumber(): number {
+        let servers = 0;
+        for (const [key, value] of Object.entries(this.playerBusiness.servers)) {
+            servers += value
+        }
+        return servers;
+    }
     
     public setServers(servers: ServerState): void {
         this.playerBusiness.servers = servers;

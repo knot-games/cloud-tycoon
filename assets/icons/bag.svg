@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>bag</title>
+    <g id="bag" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M10,5 L10,7 L11,7 L11,5 L12,5 L12,6 L13,6 L13,8 L14,8 L14,13 L13,13 L13,14 L3,14 L3,13 L2,13 L2,8 L3,8 L3,6 L4,6 L4,5 L10,5 Z M12,12 L11,12 L11,13 L12,13 L12,12 Z M13,11 L12,11 L12,12 L13,12 L13,11 Z M8,2 L8,3 L10,3 L10,2 L12,2 L12,3 L11,3 L11,4 L5,4 L5,3 L4,3 L4,2 L8,2 Z" fill="#000000"></path>
+    </g>
+</svg>

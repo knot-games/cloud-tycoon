@@ -82,15 +82,21 @@ export class BootScene extends Phaser.Scene {
 
 		// Icons
 		[
+			'bag',
 			'bell',
+			'blueBag',
 			'bolt',
 			'cloud',
 			'coin',
 			'exclamation',
 			'file',
+			'flask',
 			'folder',
+			'home',
 			'monitor',
+			'periwinklePerson',
 			'person',
+			'pinkCoin',
 			'speech-question',
 			'trophy',
 		].forEach((icon) => {
