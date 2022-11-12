@@ -30,7 +30,7 @@ export class GameScene extends BaseScene {
 	}
 
 	public create(): void {
-		this.add.text(150, 75, 'Use arrow keys to move around');
+		this.add.text(200, 75, 'Use arrow keys to move around');
 
 		this.initControls();
 		this.initFloor();
@@ -50,7 +50,7 @@ export class GameScene extends BaseScene {
 	private initFloor(): void {
 		const map = this.make.tilemap({ key: 'level-1-map', tileWidth: 48, tileHeight: 48 });
 		const tiles = map.addTilesetImage('level-1-48x48', null, 48, 48, 0, 0);
-		map.createLayer(0, tiles, 150, 100);
+		map.createLayer(0, tiles, 200, 100);
 	}
 
 	private initControls(): void {

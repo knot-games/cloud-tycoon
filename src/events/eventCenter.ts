@@ -34,7 +34,7 @@ export enum SettingsEvents {
   TOGGLE_SOUND_EFFECTS = 'settings.toggle.sound.effects',
 }
 
-export enum GamplayRandomEvents {
+export enum GameplayRandomEvents {
   RANDOM_EVENT = 'gameplay.random.event',
 }
 

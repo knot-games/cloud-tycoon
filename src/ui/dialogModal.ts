@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 import { colorPalette } from '../../assets/colorPalette';
+import eventCenter, { ClockEvents } from '../events/eventCenter';
 import { getGameHeight, getGameWidth } from '../helpers';
 import { modal } from './modal';
 
@@ -10,8 +11,10 @@ const windowHeight = 150;
 const dialogSpeed = 4;
 let finishText = false;
 let textInProgress = true;
+let modalOpen = true;
 
 export const dialogModal = function (scene: Phaser.Scene, text: string[], onClose: () => void) {
+    eventCenter.emit(ClockEvents.CLOCK_PAUSE);
   let dialogText;
   let textIndex = 0;
   const closeEvent = () => {
@@ -19,19 +22,29 @@ export const dialogModal = function (scene: Phaser.Scene, text: string[], onClos
     if (dialogText) {
         dialogText.destroy();
     }
+    textInProgress = true;
+    textIndex = 0;
+    finishText = false;
+    modalOpen = false;
   }
 
   const clickEvent = () => {
-    if (textInProgress) {
-        // Finish text early
-        finishText = true;
-    } else if (textIndex < text.length - 1) {
-        textIndex++;
-        dialogText.destroy();
-        dialogText = addText(scene, text[textIndex], true);
+    if (modalOpen) {
+        if (textInProgress && !finishText) {
+            // Finish text early
+            finishText = true;
+        } else if (textIndex < text.length - 1) {
+            textIndex++;
+            dialogText.destroy();
+            dialogText = addText(scene, text[textIndex], true);
+        } else {
+            dialogText.destroy();
+            dialogText = addText(scene, "Close this window to continue", false);
+        }
     } else {
-        dialogText.destroy();
-        dialogText = addText(scene, "Close this window to continue", false);
+        if (dialogText) {
+            dialogText.destroy();
+        }
     }
   }
 
@@ -47,6 +60,7 @@ const addText = (scene: Phaser.Scene, text: string, animate: boolean) => {
     let eventCounter = 0;
     let dialog = text.split('');
     textInProgress = true;
+    modalOpen = true;
 
     const setText = (currentText: string) => {
         if (screenText) screenText.destroy();

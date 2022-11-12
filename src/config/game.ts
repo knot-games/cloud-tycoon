@@ -1,4 +1,4 @@
 export const gameConfig = {
     // number of milliseconds
-    dayLength: 2 * 1000,
+    dayLength: 2 * 200,
 }
