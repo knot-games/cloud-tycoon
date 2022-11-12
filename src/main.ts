@@ -1,4 +1,5 @@
 import * as Phaser from 'phaser';
+import { colorPalette } from '../assets/colorPalette';
 import { GameStatePlugin } from './plugin/GameStatePlugin';
 import Scenes from './scenes';
 
@@ -43,7 +44,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   },
 
   parent: 'game',
-  backgroundColor: '#000000',
+  backgroundColor: colorPalette.background,
 };
 
 export const game = new Phaser.Game(gameConfig);

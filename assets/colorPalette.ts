@@ -24,5 +24,8 @@ export const colorPalette = {
     green: "#598a7f",
     darkerGreen: "#355b5d",
     darkestGreen: "#1a2d35",
-    white: "#FFF"
+    white: "#FFFFFF",
+    black: "#000000",
+    menuBar: "#f8f8f8",
+    background: "#242a2f"
 }
