@@ -1,7 +1,7 @@
 import { levels } from '../config/levels';
 import eventCenter, { ClockEvents, GameplayBusinessEvents, GameplayEvents, GameplayRandomEvents, UIEvents } from '../events/eventCenter';
 import { progressMonth } from '../logic/progression';
-import { getGameWidth, getGameHeight, getColorInt, destroyAll} from '../helpers';
+import { getGameWidth, getGameHeight, getColorInt, destroyAll } from '../helpers';
 import { BaseScene } from './baseScene';
 import { colorPalette } from '../../assets/colorPalette';
 import { gameConfig } from '../config/game';
@@ -176,11 +176,11 @@ export class HUDScene extends BaseScene {
       callbackScope: this,
       loop: true,
     });
-  
+
     eventCenter.on(ClockEvents.CLOCK_PAUSE, () => this.GameState.Game.pauseClock(), this);
-    
+
     eventCenter.on(ClockEvents.CLOCK_RESUME, () => this.GameState.Game.unPauseClock(), this);
-    
+
     eventCenter.on(GameplayEvents.GAMEPLAY_COMPLETE_LEVEL_INTRO, ({ levelNumber }) => { this.GameState.Game.completeLevelIntro(levelNumber); }, this);
 
     eventCenter.on(GameplayEvents.GAMEPLAY_GAME_UPDATED, () => {
@@ -189,6 +189,9 @@ export class HUDScene extends BaseScene {
 
     eventCenter.on(ClockEvents.CLOCK_MONTH_END, () => {
       progressMonth(this.GameState.Game, levels[this.GameState.Game.getCurrentLevel()]);
+
+      //cha ching
+      this.sound.play('cash', { volume: 0.5 });
 
       this.cashText.setText('$' + this.GameState.Game.getCash());
       this.customerText.setText(this.GameState.Game.getCustomers().toString());
@@ -224,6 +227,6 @@ export class HUDScene extends BaseScene {
         this.GameState.Game.unPauseClock();
       }
     }
-    
+
   }
 }
