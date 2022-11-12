@@ -1,6 +1,6 @@
-import { colorPalette } from "../../assets/colorPalette";
-import { getColorInt, getGameHeight } from "../helpers";
-import { storeModal } from "./storeModal";
+import { colorPalette } from "../../../assets/colorPalette";
+import { getColorInt, getGameHeight } from "../../helpers";
+import { storeModal } from "../modal/storeModal";
 
 const menuWidth = 200;
 const menuItemHeight = 40;

@@ -5,8 +5,12 @@ import { getGameWidth, getGameHeight, getColorInt, destroyAll} from '../helpers'
 import { BaseScene } from './baseScene';
 import { colorPalette } from '../../assets/colorPalette';
 import { gameConfig } from '../config/game';
-import { dialogModal } from '../ui/dialogModal';
-import { hudMenu } from '../ui/hudMenu';
+import { dialogModal } from '../ui/modal/dialogModal';
+import { hudMenu } from '../ui/menu/hudMenu';
+import { serverHoverModal } from '../ui/hoverModal/serverHoverModal';
+import { customerHoverModal } from '../ui/hoverModal/customerHoverModal';
+import { costHoverModal } from '../ui/hoverModal/costHoverModal';
+import { profitHoverModal } from '../ui/hoverModal/profitHoverModal';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -26,6 +30,7 @@ export class HUDScene extends BaseScene {
   private companyNameText: Phaser.GameObjects.Text;
   private menuOpen: boolean = false;
   private menu: any[];
+  private hoverModal: any[];
 
   private customerText: Phaser.GameObjects.Text;
 
@@ -56,6 +61,17 @@ export class HUDScene extends BaseScene {
     this.add.image(20, getGameHeight(this) - 20, 'cloud').setOrigin(0.5, 0.5)
 
     // Monthly Profit
+    this.add.rectangle(20, 20, 160, 36)
+      .setOrigin(0, 0)
+      .setInteractive()
+      .on('pointerover', () => {
+        this.hoverModal = profitHoverModal(this, this.GameState.Game.getRevenue(), this.GameState.Game.getCosts(), levels[this.GameState.Game.getCurrentLevel()], this.input.activePointer.x, this.input.activePointer.y);
+      })
+      .on('pointerout', () => {
+        if (this.hoverModal) {
+          destroyAll(this, this.hoverModal);
+        }
+      });
     this.add.image(36, 36, 'pinkCoin').setScale(2.5);
     this.profitText = this.add.text(60, 20, '$' + this.GameState.Game.getProfit() + '/mo', {
       fontSize: '20px',
@@ -82,6 +98,17 @@ export class HUDScene extends BaseScene {
     });
 
     // Monthly Costs
+    this.add.rectangle(20, 112, 160, 36)
+      .setOrigin(0, 0)
+      .setInteractive()
+      .on('pointerover', () => {
+        this.hoverModal = costHoverModal(this, this.GameState.Game.getServers(), this.GameState.Game.getFacility(), levels[this.GameState.Game.getCurrentLevel()], this.input.activePointer.x, this.input.activePointer.y);
+      })
+      .on('pointerout', () => {
+        if (this.hoverModal) {
+          destroyAll(this, this.hoverModal);
+        }
+      });
     this.add.image(36, 128, 'bolt').setScale(2.5);
     this.costText = this.add.text(60, 112, '$' + this.GameState.Game.getCosts() + '/mo', {
       fontSize: '20px',
@@ -95,6 +122,17 @@ export class HUDScene extends BaseScene {
     });
 
     // Servers
+    this.add.rectangle(20, 156, 160, 36)
+      .setOrigin(0, 0)
+      .setInteractive()
+      .on('pointerover', () => {
+        this.hoverModal = serverHoverModal(this, this.GameState.Game.getServers(), this.GameState.Game.getCustomers(), levels[this.GameState.Game.getCurrentLevel()], this.input.activePointer.x, this.input.activePointer.y);
+      })
+      .on('pointerout', () => {
+        if (this.hoverModal) {
+          destroyAll(this, this.hoverModal);
+        }
+      });
     this.add.image(36, 172, 'monitor').setScale(2.5);
     this.serverText = this.add.text(60, 156, this.GameState.Game.getServerNumber().toString(), {
       fontSize: '20px',
@@ -108,6 +146,17 @@ export class HUDScene extends BaseScene {
     });
 
     // Customers
+    this.add.rectangle(20, 200, 160, 36)
+      .setOrigin(0, 0)
+      .setInteractive()
+      .on('pointerover', () => {
+        this.hoverModal = customerHoverModal(this, this.GameState.Game.getCustomerState(), levels[this.GameState.Game.getCurrentLevel()], this.input.activePointer.x, this.input.activePointer.y);
+      })
+      .on('pointerout', () => {
+        if (this.hoverModal) {
+          destroyAll(this, this.hoverModal);
+        }
+      });
     this.add.image(36, 216, 'periwinklePerson').setScale(2.5);
     this.customerText = this.add.text(60, 200, this.GameState.Game.getCustomers().toString(), {
       fontSize: '20px',

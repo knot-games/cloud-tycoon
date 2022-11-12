@@ -1,8 +1,8 @@
 import { colorPalette } from "../../assets/colorPalette";
 import eventCenter, { ClockEvents, GameplayEvents } from "../events/eventCenter"
 import { Game } from "../objects/game";
-import { dialogModal } from "../ui/dialogModal";
-import { modal } from "../ui/modal";
+import { dialogModal } from "../ui/modal/dialogModal";
+import { modal } from "../ui/modal/modal";
 
 export const levelIntro = (scene: Phaser.Scene, introText: string[], levelNumber: number) => {
     // Create a modal to view intro text

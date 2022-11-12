@@ -1,5 +1,5 @@
-import { button } from '../ui/button';
-import { settingsModal } from '../ui/settingsModal';
+import { button } from '../ui/button/button';
+import { settingsModal } from '../ui/modal/settingsModal';
 import { getGameWidth, getGameHeight } from '../helpers';
 import { levels } from '../config/levels';
 import { BaseScene } from './baseScene';

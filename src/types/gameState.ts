@@ -24,9 +24,7 @@ interface BusinessState {
     profit: number; // The monthly profit a user is gaining, ex. 4450
     facility: number; // The id of  current facility a user is in, ex. 1, this may need to change to an array if we expand to multiple facilities in the future
     developers: number; // The current number of developers a user has hired, ex. 10
-    customers: {
-        [id: number]: number; // The number of customers a user has of each type, ex. { 1: 5, 2: 10 }
-    } 
+    customers: CustomerState
     servers: ServerState;
     products: ProductState;
     research: ResearchState;
@@ -44,9 +42,7 @@ interface ServerState {
 }
 
 interface CustomerState {
-    [id: number]: {
-        count: number; // The number of this type of customer a user has, ex. 26
-    }
+    [id: number]: number; // The number of this type of customer a user has, ex. 26
 }
 
 interface ProductState {

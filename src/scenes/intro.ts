@@ -1,5 +1,5 @@
 import { getGameWidth } from '../helpers';
-import { button } from '../ui/button';
+import { button } from '../ui/button/button';
 
 import { BaseScene } from './baseScene';
 

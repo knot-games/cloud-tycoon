@@ -1,5 +1,5 @@
-import { colorPalette } from "../../assets/colorPalette";
-import { getGameWidth } from "../helpers";
+import { colorPalette } from "../../../assets/colorPalette";
+import { getGameWidth } from "../../helpers";
 
 export const title = (scene: Phaser.Scene, text: string) => {
     return scene.make.text({

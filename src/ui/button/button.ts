@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
-import { colorPalette } from '../../assets/colorPalette';
-import eventCenter, { SettingsEvents, UIEvents } from '../events/eventCenter';
+import { colorPalette } from '../../../assets/colorPalette';
+import eventCenter, { SettingsEvents, UIEvents } from '../../events/eventCenter';
 
 export const button = function (scene: Phaser.Scene, x: number, y: number, text: string, maxWidth: number, soundEffectsEnabled: boolean, onClick?: () => void) {
   let playSoundEffects = soundEffectsEnabled;

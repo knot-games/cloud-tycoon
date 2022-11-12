@@ -1,5 +1,5 @@
 import { getGameWidth } from '../helpers';
-import { button } from '../ui/button';
+import { button } from '../ui/button/button';
 
 import eventsCenter, { GameplayBusinessEvents, UIEvents } from '../events/eventCenter';
 import { BaseScene } from './baseScene';
@@ -19,14 +19,12 @@ export class GameScene extends BaseScene {
 	constructor() {
 		super(sceneConfig);
 		this.controls = null;
-		this.levelState = null;
 	}
 
 	public init(): void {
 		// Launch HUD Scene and pass the gameState
 		this.scene.launch('HUDScene');
 		this.levelState = LevelOne;
-		this.GameState.updateGameState();
 		console.log("Level one state: ", this.GameState.Game)
 		console.log("Level One Init")
 	}
