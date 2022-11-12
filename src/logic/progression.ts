@@ -15,9 +15,19 @@ export const progressMonth = (game: Game, levelState: Level): Game => {
     }
 
     // Gain customers
+    const gameStateServers = game.getServers();
+    let capacity = 0;
+    for (const [key, value] of Object.entries(levelState.servers)) {
+        capacity += gameStateServers[Number(key)] * value.capacity;
+    }
+    const customerNumber = game.getCustomers();
     for (const [id, customer] of Object.entries(levelState.customers)) {
         const customersGained = Math.floor(getRandomCustomerNumber(customer.joinRate) * customerAcquisitionMultiplier);
-        game.addCustomers(customersGained, Number(id), levelState);
+        if (customerNumber + customersGained <= capacity) {
+            game.addCustomers(customersGained, Number(id), levelState);
+        } else {
+            game.addCustomers(capacity - customerNumber, Number(id), levelState);
+        }
     }
 
     // Gain money and save game

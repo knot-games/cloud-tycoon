@@ -1,4 +1,4 @@
-import { getColorInt, getGameHeight, getGameWidth } from "../helpers";
+import { getColorInt, getGameHeight, getGameWidth } from "../../helpers";
 
 const modalPadding = 32;
 const windowHeight = 150;

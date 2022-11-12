@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
-import { colorPalette } from '../../assets/colorPalette';
-import eventCenter, { ClockEvents } from '../events/eventCenter';
-import { getGameHeight, getGameWidth } from '../helpers';
+import { colorPalette } from '../../../assets/colorPalette';
+import eventCenter, { ClockEvents } from '../../events/eventCenter';
+import { getGameHeight, getGameWidth } from '../../helpers';
 import { modal } from './modal';
 
 const backgroundColor = colorPalette.darkestGreen;

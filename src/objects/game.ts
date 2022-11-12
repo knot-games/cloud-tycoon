@@ -120,6 +120,10 @@ export class Game  {
     public setServers(servers: ServerState): void {
         this.playerBusiness.servers = servers;
     }
+
+    public getCustomerState(): CustomerState {
+        return this.playerBusiness.customers;
+    }
     
     public getCustomers(): number {
         let customers = 0;

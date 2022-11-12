@@ -1,9 +1,9 @@
 import * as Phaser from 'phaser';
-import { colorPalette } from '../../assets/colorPalette';
-import eventCenter, { SettingsEvents, UIEvents } from '../events/eventCenter';
-import { destroyAll, getColorInt, getGameWidth } from '../helpers';
+import { colorPalette } from '../../../assets/colorPalette';
+import eventCenter, { SettingsEvents, UIEvents } from '../../events/eventCenter';
+import { destroyAll, getColorInt, getGameWidth } from '../../helpers';
 import { modal } from './modal';
-import { title } from './title';
+import { title } from '../text/title';
 
 const backgroundColor = colorPalette.darkPurpleish;
 const accentColor = colorPalette.periwinkle;

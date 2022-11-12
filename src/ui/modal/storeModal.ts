@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
-import { colorPalette } from '../../assets/colorPalette';
+import { colorPalette } from '../../../assets/colorPalette';
 import { modal } from './modal';
-import { title } from './title';
+import { title } from '../text/title';
 
 const backgroundColor = colorPalette.lightBrown;
 const accentColor = colorPalette.yellow;
