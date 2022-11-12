@@ -21,21 +21,24 @@ export class HUDScene extends BaseScene {
   private cashText: Phaser.GameObjects.Text;
   private costText: Phaser.GameObjects.Text;
   private profitText: Phaser.GameObjects.Text;
+  private companyNameText: Phaser.GameObjects.Text;
 
   private customerText: Phaser.GameObjects.Text;
 
   public init(): void {
-    console.log('HUDScene init');
-    this.GameState.Game.unPauseClock();
+    console.log("HUDScene init");
+    this.GameState.updateGameState();
+    if (this.GameState.Game.getIsPaused() && !this.GameState.Game.getIsNewGame()) {
+      console.log("Unpausing!")
+      this.GameState.Game.unPauseClock();
+    }
   }
 
   public create(): void {
-    this.add.text(50, 100, 'HUD Scene');
-
+    // Menu Bar
     this.add.rectangle(0, getGameHeight(this) - 40, getGameWidth(this), 40, getColorInt(colorPalette.periwinkle)).setOrigin(0, 0);
-
-    // Create a text object to display the day
     this.dateText = this.add.text(getGameWidth(this) - 216, getGameHeight(this) - 28, this.GameState.Game.getDateString());
+    this.companyNameText = this.add.text(30, getGameHeight(this) - 28, this.GameState.Game.getName());
 
     // Create a text object to display the money
     this.profitText = this.add.text(50, 120, 'Profit ' + this.GameState.Game.getProfit());

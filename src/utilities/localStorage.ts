@@ -8,8 +8,13 @@ export const hasSaveGame = () => {
 }
 
 export const saveGameState = (gameState: GameState) => {
+  console.log("Saving game state!");
+  console.log({gameState});
   const localStorage = window.localStorage;
   localStorage.setItem(GAME_STATE_TOKEN, JSON.stringify(gameState));
+  console.log("Game state saved!");
+  console.log(getGameState());
+  
 };
 
 export const getGameState = (): GameState => {

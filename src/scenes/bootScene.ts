@@ -119,5 +119,8 @@ export class BootScene extends Phaser.Scene {
 		// Tilemaps
 		this.load.image('level-1-48x48', 'assets/tilemaps/level-1-48x48.png');
 		this.load.tilemapCSV('level-1-map', 'assets/tilemaps/level-1.csv');
+
+		// Forms
+		this.load.html('nameForm', 'assets/forms/nameForm.html');
 	}
 }

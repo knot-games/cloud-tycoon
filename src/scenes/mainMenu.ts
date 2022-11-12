@@ -51,10 +51,9 @@ export class MainMenuScene extends BaseScene {
 
     // Start game
     button(this, gameWidth / 2, 380, 'Start Game', 200, this.GameState.Game.getSoundEffectsEnabled(), () => {
-      // TODO: Make a way to set this from an intro level so users can set their own name
-      this.GameState.Game.setBusinessName("Cloud Co")
+      this.GameState.Game.getNewGame();
       this.GameState.updateGameState();
-      this.scene.start('LevelOne');
+      this.scene.start('Intro');
     });
 
     // Settings

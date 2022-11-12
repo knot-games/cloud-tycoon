@@ -7,6 +7,10 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
 
   type: Phaser.AUTO,
 
+  dom: {
+    createContainer: true,
+  },
+
   plugins: {
     global: [
       {
