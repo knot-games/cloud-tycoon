@@ -57,24 +57,24 @@ export class MainMenuScene extends BaseScene {
     });
 
     // Settings
-    button(this, gameWidth / 2, 430, 'Settings', 200, this.GameState.Game.getSoundEffectsEnabled(), () => settingsModal(this, this.GameState.Game.getSettings(), () => {}));
+    button(this, gameWidth / 2, 430, 'Settings', 200, this.GameState.Game.getSoundEffectsEnabled(), () => settingsModal(this, this.GameState.Game.getSettings(), () => { }));
   }
 
   private toggleSetting(event: SettingsEvents): void {
 
     switch (event) {
-        case SettingsEvents.TOGGLE_MUSIC:
-          this.GameState.Game.toggleMusic();
-          const isMusicPlaying = this.GameState.Game.getMusicEnabled();
-          if (!isMusicPlaying) {
-            this.sound.get('mainMenuMusic').stop();
-          } else {
-            this.sound.play('mainMenuMusic', { loop: true, volume: 0.2 });
-          }
-          break;
-        case SettingsEvents.TOGGLE_SOUND_EFFECTS:
-          this.GameState.Game.toggleSoundEffects();
-          break;
+      case SettingsEvents.TOGGLE_MUSIC:
+        this.GameState.Game.toggleMusic();
+        const isMusicPlaying = this.GameState.Game.getMusicEnabled();
+        if (!isMusicPlaying) {
+          this.sound.stopByKey('mainMenuMusic');
+        } else {
+          this.sound.play('mainMenuMusic', { loop: true, volume: 0.2 });
+        }
+        break;
+      case SettingsEvents.TOGGLE_SOUND_EFFECTS:
+        this.GameState.Game.toggleSoundEffects();
+        break;
     }
-}
+  }
 }
