@@ -84,7 +84,7 @@ export class BootScene extends Phaser.Scene {
 		[
 			'bag',
 			'bell',
-			'blueBag',
+			'bag',
 			'bolt',
 			'cloud',
 			'coin',
@@ -94,13 +94,11 @@ export class BootScene extends Phaser.Scene {
 			'folder',
 			'home',
 			'monitor',
-			'periwinklePerson',
 			'person',
-			'pinkCoin',
 			'speech-question',
 			'trophy',
 		].forEach((icon) => {
-			this.load.svg(icon, `assets/icons/${icon}.svg`);
+			this.load.image(icon, `assets/icons/${icon}.png`);
 		});
 
 		// Sprites
