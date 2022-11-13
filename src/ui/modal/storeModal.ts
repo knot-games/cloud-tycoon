@@ -121,7 +121,7 @@ const storeItem = function (
 	});
 	storeItems.push(itemTitle);
 
-	const quantityLabel = quantity(scene, getGameWidth(scene) - 75 - 54, y + 32, currentNumber);
+	const quantityLabel = quantity(scene, getGameWidth(scene) - 75 - 54, y + 36, currentNumber);
 	storeItems.push(quantityLabel);
 
 	const plus = plusButton(scene, getGameWidth(scene) - 75 - 40, y + 20, () => {
@@ -183,7 +183,7 @@ const plusButton = function (scene: Phaser.Scene, x: number, y: number, onClick:
 	const button = scene.add
 		.text(x, y, '+')
 		.setPadding(4)
-		.setStyle({ fontSize: '16px', color: colorPalette.white, backgroundColor: accentColor, align: 'center' })
+		.setStyle({ fontSize: '20px', color: colorPalette.white, backgroundColor: accentColor, align: 'center' })
 		.setInteractive({ useHandCursor: true })
 		.on('pointerdown', onClick)
 		.on('pointerover', () => {
@@ -202,7 +202,7 @@ const minusButton = function (scene: Phaser.Scene, x: number, y: number, onClick
 	const button = scene.add
 		.text(x, y, '-')
 		.setPadding(4)
-		.setStyle({ fontSize: '16px', color: colorPalette.white, backgroundColor: accentColor, align: 'center' })
+		.setStyle({ fontSize: '20px', color: colorPalette.white, backgroundColor: accentColor, align: 'center' })
 		.setInteractive({ useHandCursor: true })
 		.on('pointerdown', onClick)
 		.on('pointerover', () => {

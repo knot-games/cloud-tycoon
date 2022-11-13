@@ -74,7 +74,7 @@ const addText = (scene: Phaser.Scene, text: string, animate: boolean) => {
 				color: colorPalette.white,
 				align: 'left',
 				wordWrap: {
-					width: getGameWidth(scene) - padding * 2 - 25,
+					width: getGameWidth(scene) - padding * 2 - 33,
 				},
 			},
 		});
