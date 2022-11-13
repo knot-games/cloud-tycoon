@@ -1,12 +1,13 @@
 import { colorPalette } from "../../../assets/colorPalette";
 import { getColorInt, getGameHeight } from "../../helpers";
+import { Game } from "../../objects/game";
 import { storeModal } from "../modal/storeModal";
 
 const menuWidth = 200;
 const menuItemHeight = 40;
 const numberOfMenuItems = 5;
 
-export const hudMenu = (scene: Phaser.Scene) => {
+export const hudMenu = (scene: Phaser.Scene, game: Game, levelState: Level) => {
     const menuItems = [];
 
     const menuBackground = scene.add.rectangle(0, getGameHeight(scene) - (numberOfMenuItems * menuItemHeight) - 40, menuWidth, numberOfMenuItems * menuItemHeight, getColorInt(colorPalette.menuBar)).setOrigin(0, 0).setInteractive({ useHandCursor: true }).on('pointerdown', () => {
@@ -40,7 +41,7 @@ export const hudMenu = (scene: Phaser.Scene) => {
 
     // Store
     const storeItem = menuItem(scene, 0, getGameHeight(scene) - (5 * menuItemHeight) - 40, menuWidth, menuItemHeight, "Store", "bag", () => {
-        storeModal(scene, () => {
+        storeModal(scene, game, levelState, () => {
             console.log("Closing store");
         })
     });

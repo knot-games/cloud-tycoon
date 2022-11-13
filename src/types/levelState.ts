@@ -42,6 +42,7 @@ interface Server {
     monthlyCost: number; // Monthly maintenance cost, ex. 10
     capacity: number; // How many apps this server can run, ex. 50
     reliability: number; // Decimal multiplier to determine how often a server may go down and need maintenace, ex. 0.85
+    maximum: number; // The maximum number of this type of server you can have at this level, ex. 10
 }
 
 // Customers available at this level
@@ -77,7 +78,6 @@ interface EventConsequence {
 interface Facility {
     name: string; // The title of this facility that shows up in the UI, ex. "Your garage"
     cost: number; // The monthly cost of this facility, ex. 1500
-    capacity: number; // The maximum number of servers that can be stored at this facility, ex. 10
 }
 
 // Items that are purchasable at this level

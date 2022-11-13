@@ -1,5 +1,5 @@
 import { levels } from '../config/levels';
-import eventCenter, { ClockEvents, GameplayBusinessEvents, GameplayEvents, GameplayRandomEvents, UIEvents } from '../events/eventCenter';
+import eventCenter, { ClockEvents, GameplayEvents, GameplayRandomEvents } from '../events/eventCenter';
 import { progressMonth } from '../logic/progression';
 import { getGameWidth, getGameHeight, getColorInt, destroyAll} from '../helpers';
 import { BaseScene } from './baseScene';
@@ -65,7 +65,9 @@ export class HUDScene extends BaseScene {
       .setOrigin(0, 0)
       .setInteractive()
       .on('pointerover', () => {
-        this.hoverModal = profitHoverModal(this, this.GameState.Game.getRevenue(), this.GameState.Game.getCosts(), levels[this.GameState.Game.getCurrentLevel()], this.input.activePointer.x, this.input.activePointer.y);
+        if (!this.GameState.Game.getIsPaused()) {
+          this.hoverModal = profitHoverModal(this, this.GameState.Game.getRevenue(), this.GameState.Game.getCosts(), levels[this.GameState.Game.getCurrentLevel()], this.input.activePointer.x, this.input.activePointer.y);
+        }
       })
       .on('pointerout', () => {
         if (this.hoverModal) {
@@ -73,7 +75,7 @@ export class HUDScene extends BaseScene {
         }
       });
     this.add.image(36, 36, 'pinkCoin').setScale(2.5);
-    this.profitText = this.add.text(60, 20, '$' + this.GameState.Game.getProfit() + '/mo', {
+    this.profitText = this.add.text(60, 20, this.getProfitText(), {
       fontSize: '20px',
       fontStyle: 'bold',
       color: colorPalette.white,
@@ -86,7 +88,7 @@ export class HUDScene extends BaseScene {
 
     // Cash Available
     this.add.image(36, 84, 'blueBag').setScale(2.5);
-    this.cashText = this.add.text(60, 68, '$' + this.GameState.Game.getCash(), {
+    this.cashText = this.add.text(60, 68, this.getCashText(), {
       fontSize: '20px',
       fontStyle: 'bold',
       color: colorPalette.white,
@@ -102,7 +104,9 @@ export class HUDScene extends BaseScene {
       .setOrigin(0, 0)
       .setInteractive()
       .on('pointerover', () => {
-        this.hoverModal = costHoverModal(this, this.GameState.Game.getServers(), this.GameState.Game.getFacility(), levels[this.GameState.Game.getCurrentLevel()], this.input.activePointer.x, this.input.activePointer.y);
+        if (!this.GameState.Game.getIsPaused()) {
+          this.hoverModal = costHoverModal(this, this.GameState.Game.getServers(), this.GameState.Game.getFacility(), levels[this.GameState.Game.getCurrentLevel()], this.input.activePointer.x, this.input.activePointer.y);
+        }
       })
       .on('pointerout', () => {
         if (this.hoverModal) {
@@ -110,7 +114,7 @@ export class HUDScene extends BaseScene {
         }
       });
     this.add.image(36, 128, 'bolt').setScale(2.5);
-    this.costText = this.add.text(60, 112, '$' + this.GameState.Game.getCosts() + '/mo', {
+    this.costText = this.add.text(60, 112, this.getCostText(), {
       fontSize: '20px',
       fontStyle: 'bold',
       color: colorPalette.white,
@@ -126,7 +130,9 @@ export class HUDScene extends BaseScene {
       .setOrigin(0, 0)
       .setInteractive()
       .on('pointerover', () => {
-        this.hoverModal = serverHoverModal(this, this.GameState.Game.getServers(), this.GameState.Game.getCustomers(), levels[this.GameState.Game.getCurrentLevel()], this.input.activePointer.x, this.input.activePointer.y);
+        if (!this.GameState.Game.getIsPaused()) {
+          this.hoverModal = serverHoverModal(this, this.GameState.Game.getServers(), this.GameState.Game.getCustomers(), levels[this.GameState.Game.getCurrentLevel()], this.input.activePointer.x, this.input.activePointer.y);
+        }
       })
       .on('pointerout', () => {
         if (this.hoverModal) {
@@ -150,7 +156,9 @@ export class HUDScene extends BaseScene {
       .setOrigin(0, 0)
       .setInteractive()
       .on('pointerover', () => {
-        this.hoverModal = customerHoverModal(this, this.GameState.Game.getCustomerState(), levels[this.GameState.Game.getCurrentLevel()], this.input.activePointer.x, this.input.activePointer.y);
+        if (!this.GameState.Game.getIsPaused()) {
+          this.hoverModal = customerHoverModal(this, this.GameState.Game.getCustomerState(), levels[this.GameState.Game.getCurrentLevel()], this.input.activePointer.x, this.input.activePointer.y);
+        } 
       })
       .on('pointerout', () => {
         if (this.hoverModal) {
@@ -158,7 +166,7 @@ export class HUDScene extends BaseScene {
         }
       });
     this.add.image(36, 216, 'periwinklePerson').setScale(2.5);
-    this.customerText = this.add.text(60, 200, this.GameState.Game.getCustomers().toString(), {
+    this.customerText = this.add.text(60, 200, this.getCustomersText(), {
       fontSize: '20px',
       fontStyle: 'bold',
       color: colorPalette.white,
@@ -190,20 +198,14 @@ export class HUDScene extends BaseScene {
     eventCenter.on(ClockEvents.CLOCK_MONTH_END, () => {
       progressMonth(this.GameState.Game, levels[this.GameState.Game.getCurrentLevel()]);
 
-      this.cashText.setText('$' + this.GameState.Game.getCash());
-      this.customerText.setText(this.GameState.Game.getCustomers().toString());
-      this.costText.setText('$' + this.GameState.Game.getCosts() + '/mo');
-      this.profitText.setText('$' + this.GameState.Game.getProfit() + '/mo');
+      this.setAllTexts();
     })
 
     eventCenter.on(GameplayRandomEvents.RANDOM_EVENT, (randomEvent: EventItem) => {
-      console.log("An event occurred!");
       dialogModal(this, [randomEvent.name, randomEvent.description], () => {
         this.GameState.Game.handleEventConsequence(randomEvent.consequence)
         eventCenter.emit(ClockEvents.CLOCK_RESUME);
-        this.cashText.setText('$' + this.GameState.Game.getCash());
-        this.customerText.setText(this.GameState.Game.getCustomers().toString());
-        this.profitText.setText('$' + this.GameState.Game.getProfit() + '/mo');
+        this.setAllTexts();
       });
     })
   }
@@ -216,14 +218,42 @@ export class HUDScene extends BaseScene {
 
   private toggleMenu(): void {
     if (this.menuOpen) {
-      this.menu = hudMenu(this)
+      this.menu = hudMenu(this, this.GameState.Game, levels[this.GameState.Game.getCurrentLevel()])
       this.GameState.Game.pauseClock();
     } else {
       if (this.menu) {
         destroyAll(this, this.menu);
         this.GameState.Game.unPauseClock();
+        this.setAllTexts();
       }
     }
-    
+  }
+
+  private getCostText(): string {
+    return '$' + this.GameState.Game.getCosts() + '/mo';
+  }
+
+  private getCashText(): string {
+    return '$' + this.GameState.Game.getCash();
+  }
+
+  private getCustomersText(): string {
+    return this.GameState.Game.getCustomers().toString();
+  }
+
+  private getServersText(): string {
+    return this.GameState.Game.getServerNumber().toString();
+  }
+
+  private getProfitText(): string {
+    return '$' + this.GameState.Game.getProfit() + '/mo';
+  }
+
+  private setAllTexts(): void {
+    this.cashText.setText(this.getCashText());
+    this.customerText.setText(this.getCustomersText());
+    this.costText.setText(this.getCostText());
+    this.profitText.setText(this.getProfitText());
+    this.serverText.setText(this.getServersText());
   }
 }

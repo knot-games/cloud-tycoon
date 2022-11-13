@@ -7,11 +7,12 @@ export const LevelOne: Level = {
     servers: {
         1: {
             name: "Econoblock 1000",
-            description: "The economy class server of the day",
+            description: "The economy class server of the day.",
             cost: 1500,
             monthlyCost: 30,
             capacity: 50,
-            reliability: 0.95
+            reliability: 0.95,
+            maximum: 10
         }
     },
     customers: {
@@ -46,21 +47,20 @@ export const LevelOne: Level = {
     facilities: {
         1: {
             name: "Your Parents' Garage",
-            cost: 0,
-            capacity: 10
+            cost: 0
         }
     },
     store: {
         1: {
             name: "Uninterruptible Power Supply (UPS)",
-            description: "You can use a UPS to improve the reliability of your servers when a power outage occurs, making your less vulnerable to short power outages.",
+            description: "Use to improve the reliability of your servers during power outages.",
             events: [1],
             consequence: -0.03,
             cost: 150
         },
         2: {
-            name: "Fire Extinguisher",
-            description: "You can use a fire extinguisher to put out small fires in your garage, preventing damage to your operations.",
+            name: "Smoke Detector",
+            description: "Use to detect fires and prevent them from spreading.",
             events: [2],
             consequence: -0.05,
             cost: 100

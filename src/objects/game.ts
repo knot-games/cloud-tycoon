@@ -60,7 +60,6 @@ export class Game  {
     }
 
     public setBusinessName(name: string): GameState {
-        console.log("Setting name!");
         this.playerBusiness.name = name;
         return this.updateGameState();
     }
@@ -222,6 +221,26 @@ export class Game  {
     public saveStore(store: StoreState): GameState {
         this.store = store;
         return this.updateGameState();
+    }
+
+    public purchaseItems(cart: CartPurchaseState, levelState: Level): void {
+        this.playerBusiness.cash -= cart.totalCost;
+        for (const [id, amount] of Object.entries(cart.servers)) {
+            if (this.playerBusiness.servers[id]) {
+                this.playerBusiness.servers[id] += amount;
+            } else {
+                this.playerBusiness.servers[id] = amount;
+            }
+        }
+        for (const [id, amount] of Object.entries(cart.storeItems)) {
+            if (this.store[id]) {
+                this.store[id] += amount;
+            } else {
+                this.store[id] = amount;
+            }
+        }
+        this.calculateCost(levelState);
+        this.updateGameState();
     }
 
     // SETTINGS
