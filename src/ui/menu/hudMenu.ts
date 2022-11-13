@@ -1,12 +1,13 @@
 import { colorPalette } from '../../../assets/colorPalette';
 import { getColorInt, getGameHeight } from '../../helpers';
+import { Game } from '../../objects/game';
 import { storeModal } from '../modal/storeModal';
 
 const menuWidth = 200;
 const menuItemHeight = 40;
 const numberOfMenuItems = 5;
 
-export const hudMenu = (scene: Phaser.Scene) => {
+export const hudMenu = (scene: Phaser.Scene, game: Game, levelState: Level) => {
 	const menuItems = [];
 
 	const menuBackground = scene.add
@@ -94,7 +95,7 @@ export const hudMenu = (scene: Phaser.Scene) => {
 		'Store',
 		'bag',
 		() => {
-			storeModal(scene, () => {
+			storeModal(scene, game, levelState, () => {
 				console.log('Closing store');
 			});
 		},
@@ -126,10 +127,8 @@ const menuItem = (
 	graphics.lineStyle(3, getColorInt(colorPalette.blue), 1).strokeRect(x, y, width - 1, height - 1);
 
 	// Add icon
-	const iconImage = scene.add
-		.image(x + 24, y + 20, icon)
-		.setScale(0.75)
-		.setTint(0x000000);
+	const iconImage = scene.add.image(x + 24, y + 20, icon);
+	iconImage.setScale(1.5);
 
 	const textItem = scene.add.text(x + 48, y + 12, text, {
 		color: colorPalette.black,

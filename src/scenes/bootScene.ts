@@ -86,6 +86,7 @@ export class BootScene extends Phaser.Scene {
 			'bell',
 			'bag',
 			'bolt',
+			'box',
 			'cloud',
 			'coin',
 			'exclamation',
@@ -97,6 +98,7 @@ export class BootScene extends Phaser.Scene {
 			'person',
 			'speech-question',
 			'trophy',
+			'whiteMonitor',
 		].forEach((icon) => {
 			this.load.image(icon, `assets/icons/${icon}.png`);
 		});
