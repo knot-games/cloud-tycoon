@@ -234,6 +234,11 @@ export class HUDScene extends BaseScene {
 			progressMonth(this.GameState.Game, levels[this.GameState.Game.getCurrentLevel()]);
 
 			this.setAllTexts();
+
+			//cha ching sound
+			if (this.GameState.Game.getSoundEffectsEnabled()) {
+				this.sound.play('cash', { volume: 0.5 });
+			}
 		});
 
 		eventCenter.on(GameplayRandomEvents.RANDOM_EVENT, (randomEvent: EventItem) => {
