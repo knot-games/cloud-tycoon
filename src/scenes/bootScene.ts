@@ -86,6 +86,7 @@ export class BootScene extends Phaser.Scene {
 			'bell',
 			'blueBag',
 			'bolt',
+			'box',
 			'cloud',
 			'coin',
 			'exclamation',
@@ -99,6 +100,7 @@ export class BootScene extends Phaser.Scene {
 			'pinkCoin',
 			'speech-question',
 			'trophy',
+			'whiteMonitor',
 		].forEach((icon) => {
 			this.load.svg(icon, `assets/icons/${icon}.svg`);
 		});
