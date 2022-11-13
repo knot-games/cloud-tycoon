@@ -69,7 +69,7 @@ export class HUDScene extends BaseScene {
 				this.menuOpen = !this.menuOpen;
 				this.toggleMenu();
 			});
-		this.add.image(20, getGameHeight(this) - 20, 'cloud');
+		this.add.image(20, getGameHeight(this) - 20, 'cloud').setOrigin(0.5, 0.5);
 
 		// Monthly Profit
 		this.add
