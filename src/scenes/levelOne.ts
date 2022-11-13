@@ -25,8 +25,8 @@ export class GameScene extends BaseScene {
 		// Launch HUD Scene and pass the gameState
 		this.scene.launch('HUDScene');
 		this.levelState = LevelOne;
-		console.log("Level one state: ", this.GameState.Game)
-		console.log("Level One Init")
+		console.log('Level one state: ', this.GameState.Game);
+		console.log('Level One Init');
 	}
 
 	public create(): void {

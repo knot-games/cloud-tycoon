@@ -1,5 +1,5 @@
-import { LevelOne } from "./levelOne"
+import { LevelOne } from './levelOne';
 
 export const levels: Levels = {
-    1: LevelOne
-}
+	1: LevelOne,
+};

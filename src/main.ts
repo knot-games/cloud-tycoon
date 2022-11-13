@@ -4,53 +4,53 @@ import { GameStatePlugin } from './plugin/GameStatePlugin';
 import Scenes from './scenes';
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
-  title: 'Cloud Tycoon',
+	title: 'Cloud Tycoon',
 
-  type: Phaser.AUTO,
+	type: Phaser.AUTO,
 
-  dom: {
-    createContainer: true,
-  },
+	dom: {
+		createContainer: true,
+	},
 
-  plugins: {
-    global: [
-      {
-        key: 'GameState',
-        plugin: GameStatePlugin,
-        start: true,
-      },
-    ],
-    scene: [
-      {
-        key: 'GameState',
-        plugin: GameStatePlugin,
-        mapping: 'GameState',
-      },
-    ],
-  },
+	plugins: {
+		global: [
+			{
+				key: 'GameState',
+				plugin: GameStatePlugin,
+				start: true,
+			},
+		],
+		scene: [
+			{
+				key: 'GameState',
+				plugin: GameStatePlugin,
+				mapping: 'GameState',
+			},
+		],
+	},
 
-  scale: {
-    mode: Phaser.Scale.FIT,
-    autoCenter: Phaser.Scale.CENTER_BOTH,
-    width: 800,
-    height: 600,
-  },
+	scale: {
+		mode: Phaser.Scale.FIT,
+		autoCenter: Phaser.Scale.CENTER_BOTH,
+		width: 800,
+		height: 600,
+	},
 
-  scene: Scenes,
+	scene: Scenes,
 
-  physics: {
-    default: 'arcade',
-    arcade: {
-      debug: true,
-    },
-  },
+	physics: {
+		default: 'arcade',
+		arcade: {
+			debug: true,
+		},
+	},
 
-  parent: 'game',
-  backgroundColor: colorPalette.background,
+	parent: 'game',
+	backgroundColor: colorPalette.background,
 };
 
 export const game = new Phaser.Game(gameConfig);
 
 window.addEventListener('resize', () => {
-  game.scale.refresh();
+	game.scale.refresh();
 });
