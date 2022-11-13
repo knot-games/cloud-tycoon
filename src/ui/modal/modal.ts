@@ -14,7 +14,7 @@ export const modal = (
 ) => {
 	const width = getGameWidth(scene) - modalPadding * 2;
 	const height = fullScreen ? getGameHeight(scene) - modalPadding * 2 - 20 : windowHeight;
-	const modalButtonBorderX = getGameWidth(scene) - modalPadding - 20;
+	const modalButtonBorderX = getGameWidth(scene) - modalPadding - 28;
 	const modalButtonBorderY = fullScreen
 		? modalPadding
 		: getGameHeight(scene) - windowHeight - modalPadding - bottomBar;
@@ -33,7 +33,7 @@ export const modal = (
 		.fillRect(modalPadding + 1, modalY + 1, width - 1, height - 1)
 		.lineStyle(3, getColorInt(accentColor), 1)
 		.strokeRect(modalPadding, modalY, width, height)
-		.strokeRect(modalButtonBorderX, modalButtonBorderY, 20, 20);
+		.strokeRect(modalButtonBorderX, modalButtonBorderY, 28, 28);
 
 	if (onClick) {
 		scene.input.on('pointerdown', onClick);
@@ -41,11 +41,11 @@ export const modal = (
 
 	const closeButton = scene.make
 		.text({
-			x: getGameWidth(scene) - modalPadding - 14,
+			x: getGameWidth(scene) - modalPadding - 20,
 			y: modalY + 3,
 			text: 'X',
 			style: {
-				font: 'bold 12px Arial',
+				font: 'bold 20px Arial',
 				color: 'white',
 			},
 		})
