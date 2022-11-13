@@ -191,7 +191,9 @@ export class HUDScene extends BaseScene {
       progressMonth(this.GameState.Game, levels[this.GameState.Game.getCurrentLevel()]);
 
       //cha ching
-      this.sound.play('cash', { volume: 0.5 });
+      if (this.GameState.Game.getSoundEffectsEnabled()) {
+        this.sound.play('cash', { volume: 0.5 });
+      }
 
       this.cashText.setText('$' + this.GameState.Game.getCash());
       this.customerText.setText(this.GameState.Game.getCustomers().toString());
