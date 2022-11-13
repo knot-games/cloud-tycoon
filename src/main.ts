@@ -45,7 +45,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
 		},
 	},
 
-	parent: 'game',
+	parent: 'cloud',
 	backgroundColor: colorPalette.background,
 };
 
