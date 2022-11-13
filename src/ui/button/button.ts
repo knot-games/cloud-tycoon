@@ -37,7 +37,7 @@ export const button = function (
 	);
 
 	const button = scene.add
-		.text(x, y, text)
+		.text(x, y, text, { fontFamily: 'PixeloidMono', fontSize: '16px' })
 		.setOrigin(0.5)
 		.setPadding(16, 8)
 		.setStyle({

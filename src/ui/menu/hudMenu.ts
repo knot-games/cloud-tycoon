@@ -135,6 +135,7 @@ const menuItem = (
 	const textItem = scene.add.text(x + 48, y + 12, text, {
 		color: colorPalette.black,
 		align: 'left',
+		fontFamily: 'PixeloidMono',
 	});
 
 	// Add text

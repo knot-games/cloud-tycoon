@@ -110,8 +110,7 @@ const storeItem = function (
 		.strokeRect(x + 20, y + 20, 60, 60);
 	storeItems.push(graphics);
 
-	const iconImage = scene.add.image(x + 50, y + 50, isServer ? 'whiteMonitor' : 'box').setOrigin(0.5, 0.5);
-	iconImage.setScale(2.5);
+	const iconImage = scene.add.image(x + 50, y + 50, isServer ? 'monitor' : 'box').setOrigin(0.5, 0.5);
 	storeItems.push(iconImage);
 
 	const itemTitle = scene.add.text(x + 88, y + 20, title, {
