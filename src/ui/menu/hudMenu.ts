@@ -127,7 +127,10 @@ const menuItem = (
 	graphics.lineStyle(3, getColorInt(colorPalette.blue), 1).strokeRect(x, y, width - 1, height - 1);
 
 	// Add icon
-	const iconImage = scene.add.image(x + 24, y + 20, icon).setTint(0x000000);
+	const iconImage = scene.add
+		.image(x + 24, y + 20, icon)
+		.setScale(0.75)
+		.setTint(0x000000);
 
 	const textItem = scene.add.text(x + 48, y + 12, text, {
 		color: colorPalette.black,
