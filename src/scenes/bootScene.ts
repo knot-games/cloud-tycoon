@@ -45,7 +45,7 @@ export class BootScene extends Phaser.Scene {
 			progressBar.width = (progressBarWidth - 30) * value;
 
 			const percent = value * 100;
-			percentText.setText(`${percent}%`);
+			percentText.setText(`${percent.toFixed(2)}%`);
 		});
 
 		this.load.on('fileprogress', (file) => {
