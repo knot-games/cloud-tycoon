@@ -17,6 +17,13 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	key: 'HUDScene',
 };
 
+const statFontStyle = {
+	fontSize: '16px',
+	fontStyle: 'bold',
+	color: colorPalette.white,
+	fontFamily: 'PixeloidMono',
+};
+
 export class HUDScene extends BaseScene {
 	constructor() {
 		super(sceneConfig);
@@ -75,7 +82,7 @@ export class HUDScene extends BaseScene {
 		this.add
 			.rectangle(20, 20, 160, 36)
 			.setOrigin(0, 0)
-			.setInteractive()
+			.setInteractive({ useHandCursor: true })
 			.on('pointerover', () => {
 				if (!this.GameState.Game.getIsPaused()) {
 					this.hoverModal = profitHoverModal(
@@ -94,11 +101,7 @@ export class HUDScene extends BaseScene {
 				}
 			});
 		this.add.image(36, 36, 'coin').setTint(hex(colorPalette.lightPink));
-		this.profitText = this.add.text(60, 20, this.getProfitText(), {
-			fontSize: '20px',
-			fontStyle: 'bold',
-			color: colorPalette.white,
-		});
+		this.profitText = this.add.text(60, 20, this.getProfitText(), statFontStyle);
 		this.add.text(60, 40, 'Monthly Profit', {
 			fontSize: '12px',
 			fontStyle: 'bold',
@@ -107,11 +110,7 @@ export class HUDScene extends BaseScene {
 
 		// Cash Available
 		this.add.image(36, 84, 'bag').setTint(hex(colorPalette.darkTeal));
-		this.cashText = this.add.text(60, 68, this.getCashText(), {
-			fontSize: '20px',
-			fontStyle: 'bold',
-			color: colorPalette.white,
-		});
+		this.cashText = this.add.text(60, 68, this.getCashText(), statFontStyle);
 		this.add.text(60, 88, 'Cash Available', {
 			fontSize: '12px',
 			fontStyle: 'bold',
@@ -122,7 +121,7 @@ export class HUDScene extends BaseScene {
 		this.add
 			.rectangle(20, 112, 160, 36)
 			.setOrigin(0, 0)
-			.setInteractive()
+			.setInteractive({ useHandCursor: true })
 			.on('pointerover', () => {
 				if (!this.GameState.Game.getIsPaused()) {
 					this.hoverModal = costHoverModal(
@@ -141,11 +140,7 @@ export class HUDScene extends BaseScene {
 				}
 			});
 		this.add.image(36, 128, 'bolt').setTint(hex(colorPalette.salmon));
-		this.costText = this.add.text(60, 112, this.getCostText(), {
-			fontSize: '20px',
-			fontStyle: 'bold',
-			color: colorPalette.white,
-		});
+		this.costText = this.add.text(60, 112, this.getCostText(), statFontStyle);
 		this.add.text(60, 132, 'Operating Costs', {
 			fontSize: '12px',
 			fontStyle: 'bold',
@@ -156,7 +151,7 @@ export class HUDScene extends BaseScene {
 		this.add
 			.rectangle(20, 156, 160, 36)
 			.setOrigin(0, 0)
-			.setInteractive()
+			.setInteractive({ useHandCursor: true })
 			.on('pointerover', () => {
 				if (!this.GameState.Game.getIsPaused()) {
 					this.hoverModal = serverHoverModal(
@@ -175,11 +170,7 @@ export class HUDScene extends BaseScene {
 				}
 			});
 		this.add.image(36, 172, 'monitor').setTint(hex(colorPalette.yellow));
-		this.serverText = this.add.text(60, 156, this.GameState.Game.getServerNumber().toString(), {
-			fontSize: '20px',
-			fontStyle: 'bold',
-			color: colorPalette.white,
-		});
+		this.serverText = this.add.text(60, 156, this.GameState.Game.getServerNumber().toString(), statFontStyle);
 		this.add.text(60, 176, 'Server Instances', {
 			fontSize: '12px',
 			fontStyle: 'bold',
@@ -190,7 +181,7 @@ export class HUDScene extends BaseScene {
 		this.add
 			.rectangle(20, 200, 160, 36)
 			.setOrigin(0, 0)
-			.setInteractive()
+			.setInteractive({ useHandCursor: true })
 			.on('pointerover', () => {
 				if (!this.GameState.Game.getIsPaused()) {
 					this.hoverModal = customerHoverModal(
@@ -208,11 +199,7 @@ export class HUDScene extends BaseScene {
 				}
 			});
 		this.add.image(36, 216, 'person').setTint(hex(colorPalette.periwinkle));
-		this.customerText = this.add.text(60, 200, this.getCustomersText(), {
-			fontSize: '20px',
-			fontStyle: 'bold',
-			color: colorPalette.white,
-		});
+		this.customerText = this.add.text(60, 200, this.getCustomersText(), statFontStyle);
 		this.add.text(60, 220, 'Customers', {
 			fontSize: '12px',
 			fontStyle: 'bold',
@@ -282,7 +269,7 @@ export class HUDScene extends BaseScene {
 	}
 
 	private getCashText(): string {
-		return '$' + this.GameState.Game.getCash();
+		return '$' + this.GameState.Game.getCash().toLocaleString();
 	}
 
 	private getCustomersText(): string {
