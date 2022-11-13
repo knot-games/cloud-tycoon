@@ -3,7 +3,7 @@ import eventCenter, { ClockEvents, GameplayEvents, GameplayRandomEvents } from '
 import { progressMonth } from '../logic/progression';
 import { getGameWidth, getGameHeight, getColorInt, destroyAll } from '../helpers';
 import { BaseScene } from './baseScene';
-import { colorPalette } from '../../assets/colorPalette';
+import { colorPalette, hex } from '../../assets/colorPalette';
 import { gameConfig } from '../config/game';
 import { dialogModal } from '../ui/modal/dialogModal';
 import { hudMenu } from '../ui/menu/hudMenu';
@@ -93,7 +93,7 @@ export class HUDScene extends BaseScene {
 					destroyAll(this, this.hoverModal);
 				}
 			});
-		this.add.image(36, 36, 'pinkCoin').setScale(2.5);
+		this.add.image(36, 36, 'coin').setTint(hex(colorPalette.lightPink));
 		this.profitText = this.add.text(60, 20, this.getProfitText(), {
 			fontSize: '20px',
 			fontStyle: 'bold',
@@ -106,7 +106,7 @@ export class HUDScene extends BaseScene {
 		});
 
 		// Cash Available
-		this.add.image(36, 84, 'blueBag').setScale(2.5);
+		this.add.image(36, 84, 'bag').setTint(hex(colorPalette.darkTeal));
 		this.cashText = this.add.text(60, 68, this.getCashText(), {
 			fontSize: '20px',
 			fontStyle: 'bold',
@@ -115,7 +115,7 @@ export class HUDScene extends BaseScene {
 		this.add.text(60, 88, 'Cash Available', {
 			fontSize: '12px',
 			fontStyle: 'bold',
-			color: colorPalette.blue,
+			color: colorPalette.darkTeal,
 		});
 
 		// Monthly Costs
@@ -140,7 +140,7 @@ export class HUDScene extends BaseScene {
 					destroyAll(this, this.hoverModal);
 				}
 			});
-		this.add.image(36, 128, 'bolt').setScale(2.5);
+		this.add.image(36, 128, 'bolt').setTint(hex(colorPalette.salmon));
 		this.costText = this.add.text(60, 112, this.getCostText(), {
 			fontSize: '20px',
 			fontStyle: 'bold',
@@ -174,7 +174,7 @@ export class HUDScene extends BaseScene {
 					destroyAll(this, this.hoverModal);
 				}
 			});
-		this.add.image(36, 172, 'monitor').setScale(2.5);
+		this.add.image(36, 172, 'monitor').setTint(hex(colorPalette.yellow));
 		this.serverText = this.add.text(60, 156, this.GameState.Game.getServerNumber().toString(), {
 			fontSize: '20px',
 			fontStyle: 'bold',
@@ -207,7 +207,7 @@ export class HUDScene extends BaseScene {
 					destroyAll(this, this.hoverModal);
 				}
 			});
-		this.add.image(36, 216, 'periwinklePerson').setScale(2.5);
+		this.add.image(36, 216, 'person').setTint(hex(colorPalette.periwinkle));
 		this.customerText = this.add.text(60, 200, this.getCustomersText(), {
 			fontSize: '20px',
 			fontStyle: 'bold',
