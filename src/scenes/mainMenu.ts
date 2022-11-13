@@ -6,75 +6,82 @@ import { BaseScene } from './baseScene';
 import eventCenter, { SettingsEvents, UIEvents } from '../events/eventCenter';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
-  active: false,
-  visible: false,
-  key: 'MainMenu',
+	active: false,
+	visible: false,
+	key: 'MainMenu',
 };
 
 /**
  * The initial scene that starts, shows the splash screens, and loads the necessary assets.
  */
 export class MainMenuScene extends BaseScene {
-  constructor() {
-    super(sceneConfig);
-  }
+	constructor() {
+		super(sceneConfig);
+	}
 
-  public create(): void {
-    const gameWidth = getGameWidth(this);
-    const gameHeight = getGameHeight(this);
+	public create(): void {
+		const gameWidth = getGameWidth(this);
+		const gameHeight = getGameHeight(this);
 
-    // Set background
-    const background = this.add.image(gameWidth / 2, gameHeight / 2, 'mainMenuBackground');
-    const backgroundScaleX = gameWidth / background.width;
-    const backgroundScaleY = gameHeight / background.height;
-    background.setScale(backgroundScaleX, backgroundScaleY).setScrollFactor(0);
+		// Set background
+		const background = this.add.image(gameWidth / 2, gameHeight / 2, 'mainMenuBackground');
+		const backgroundScaleX = gameWidth / background.width;
+		const backgroundScaleY = gameHeight / background.height;
+		background.setScale(backgroundScaleX, backgroundScaleY).setScrollFactor(0);
 
-    eventCenter.on(UIEvents.UI_UPDATE_SOUND, (data) => {
-      this.toggleSetting(data.event)
-    }, this);
+		eventCenter.on(
+			UIEvents.UI_UPDATE_SOUND,
+			(data) => {
+				this.toggleSetting(data.event);
+			},
+			this,
+		);
 
-    // Set music
-    if (this.GameState.Game.getMusicEnabled()) {
-      this.sound.play('mainMenuMusic', { loop: true, volume: 0.2 });
-    }
+		// Set music
+		if (this.GameState.Game.getMusicEnabled()) {
+			this.sound.play('mainMenuMusic', { loop: true, volume: 0.2 });
+		}
 
-    // Set logo
-    this.add.image(gameWidth / 2, 165, 'logo');
+		// Set logo
+		this.add.image(gameWidth / 2, 165, 'logo');
 
-    // Continue game
-    if (!this.GameState.Game.getIsNewGame()) {
-      const currentLevel = this.GameState.Game.getCurrentLevel();
-      button(this, gameWidth / 2, 330, 'Continue', 200, this.GameState.Game.getSoundEffectsEnabled(), () => {
-        this.scene.start(levels[currentLevel].levelScene);
-      });
-    }
+		// Continue game
+		if (!this.GameState.Game.getIsNewGame()) {
+			const currentLevel = this.GameState.Game.getCurrentLevel();
+			button(this, gameWidth / 2, 330, 'Continue', 200, this.GameState.Game.getSoundEffectsEnabled(), () => {
+				this.scene.start(levels[currentLevel].levelScene);
+			});
+		}
 
-    // Start game
-    button(this, gameWidth / 2, 380, 'Start Game', 200, this.GameState.Game.getSoundEffectsEnabled(), () => {
-      this.GameState.Game.getNewGame();
-      this.GameState.updateGameState();
-      this.scene.start('Intro');
-    });
+		// Start game
+		button(this, gameWidth / 2, 380, 'Start Game', 200, this.GameState.Game.getSoundEffectsEnabled(), () => {
+			this.GameState.Game.getNewGame();
+			this.GameState.updateGameState();
+			this.scene.start('Intro');
+		});
 
-    // Settings
-    button(this, gameWidth / 2, 430, 'Settings', 200, this.GameState.Game.getSoundEffectsEnabled(), () => settingsModal(this, this.GameState.Game.getSettings(), () => {}));
-  }
+		// Settings
+		button(this, gameWidth / 2, 430, 'Settings', 200, this.GameState.Game.getSoundEffectsEnabled(), () =>
+			settingsModal(this, this.GameState.Game.getSettings(), () => {
+				console.log('Closed settings modal');
+			}),
+		);
+	}
 
-  private toggleSetting(event: SettingsEvents): void {
-
-    switch (event) {
-        case SettingsEvents.TOGGLE_MUSIC:
-          this.GameState.Game.toggleMusic();
-          const isMusicPlaying = this.GameState.Game.getMusicEnabled();
-          if (!isMusicPlaying) {
-            this.sound.get('mainMenuMusic').stop();
-          } else {
-            this.sound.play('mainMenuMusic', { loop: true, volume: 0.2 });
-          }
-          break;
-        case SettingsEvents.TOGGLE_SOUND_EFFECTS:
-          this.GameState.Game.toggleSoundEffects();
-          break;
-    }
-}
+	private toggleSetting(event: SettingsEvents): void {
+		switch (event) {
+			case SettingsEvents.TOGGLE_MUSIC:
+				this.GameState.Game.toggleMusic();
+				const isMusicPlaying = this.GameState.Game.getMusicEnabled();
+				if (!isMusicPlaying) {
+					this.sound.stopByKey('mainMenuMusic');
+				} else {
+					this.sound.play('mainMenuMusic', { loop: true, volume: 0.2 });
+				}
+				break;
+			case SettingsEvents.TOGGLE_SOUND_EFFECTS:
+				this.GameState.Game.toggleSoundEffects();
+				break;
+		}
+	}
 }
