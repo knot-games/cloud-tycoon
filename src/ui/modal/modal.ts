@@ -1,4 +1,5 @@
-import { getColorInt, getGameHeight, getGameWidth } from '../../helpers';
+import { hex } from '../../../assets/colorPalette';
+import { getGameHeight, getGameWidth } from '../../helpers';
 
 const modalPadding = 32;
 const windowHeight = 150;
@@ -29,9 +30,9 @@ export const modal = (
 
 	const modal = scene.add
 		.graphics()
-		.fillStyle(getColorInt(backgroundColor), 0.98)
+		.fillStyle(hex(backgroundColor), 0.98)
 		.fillRect(modalPadding + 1, modalY + 1, width - 1, height - 1)
-		.lineStyle(3, getColorInt(accentColor), 1)
+		.lineStyle(3, hex(accentColor), 1)
 		.strokeRect(modalPadding, modalY, width, height)
 		.strokeRect(modalButtonBorderX, modalButtonBorderY, 28, 28);
 
@@ -53,7 +54,7 @@ export const modal = (
 		})
 		.setInteractive({ useHandCursor: true })
 		.on('pointerover', function () {
-			this.setTint(getColorInt(accentColor));
+			this.setTint(hex(accentColor));
 		})
 		.on('pointerout', function () {
 			this.clearTint();

@@ -9,7 +9,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	key: 'LevelOne',
 };
 
-export class GameScene extends BaseScene {
+export class LevelOneScene extends BaseScene {
 	controls?: Phaser.Cameras.Controls.FixedKeyControl;
 	levelState?: Level;
 	zone?: Phaser.GameObjects.Zone;
