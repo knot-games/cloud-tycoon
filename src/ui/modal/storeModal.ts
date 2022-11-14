@@ -1,9 +1,9 @@
 import * as Phaser from 'phaser';
-import { colorPalette } from '../../../assets/colorPalette';
+import { colorPalette, hex } from '../../../assets/colorPalette';
 import { modal } from './modal';
 import { title } from '../text/title';
 import { Game } from '../../objects/game';
-import { destroyAll, getColorInt, getGameWidth, getGameHeight } from '../../helpers';
+import { destroyAll, getGameWidth, getGameHeight } from '../../helpers';
 
 const backgroundColor = colorPalette.brown;
 const accentColor = colorPalette.yellow;
@@ -19,7 +19,7 @@ export const storeModal = function (scene: Phaser.Scene, game: Game, levelState:
 	const storeItems = [];
 	cartState = getEmptyCartState();
 	const closeEvent = () => {
-		destroyAll(scene, storeItems.flat());
+		destroyAll(storeItems.flat());
 		onClose();
 	};
 
@@ -103,7 +103,7 @@ const storeItem = function (
 	let currentNumber = currentlyOwned;
 	const graphics = scene.add
 		.graphics()
-		.lineStyle(3, getColorInt(accentColor), 1)
+		.lineStyle(3, hex(accentColor), 1)
 		.strokeRect(x, y, width, 100)
 		.strokeRect(x + 20, y + 20, 60, 60);
 	storeItems.push(graphics);
@@ -181,7 +181,7 @@ const plusButton = function (scene: Phaser.Scene, x: number, y: number, onClick:
 	const button = scene.add
 		.text(x, y, '+')
 		.setPadding(4)
-		.setStyle({ fontSize: '20px', color: colorPalette.white, backgroundColor: accentColor, align: 'center' })
+		.setStyle({ fontSize: '20px', color: colorPalette.black, backgroundColor: accentColor, align: 'center' })
 		.setInteractive({ useHandCursor: true })
 		.on('pointerdown', onClick)
 		.on('pointerover', () => {
@@ -200,7 +200,7 @@ const minusButton = function (scene: Phaser.Scene, x: number, y: number, onClick
 	const button = scene.add
 		.text(x, y, '-')
 		.setPadding(4)
-		.setStyle({ fontSize: '20px', color: colorPalette.white, backgroundColor: accentColor, align: 'center' })
+		.setStyle({ fontSize: '20px', color: colorPalette.black, backgroundColor: accentColor, align: 'center' })
 		.setInteractive({ useHandCursor: true })
 		.on('pointerdown', onClick)
 		.on('pointerover', () => {
@@ -257,7 +257,7 @@ const purchaseButton = function (scene: Phaser.Scene, game: Game, level: Level, 
 		.text(x, y, 'Purchase')
 		.setOrigin(0.5, 0.5)
 		.setPadding(8)
-		.setStyle({ fontSize: '16px', color: colorPalette.white, backgroundColor: accentColor, align: 'center' })
+		.setStyle({ fontSize: '16px', color: colorPalette.black, backgroundColor: accentColor, align: 'center' })
 		.setInteractive({ useHandCursor: true })
 		.on('pointerdown', () => {
 			if (cartState.totalCost < game.getCash()) {

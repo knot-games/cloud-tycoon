@@ -1,5 +1,5 @@
-import { colorPalette } from '../../../assets/colorPalette';
-import { getColorInt, getGameHeight } from '../../helpers';
+import { colorPalette, hex } from '../../../assets/colorPalette';
+import { endScenes, getGameHeight } from '../../helpers';
 import { Game } from '../../objects/game';
 import { settingsModal } from '../modal/settingsModal';
 import { storeModal } from '../modal/storeModal';
@@ -17,7 +17,7 @@ export const hudMenu = (scene: Phaser.Scene, game: Game, levelState: Level) => {
 			getGameHeight(scene) - numberOfMenuItems * menuItemHeight - 40,
 			menuWidth,
 			numberOfMenuItems * menuItemHeight,
-			getColorInt(colorPalette.menuBar),
+			hex(colorPalette.menuBar),
 		)
 		.setOrigin(0, 0)
 		.setInteractive({ useHandCursor: true })
@@ -38,7 +38,8 @@ export const hudMenu = (scene: Phaser.Scene, game: Game, levelState: Level) => {
 		'Main Menu',
 		'home',
 		() => {
-			console.log('Main Menu Clicked!');
+			scene.scene.start('MainMenu');
+			endScenes(scene);
 		},
 	);
 	menuItems.push(mainMenuItem);
@@ -143,14 +144,14 @@ const menuItem = (
 ) => {
 	// Add background
 	const menuItem = scene.add
-		.rectangle(x, y, width, height, getColorInt(colorPalette.menuBar))
+		.rectangle(x, y, width, height, hex(colorPalette.menuBar))
 		.setOrigin(0, 0)
 		.setInteractive({ useHandCursor: true })
 		.on('pointerdown', () => {
 			onClick();
 		});
 	const graphics = scene.add.graphics();
-	graphics.lineStyle(3, getColorInt(colorPalette.blue), 1).strokeRect(x, y, width - 1, height - 1);
+	graphics.lineStyle(3, hex(colorPalette.blue), 1).strokeRect(x, y, width - 1, height - 1);
 
 	// Add icon
 	const iconImage = scene.add

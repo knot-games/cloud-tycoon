@@ -1,7 +1,7 @@
 import { levels } from '../config/levels';
 import eventCenter, { ClockEvents, GameplayEvents, GameplayRandomEvents } from '../events/eventCenter';
 import { progressMonth } from '../logic/progression';
-import { getGameWidth, getGameHeight, getColorInt, destroyAll } from '../helpers';
+import { getGameWidth, getGameHeight, destroyAll } from '../helpers';
 import { BaseScene } from './baseScene';
 import { colorPalette, hex } from '../../assets/colorPalette';
 import { gameConfig } from '../config/game';
@@ -52,7 +52,7 @@ export class HUDScene extends BaseScene {
 	public create(): void {
 		// Menu Bar
 		this.add
-			.rectangle(0, getGameHeight(this) - 40, getGameWidth(this), 40, getColorInt(colorPalette.menuBar))
+			.rectangle(0, getGameHeight(this) - 40, getGameWidth(this), 40, hex(colorPalette.menuBar))
 			.setOrigin(0, 0);
 		this.dateText = this.add.text(
 			getGameWidth(this) - 216,
@@ -69,7 +69,7 @@ export class HUDScene extends BaseScene {
 		});
 		// Menu Bar Button
 		this.add
-			.rectangle(0, getGameHeight(this) - 40, 40, 40, getColorInt(colorPalette.blue))
+			.rectangle(0, getGameHeight(this) - 40, 40, 40, hex(colorPalette.blue))
 			.setOrigin(0, 0)
 			.setInteractive({ useHandCursor: true })
 			.on('pointerdown', () => {
@@ -97,7 +97,7 @@ export class HUDScene extends BaseScene {
 			})
 			.on('pointerout', () => {
 				if (this.hoverModal) {
-					destroyAll(this, this.hoverModal);
+					destroyAll(this.hoverModal);
 				}
 			});
 		this.add.image(36, 36, 'coin').setTint(hex(colorPalette.lightPink));
@@ -136,7 +136,7 @@ export class HUDScene extends BaseScene {
 			})
 			.on('pointerout', () => {
 				if (this.hoverModal) {
-					destroyAll(this, this.hoverModal);
+					destroyAll(this.hoverModal);
 				}
 			});
 		this.add.image(36, 128, 'bolt').setTint(hex(colorPalette.salmon));
@@ -166,7 +166,7 @@ export class HUDScene extends BaseScene {
 			})
 			.on('pointerout', () => {
 				if (this.hoverModal) {
-					destroyAll(this, this.hoverModal);
+					destroyAll(this.hoverModal);
 				}
 			});
 		this.add.image(36, 172, 'monitor').setTint(hex(colorPalette.yellow));
@@ -195,7 +195,7 @@ export class HUDScene extends BaseScene {
 			})
 			.on('pointerout', () => {
 				if (this.hoverModal) {
-					destroyAll(this, this.hoverModal);
+					destroyAll(this.hoverModal);
 				}
 			});
 		this.add.image(36, 216, 'person').setTint(hex(colorPalette.periwinkle));
@@ -262,7 +262,7 @@ export class HUDScene extends BaseScene {
 			this.GameState.Game.pauseClock();
 		} else {
 			if (this.menu) {
-				destroyAll(this, this.menu);
+				destroyAll(this.menu);
 				this.GameState.Game.unPauseClock();
 				this.setAllTexts();
 			}

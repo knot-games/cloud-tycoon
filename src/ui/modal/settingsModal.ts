@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
-import { colorPalette } from '../../../assets/colorPalette';
+import { colorPalette, hex } from '../../../assets/colorPalette';
 import eventCenter, { SettingsEvents, UIEvents } from '../../events/eventCenter';
-import { getColorInt, getGameWidth } from '../../helpers';
+import { getGameWidth } from '../../helpers';
 import { modal } from './modal';
 import { title } from '../text/title';
 
@@ -85,7 +85,7 @@ const makeSettings = (
 			y: settingsY,
 			text: musicEnabled ? checkedUnicode : uncheckedUnicode,
 			style: {
-				font: 'bold 16px FontAwesome',
+				font: 'bold 20px FontAwesome',
 				color: colorPalette.white,
 				align: 'center',
 			},
@@ -93,7 +93,7 @@ const makeSettings = (
 		.setName("musicCheckbox")
 		.setInteractive({ useHandCursor: true })
 		.on('pointerover', function () {
-			this.setTint(getColorInt(accentColor));
+			this.setTint(hex(accentColor));
 		})
 		.on('pointerout', function () {
 			this.clearTint();
@@ -108,7 +108,7 @@ const makeSettings = (
 		y: settingsY,
 		text: 'Play music',
 		style: {
-			font: 'bold 16px Arial',
+			font: 'bold 20px Arial',
 			color: colorPalette.white,
 		},
 	}).setName("musicLabel");
@@ -120,7 +120,7 @@ const makeSettings = (
 			y: settingsY + 30,
 			text: soundEffectsEnabled ? checkedUnicode : uncheckedUnicode,
 			style: {
-				font: 'bold 16px FontAwesome',
+				font: 'bold 20px FontAwesome',
 				color: colorPalette.white,
 				align: 'center',
 			},
@@ -128,7 +128,7 @@ const makeSettings = (
 		.setName("soundEffectsCheckbox")
 		.setInteractive({ useHandCursor: true })
 		.on('pointerover', function () {
-			this.setTint(getColorInt(accentColor));
+			this.setTint(hex(accentColor));
 		})
 		.on('pointerout', function () {
 			this.clearTint();
@@ -144,7 +144,7 @@ const makeSettings = (
 		y: settingsY + 30,
 		text: 'Play sound effects',
 		style: {
-			font: 'bold 16px Arial',
+			font: 'bold 20px Arial',
 			color: colorPalette.white,
 		},
 	}).setName("soundEffectsLabel");
