@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 import { colorPalette } from '../../../assets/colorPalette';
 import eventCenter, { SettingsEvents, UIEvents } from '../../events/eventCenter';
-import { destroyAll, getColorInt, getGameWidth } from '../../helpers';
+import { getColorInt, getGameWidth } from '../../helpers';
 import { modal } from './modal';
 import { title } from '../text/title';
 
@@ -25,13 +25,10 @@ export const settingsModal = function (scene: Phaser.Scene, settings: GameSettin
 				eventCenter.emit(UIEvents.UI_UPDATE_SOUND, { event: SettingsEvents.TOGGLE_SOUND_EFFECTS });
 				break;
 		}
-		destroyAll(scene, settingsUI);
-		settingsUI = makeSettings(scene, musicEnabled, soundEffectsEnabled, toggleSetting);
+		makeSettings(scene, musicEnabled, soundEffectsEnabled, toggleSetting, modalContainer);
 	};
 
 	const closeEvent = () => {
-		settingsTitle.destroy();
-		destroyAll(scene, settingsUI);
 		if (soundEffectsEnabled) {
 			scene.sound.play('click');
 		}
@@ -39,12 +36,13 @@ export const settingsModal = function (scene: Phaser.Scene, settings: GameSettin
 	};
 
 	// Add modal background
-	modal(scene, backgroundColor, accentColor, closeEvent, true);
+	const modalContainer = modal(scene, backgroundColor, accentColor, closeEvent, true);
 
 	// Title
 	const settingsTitle = title(scene, 'Settings');
+	modalContainer.add(settingsTitle);
 
-	let settingsUI = makeSettings(scene, musicEnabled, soundEffectsEnabled, toggleSetting);
+	makeSettings(scene, musicEnabled, soundEffectsEnabled, toggleSetting, modalContainer);
 
 	eventCenter.on(
 		UIEvents.UI_UPDATE_SOUND,
@@ -55,15 +53,32 @@ export const settingsModal = function (scene: Phaser.Scene, settings: GameSettin
 	);
 };
 
+const refreshSettings = (container: Phaser.GameObjects.Container) => {
+	if (container.getByName("musicCheckbox")) {
+		container.getByName("musicCheckbox").destroy();
+	}
+	if (container.getByName("musicLabel")) {
+		container.getByName("musicLabel").destroy();
+	}
+	if (container.getByName("soundEffectsCheckbox")) {
+		container.getByName("soundEffectsCheckbox").destroy();
+	}
+	if (container.getByName("soundEffectsLabel")) {
+		container.getByName("soundEffectsLabel").destroy();
+	}
+}
+
 const makeSettings = (
 	scene: Phaser.Scene,
 	musicEnabled: boolean,
 	soundEffectsEnabled: boolean,
 	toggleSetting: (string) => void,
+	container: Phaser.GameObjects.Container,
 ) => {
 	const settingsX = (getGameWidth(scene) - 32 * 2) / 2;
 	const settingsY = 182;
-
+	refreshSettings(container);
+	
 	const musicCheckbox = scene.make
 		.text({
 			x: settingsX - 32,
@@ -75,6 +90,7 @@ const makeSettings = (
 				align: 'center',
 			},
 		})
+		.setName("musicCheckbox")
 		.setInteractive({ useHandCursor: true })
 		.on('pointerover', function () {
 			this.setTint(getColorInt(accentColor));
@@ -85,6 +101,7 @@ const makeSettings = (
 		.on('pointerdown', function () {
 			toggleSetting('music');
 		});
+	container.add(musicCheckbox);
 
 	const musicLabel = scene.make.text({
 		x: settingsX,
@@ -94,7 +111,8 @@ const makeSettings = (
 			font: 'bold 16px Arial',
 			color: colorPalette.white,
 		},
-	});
+	}).setName("musicLabel");
+	container.add(musicLabel);
 
 	const soundEffectsCheckbox = scene.make
 		.text({
@@ -107,6 +125,7 @@ const makeSettings = (
 				align: 'center',
 			},
 		})
+		.setName("soundEffectsCheckbox")
 		.setInteractive({ useHandCursor: true })
 		.on('pointerover', function () {
 			this.setTint(getColorInt(accentColor));
@@ -117,6 +136,8 @@ const makeSettings = (
 		.on('pointerdown', function () {
 			toggleSetting('soundEffects');
 		});
+	container.add(soundEffectsCheckbox);
+
 
 	const soundEffectsLabel = scene.make.text({
 		x: settingsX,
@@ -126,7 +147,6 @@ const makeSettings = (
 			font: 'bold 16px Arial',
 			color: colorPalette.white,
 		},
-	});
-
-	return [musicCheckbox, musicLabel, soundEffectsCheckbox, soundEffectsLabel];
+	}).setName("soundEffectsLabel");
+	container.add(soundEffectsLabel);
 };

@@ -12,6 +12,7 @@ export const modal = (
 	fullScreen: boolean,
 	onClick?: () => void,
 ) => {
+	const container = scene.add.container();
 	const width = getGameWidth(scene) - modalPadding * 2;
 	const height = fullScreen ? getGameHeight(scene) - modalPadding * 2 - 20 : windowHeight;
 	const modalButtonBorderX = getGameWidth(scene) - modalPadding - 28;
@@ -22,8 +23,7 @@ export const modal = (
 
 	const close = () => {
 		onClose();
-		modal.destroy();
-		closeButton.destroy();
+		container.destroy();
 		scene.input.off('pointerdown', onClick);
 	};
 
@@ -34,6 +34,8 @@ export const modal = (
 		.lineStyle(3, getColorInt(accentColor), 1)
 		.strokeRect(modalPadding, modalY, width, height)
 		.strokeRect(modalButtonBorderX, modalButtonBorderY, 28, 28);
+
+	container.add(modal);
 
 	if (onClick) {
 		scene.input.on('pointerdown', onClick);
@@ -59,4 +61,6 @@ export const modal = (
 		.on('pointerdown', function () {
 			close();
 		});
+	container.add(closeButton);
+	return container;
 };

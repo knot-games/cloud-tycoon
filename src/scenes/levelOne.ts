@@ -51,7 +51,7 @@ export class GameScene extends BaseScene {
 		const map = this.make.tilemap({ key: 'level-1-map', tileWidth: 48, tileHeight: 48 });
 		const tiles = map.addTilesetImage('level-1-48x48', null, 48, 48, 0, 0);
 		this.floorLayer = map.createLayer(0, tiles, 0, 0).setOrigin(0, 0);
-		Phaser.Display.Align.In.Center(this.floorLayer, this.zone);
+		Phaser.Display.Align.In.Center(this.floorLayer, this.zone, 48);
 	}
 
 	private initSprites() {
