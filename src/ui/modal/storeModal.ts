@@ -17,17 +17,14 @@ let errorText: Phaser.GameObjects.Text;
 
 export const storeModal = function (scene: Phaser.Scene, game: Game, levelState: Level, onClose: () => void) {
 	const storeItems = [];
+	cartState = getEmptyCartState();
 	const closeEvent = () => {
-		storeTitle.destroy();
-		if (errorText) {
-			errorText.destroy();
-		}
 		destroyAll(scene, storeItems.flat());
 		onClose();
 	};
 
 	// Add modal background
-	modal(scene, backgroundColor, accentColor, closeEvent, true);
+	const modalContainer = modal(scene, backgroundColor, accentColor, closeEvent, true);
 
 	const serverOptions = levelState.servers;
 	const ownedServers = game.getServers();
@@ -52,7 +49,7 @@ export const storeModal = function (scene: Phaser.Scene, game: Game, levelState:
 			value.capacity,
 			true,
 		);
-		storeItems.push(item);
+		modalContainer.add(item);
 		storeItemY += 120;
 	}
 
@@ -72,18 +69,19 @@ export const storeModal = function (scene: Phaser.Scene, game: Game, levelState:
 			0,
 			false,
 		);
-		storeItems.push(item);
+		modalContainer.add(item);
 		storeItemY += 120;
 	}
 
 	totalCost = cost(scene, getGameWidth(scene) - 250, storeItemY + 20);
-	storeItems.push(totalCost);
+	modalContainer.add(totalCost);
 
-	const purchase = purchaseButton(scene, game, levelState, getGameWidth(scene) - 120, storeItemY + 20);
-	storeItems.push(purchase);
+	const purchase = purchaseButton(scene, game, levelState, getGameWidth(scene) - 120, storeItemY + 20, modalContainer);
+	modalContainer.add(purchase);
 
 	// Title
 	const storeTitle = title(scene, 'Store');
+	modalContainer.add(storeTitle);
 };
 
 const storeItem = function (
@@ -238,9 +236,9 @@ const cost = function (scene: Phaser.Scene, x: number, y: number) {
 		.setOrigin(0.5, 0.5);
 };
 
-const setErrorText = function (scene: Phaser.Scene, text: string) {
-	if (errorText) {
-		errorText.destroy();
+const setErrorText = function (scene: Phaser.Scene, text: string, container: Phaser.GameObjects.Container) {
+	if (container.getByName("errorText")) {
+		container.getByName("errorText").destroy();
 	}
 	errorText = scene.add
 		.text(getGameWidth(scene) - 225, getGameHeight(scene) - 75, text, {
@@ -249,10 +247,12 @@ const setErrorText = function (scene: Phaser.Scene, text: string) {
 			color: colorPalette.white,
 			fontStyle: 'bold',
 		})
+		.setName("errorText")
 		.setOrigin(0.5, 0.5);
+	container.add(errorText);
 };
 
-const purchaseButton = function (scene: Phaser.Scene, game: Game, level: Level, x: number, y: number) {
+const purchaseButton = function (scene: Phaser.Scene, game: Game, level: Level, x: number, y: number, container: Phaser.GameObjects.Container) {
 	const button = scene.add
 		.text(x, y, 'Purchase')
 		.setOrigin(0.5, 0.5)
@@ -262,11 +262,11 @@ const purchaseButton = function (scene: Phaser.Scene, game: Game, level: Level, 
 		.on('pointerdown', () => {
 			if (cartState.totalCost < game.getCash()) {
 				game.purchaseItems(cartState, level);
-				setErrorText(scene, 'Purchased!');
+				setErrorText(scene, 'Purchased!', container);
 				cartState = getEmptyCartState();
 				totalCost.setText(costText(cartState.totalCost));
 			} else {
-				setErrorText(scene, 'Not enough funds for this purchase!');
+				setErrorText(scene, 'Not enough funds for this purchase!', container);
 			}
 		})
 		.on('pointerover', () => {

@@ -1,11 +1,12 @@
 import { colorPalette } from '../../../assets/colorPalette';
 import { getColorInt, getGameHeight } from '../../helpers';
 import { Game } from '../../objects/game';
+import { settingsModal } from '../modal/settingsModal';
 import { storeModal } from '../modal/storeModal';
 
 const menuWidth = 200;
 const menuItemHeight = 40;
-const numberOfMenuItems = 5;
+const numberOfMenuItems = 6;
 
 export const hudMenu = (scene: Phaser.Scene, game: Game, levelState: Level) => {
 	const menuItems = [];
@@ -25,11 +26,13 @@ export const hudMenu = (scene: Phaser.Scene, game: Game, levelState: Level) => {
 		});
 	menuItems.push(menuBackground);
 
+	let itemNumber = 1;
+
 	// Main Menu
 	const mainMenuItem = menuItem(
 		scene,
 		0,
-		getGameHeight(scene) - 1 * menuItemHeight - 40,
+		getGameHeight(scene) - itemNumber * menuItemHeight - 40,
 		menuWidth,
 		menuItemHeight,
 		'Main Menu',
@@ -39,12 +42,31 @@ export const hudMenu = (scene: Phaser.Scene, game: Game, levelState: Level) => {
 		},
 	);
 	menuItems.push(mainMenuItem);
+	itemNumber++;
+
+	// Settings
+	const settingsItem = menuItem(
+		scene,
+		0,
+		getGameHeight(scene) - itemNumber * menuItemHeight - 40,
+		menuWidth,
+		menuItemHeight,
+		'Settings',
+		'bell',
+		() => {
+			settingsModal(scene, game.getSettings(), () => {
+				console.log('Closed settings modal');
+			});
+		},
+	);
+	menuItems.push(settingsItem);
+	itemNumber++;
 
 	// Research
 	const researchItem = menuItem(
 		scene,
 		0,
-		getGameHeight(scene) - 2 * menuItemHeight - 40,
+		getGameHeight(scene) - itemNumber * menuItemHeight - 40,
 		menuWidth,
 		menuItemHeight,
 		'Research',
@@ -54,12 +76,13 @@ export const hudMenu = (scene: Phaser.Scene, game: Game, levelState: Level) => {
 		},
 	);
 	menuItems.push(researchItem);
+	itemNumber++;
 
 	// Employees
 	const employeesItem = menuItem(
 		scene,
 		0,
-		getGameHeight(scene) - 3 * menuItemHeight - 40,
+		getGameHeight(scene) - itemNumber * menuItemHeight - 40,
 		menuWidth,
 		menuItemHeight,
 		'Employees',
@@ -69,12 +92,13 @@ export const hudMenu = (scene: Phaser.Scene, game: Game, levelState: Level) => {
 		},
 	);
 	menuItems.push(employeesItem);
+	itemNumber++;
 
 	// Products
 	const productsItems = menuItem(
 		scene,
 		0,
-		getGameHeight(scene) - 4 * menuItemHeight - 40,
+		getGameHeight(scene) - itemNumber * menuItemHeight - 40,
 		menuWidth,
 		menuItemHeight,
 		'Products',
@@ -84,12 +108,13 @@ export const hudMenu = (scene: Phaser.Scene, game: Game, levelState: Level) => {
 		},
 	);
 	menuItems.push(productsItems);
+	itemNumber++;
 
 	// Store
 	const storeItem = menuItem(
 		scene,
 		0,
-		getGameHeight(scene) - 5 * menuItemHeight - 40,
+		getGameHeight(scene) - itemNumber * menuItemHeight - 40,
 		menuWidth,
 		menuItemHeight,
 		'Store',
@@ -101,6 +126,7 @@ export const hudMenu = (scene: Phaser.Scene, game: Game, levelState: Level) => {
 		},
 	);
 	menuItems.push(storeItem);
+	itemNumber++;
 
 	return menuItems.flat();
 };

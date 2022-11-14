@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 import { colorPalette } from '../assets/colorPalette';
 import { GameStatePlugin } from './plugin/GameStatePlugin';
 import Scenes from './scenes';
+import WebFontLoaderPlugin from 'phaser3-rex-plugins/plugins/webfontloader-plugin.js';
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
 	title: 'Cloud Tycoon',
@@ -18,6 +19,11 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
 				key: 'GameState',
 				plugin: GameStatePlugin,
 				start: true,
+			},
+			{
+				key: 'rexWebFont',
+				plugin: WebFontLoaderPlugin,
+				start: true
 			},
 		],
 		scene: [

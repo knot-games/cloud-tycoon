@@ -19,8 +19,8 @@ export const dialogModal = function (scene: Phaser.Scene, text: string[], onClos
 	let textIndex = 0;
 	const closeEvent = () => {
 		onClose();
-		if (dialogText) {
-			dialogText.destroy();
+		if (modalContainer.getByName("dialogText")) {
+			modalContainer.getByName("dialogText").destroy();
 		}
 		textInProgress = true;
 		textIndex = 0;
@@ -35,26 +35,33 @@ export const dialogModal = function (scene: Phaser.Scene, text: string[], onClos
 				finishText = true;
 			} else if (textIndex < text.length - 1) {
 				textIndex++;
-				dialogText.destroy();
-				dialogText = addText(scene, text[textIndex], true);
+				if (modalContainer.getByName("dialogText")) {
+					modalContainer.getByName("dialogText").destroy();
+				}
+				dialogText = addText(scene, text[textIndex], true, modalContainer);
 			} else {
-				dialogText.destroy();
-				dialogText = addText(scene, 'Close this window to continue', false);
+				if (modalContainer.getByName("dialogText")) {
+					modalContainer.getByName("dialogText").destroy();
+				}
+				dialogText = addText(scene, 'Close this window to continue', false, modalContainer);
 			}
 		} else {
-			if (dialogText) {
-				dialogText.destroy();
+			if (modalContainer.getByName("dialogText")) {
+				modalContainer.getByName("dialogText").destroy();
 			}
 		}
 	};
 
 	// Add modal background
-	modal(scene, backgroundColor, accentColor, closeEvent, false, clickEvent);
+	const modalContainer = modal(scene, backgroundColor, accentColor, closeEvent, false, clickEvent);
 
-	dialogText = addText(scene, text[textIndex], true);
+	if (modalContainer.getByName("dialogText")) {
+		modalContainer.getByName("dialogText").destroy();
+	}
+	dialogText = addText(scene, text[textIndex], true, modalContainer);
 };
 
-const addText = (scene: Phaser.Scene, text: string, animate: boolean) => {
+const addText = (scene: Phaser.Scene, text: string, animate: boolean, container: Phaser.GameObjects.Container) => {
 	let timedEvent;
 	let screenText;
 	let eventCounter = 0;
@@ -77,7 +84,8 @@ const addText = (scene: Phaser.Scene, text: string, animate: boolean) => {
 					width: getGameWidth(scene) - padding * 2 - 33,
 				},
 			},
-		});
+		}).setName("dialogText");
+		container.add(screenText);
 	};
 
 	let tempText = animate ? '' : text;

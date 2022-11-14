@@ -128,5 +128,12 @@ export class BootScene extends Phaser.Scene {
 
 		// Forms
 		this.load.html('nameForm', 'assets/forms/nameForm.html');
+
+		// Fonts
+		this.load['rexWebFont']({
+			custom: {
+				families: ['FontAwesome'],
+			}
+		})
 	}
 }
