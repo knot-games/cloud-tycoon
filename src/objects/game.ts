@@ -108,6 +108,10 @@ export class Game {
 		return this.playerBusiness.servers;
 	}
 
+	public getProducts(): ProductState {
+		return this.playerBusiness.products;
+	}
+
 	public getServerNumber(): number {
 		let servers = 0;
 		for (const [key, value] of Object.entries(this.playerBusiness.servers)) {
