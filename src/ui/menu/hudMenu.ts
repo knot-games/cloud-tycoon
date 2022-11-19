@@ -1,6 +1,9 @@
 import { colorPalette, hex } from '../../../assets/colorPalette';
 import { endScenes, getGameHeight } from '../../helpers';
 import { Game } from '../../objects/game';
+import { employeesModal } from '../modal/employeesModal';
+import { productsModal } from '../modal/productsModal';
+import { researchModal } from '../modal/researchModal';
 import { settingsModal } from '../modal/settingsModal';
 import { storeModal } from '../modal/storeModal';
 
@@ -73,7 +76,9 @@ export const hudMenu = (scene: Phaser.Scene, game: Game, levelState: Level) => {
 		'Research',
 		'flask',
 		() => {
-			console.log('Research clicked!');
+			researchModal(scene, game, levelState, () => {
+				console.log('Closed research modal');
+			});
 		},
 	);
 	menuItems.push(researchItem);
@@ -89,7 +94,9 @@ export const hudMenu = (scene: Phaser.Scene, game: Game, levelState: Level) => {
 		'Employees',
 		'person',
 		() => {
-			console.log('Employees clicked!');
+			employeesModal(scene, game, levelState, () => {
+				console.log('Closed employees modal');
+			});
 		},
 	);
 	menuItems.push(employeesItem);
@@ -105,7 +112,9 @@ export const hudMenu = (scene: Phaser.Scene, game: Game, levelState: Level) => {
 		'Products',
 		'coin',
 		() => {
-			console.log('Products clicked!');
+			productsModal(scene, game, levelState, () => {
+				console.log('Closed products modal');
+			});
 		},
 	);
 	menuItems.push(productsItems);

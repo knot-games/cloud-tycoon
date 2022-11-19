@@ -5,12 +5,13 @@ import { Game } from '../objects/game';
 // game save point. This function is called at the end of each month.
 export const progressMonth = (game: Game, levelState: Level): Game => {
 	// Customer attrition and acquisition can be impacted by the cost of products
-	const customerAcquisitionMultiplier = 1;
-	const customerAttritionMultiplier = 1;
+	const customerAcquisitionMultiplier = calculateCustomerAcquisitionMultiplier(game, levelState);
+	const customerAttritionMultiplier = calculateCustomerAttritionMultiplier(game, levelState);
 
 	// Lose customers
 	for (const [id, customer] of Object.entries(levelState.customers)) {
-		const customersLost = Math.floor(1 - Math.pow(customer.loyalty, customerAttritionMultiplier));
+		const totalCustomers = game.getCustomers();
+		const customersLost = Math.floor(totalCustomers * (1 - Math.pow(customer.loyalty, customerAttritionMultiplier)));
 		game.deleteCustomers(customersLost, Number(id));
 	}
 
@@ -22,11 +23,13 @@ export const progressMonth = (game: Game, levelState: Level): Game => {
 	}
 	const customerNumber = game.getCustomers();
 	for (const [id, customer] of Object.entries(levelState.customers)) {
-		const customersGained = Math.floor(getRandomCustomerNumber(customer.joinRate) * customerAcquisitionMultiplier);
-		if (customerNumber + customersGained <= capacity) {
-			game.addCustomers(customersGained, Number(id), levelState);
-		} else {
-			game.addCustomers(capacity - customerNumber, Number(id), levelState);
+		if (customerAcquisitionMultiplier > customerAttritionMultiplier) {
+			const customersGained = Math.floor(getRandomCustomerNumber(customer.joinRate) * customerAcquisitionMultiplier);
+			if (customerNumber + customersGained <= capacity) {
+				game.addCustomers(customersGained, Number(id), levelState);
+			} else {
+				game.addCustomers(capacity - customerNumber, Number(id), levelState);
+			}
 		}
 	}
 
@@ -44,6 +47,47 @@ export const progressMonth = (game: Game, levelState: Level): Game => {
 
 	return game;
 };
+
+const calculateCustomerAcquisitionMultiplier = (game: Game, levelState: Level): number => {
+	// More customers will join if prices are cheaper
+	let customerAcquisitionMultiplier = 1;
+	const products = game.getProducts();
+	for (const [key, value] of Object.entries(levelState.products)) {
+		if (products[Number(key)]) {
+			// If the product is more expensive than the base price
+			if (products[Number(key)] < value.average - (value.stdDev * 3)) {
+				// Reduce the customer attrition multiplier
+				customerAcquisitionMultiplier += 3;
+			} else if (products[Number(key)] < value.average + (value.stdDev * 2)) {
+				customerAcquisitionMultiplier += 2;
+			} else if (products[Number(key)] < value.average + (value.stdDev * 1)) {
+				customerAcquisitionMultiplier += 1;
+			}
+		}
+	}
+	return customerAcquisitionMultiplier
+}
+
+const calculateCustomerAttritionMultiplier = (game: Game, levelState: Level): number => {
+	// More customers will leave if prices are more expensive
+	// For each product in this level
+	let customerAttritionMultiplier = 1;
+	const products = game.getProducts();
+	for (const [key, value] of Object.entries(levelState.products)) {
+		if (products[Number(key)]) {
+			// If the product is more expensive than the base price
+			if (products[Number(key)] >= value.average + (value.stdDev * 3)) {
+				// Reduce the customer attrition multiplier
+				customerAttritionMultiplier += 3;
+			} else if (products[Number(key)] >= value.average + (value.stdDev * 2)) {
+				customerAttritionMultiplier += 2;
+			} else if (products[Number(key)] >= value.average + (value.stdDev * 1)) {
+				customerAttritionMultiplier += 1;
+			}
+		}
+	}
+	return customerAttritionMultiplier
+}
 
 const randomEvent = (game: Game, levelState: Level): void => {
 	let randomEvent;

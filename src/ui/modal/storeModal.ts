@@ -151,6 +151,15 @@ const storeItem = function (
 			currentNumber--;
 			quantityLabel.setText(currentNumber.toString());
 			cartState.totalCost = cartState.totalCost - cost;
+			if (isServer) {
+				if (cartState.servers[id]) {
+					cartState.servers[id] = cartState.servers[id] - 1;
+				}
+			} else {
+				if (cartState.storeItems[id]) {
+					cartState.storeItems[id] = cartState.storeItems[id] - 1;
+				}
+			}
 			totalCost.setText(costText(cartState.totalCost));
 		}
 	});
