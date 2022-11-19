@@ -112,6 +112,17 @@ export class Game {
 		return this.playerBusiness.products;
 	}
 
+	public setProductPrice(id: number, price: number): void {
+		this.playerBusiness.products[id] = price;
+	}
+
+	public setProductPrices(prices: PriceSetState) {
+		for (const [key, value] of Object.entries(prices)) {
+			// set the price for the product
+			this.setProductPrice(parseInt(key), value);
+		}
+	}
+
 	public getServerNumber(): number {
 		let servers = 0;
 		for (const [key, value] of Object.entries(this.playerBusiness.servers)) {
